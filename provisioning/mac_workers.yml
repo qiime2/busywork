@@ -1,0 +1,6 @@
+---
+
+- name: set up mac workers
+  hosts: mac_workers
+  roles:
+    - mac_worker

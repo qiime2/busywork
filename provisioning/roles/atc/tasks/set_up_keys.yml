@@ -1,0 +1,27 @@
+---
+
+- name: make concourse web keys dir
+  file:
+    name: "{{ base_dir }}/{{ keys_dir }}"
+    state: directory
+
+- name: copy keys
+  copy:
+    src: "{{ tsa_keys }}/{{ item }}"
+    dest: "{{ base_dir }}/{{ keys_dir }}"
+  with_items:
+    - tsa_host_key
+    - tsa_host_key.pub
+    - worker_key
+    - worker_key.pub
+
+- name: session signing key
+  shell: ssh-keygen -t rsa -N '' -f {{ base_dir }}/{{ keys_dir }}/session_signing_key -C session_signer
+  args:
+    creates: "{{ base_dir }}/{{ keys_dir }}/session_signing_key"
+
+- name: set up authorized keys
+  copy:
+    src: "{{ base_dir }}/{{ keys_dir }}/worker_key.pub"
+    dest: "{{ base_dir }}/{{ keys_dir }}/authorized_worker_keys"
+    remote_src: True

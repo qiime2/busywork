@@ -1,0 +1,10 @@
+concourse-worker:
+  image: concourse/concourse
+  privileged: true
+  command: worker
+  volumes:
+    - {{ base_dir }}/{{ keys_dir }}:/concourse-keys
+  environment:
+    CONCOURSE_TSA_HOST: {{ external_host }}
+    CONCOURSE_TSA_PORT: 2345
+    CONCOURSE_NAME: {{ ansible_ssh_host }}

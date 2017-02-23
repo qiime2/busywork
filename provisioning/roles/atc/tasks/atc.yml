@@ -1,0 +1,32 @@
+---
+
+- name: copy atc docker compose template
+  template:
+    src: atc.yml
+    dest: "{{ base_dir }}"
+
+- name: deploy concourse db container
+  become: True
+  docker_service:
+    project_src: "{{ base_dir }}"
+    files:
+      - atc.yml
+
+- name: copy nginx configuration
+  become: True
+  template:
+    src: external_host.conf
+    dest: /etc/nginx/sites-available/{{ external_host }}.conf
+  notify:
+    - stop nginx
+    - start nginx
+
+- name: link nginx configuration
+  become: True
+  file:
+    src: /etc/nginx/sites-available/{{ external_host }}.conf
+    dest: /etc/nginx/sites-enabled/{{ external_host}}
+    state: link
+  notify:
+    - stop nginx
+    - start nginx

@@ -1,0 +1,29 @@
+---
+
+resources:
+  - name: 1m
+    type: time
+    source:
+      interval: 1m
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: master
+
+jobs:
+  - name: hello world
+    plan:
+      - get: 1m
+        trigger: true
+      - get: busywork
+        trigger: true
+      - aggregate:
+        - task: uname-darwin
+          file: busywork/ci/uname-darwin.yml
+        - task: uname-linux
+          file: busywork/ci/uname-linux.yml
+        - task: df-darwin
+          file: busywork/ci/df-darwin.yml
+        - task: df-linux
+          file: busywork/ci/df-linux.yml
