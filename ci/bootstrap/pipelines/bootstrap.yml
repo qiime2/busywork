@@ -2,8 +2,8 @@ resources:
   - name: busywork
     type: git
     source:
-    uri: https://github.com/qiime2/busywork
-    branch: master
+      uri: https://github.com/qiime2/busywork
+      branch: master
 
 jobs:
   - name: deploy-pipelines
