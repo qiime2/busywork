@@ -1,0 +1,14 @@
+resources:
+  - name: busywork
+    type: git
+    source:
+    uri: https://github.com/qiime2/busywork
+    branch: master
+
+jobs:
+  - name: deploy-pipelines
+    plan:
+      - get: busywork
+        trigger: true
+      - task: deploy
+        file: busywork/ci/bootstrap/fly-deploy-pipelines.yml

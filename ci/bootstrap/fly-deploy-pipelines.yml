@@ -1,0 +1,19 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: ubuntu
+    version: '16.04'
+
+params:
+  CONCOURSE_USER: {{ concourse_user }}
+  CONCOURSE_PASS: {{ concourse_pass }}
+  CONCOURSE_HOST: {{ concourse_host }}
+
+inputs:
+  - name: busywork
+
+run:
+  path: busywork/ci/bootstrap/scripts/deploy.sh
