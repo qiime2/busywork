@@ -13,6 +13,7 @@ resources:
 
 jobs:
   - name: hello world
+    build_logs_to_retain: 100
     plan:
       - get: 1m
         trigger: true
