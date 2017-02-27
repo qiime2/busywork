@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: ubuntu
-    version: '16.04'
+    repository: bash
+    version: latest
 
 params:
   CONCOURSE_USER:

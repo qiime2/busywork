@@ -2,7 +2,7 @@
 
 set -e
 
-curl -o fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
+wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
 chmod +x ./fly
 
 ./fly -t qiime2 login -k -c $CONCOURSE_HOST -u $CONCOURSE_USER -p $CONCOURSE_PASS
