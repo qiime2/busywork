@@ -12,7 +12,7 @@ resources:
       branch: master
 
 jobs:
-  - name: hello world
+  - name: hello-world
     build_logs_to_retain: 50
     plan:
       - get: 1m
