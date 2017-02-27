@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -e
-
+apt-get update
+apt-get install wget -y
 wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
 chmod +x ./fly
 
