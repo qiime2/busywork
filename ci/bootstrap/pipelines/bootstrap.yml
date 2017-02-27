@@ -12,3 +12,7 @@ jobs:
         trigger: true
       - task: deploy
         file: busywork/ci/bootstrap/fly-deploy-pipelines.yml
+        params:
+          CONCOURSE_USER: {{ concourse_user }}
+          CONCOURSE_PASS: {{ concourse_pass }}
+          CONCOURSE_HOST: {{ concourse_host }}
