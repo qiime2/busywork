@@ -3,7 +3,7 @@
 set -e
 apt-get update
 apt-get install wget -y
-wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
+wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux" --no-check-certificate
 chmod +x ./fly
 
 ./fly -t qiime2 login -k -c $CONCOURSE_HOST -u $CONCOURSE_USER -p $CONCOURSE_PASS
