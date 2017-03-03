@@ -11,6 +11,8 @@ params:
   CONCOURSE_USER:
   CONCOURSE_PASS:
   CONCOURSE_HOST:
+  GITHUB_USER:
+  GITHUB_PASS:
 
 inputs:
   - name: busywork

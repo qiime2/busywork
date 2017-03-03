@@ -16,3 +16,5 @@ jobs:
           CONCOURSE_USER: {{concourse_user}}
           CONCOURSE_PASS: {{concourse_pass}}
           CONCOURSE_HOST: {{concourse_host}}
+          GITHUB_USER: {{github_user}}
+          GITHUB_PASS: {{github_pass}}
