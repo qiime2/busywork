@@ -1,0 +1,32 @@
+---
+# TODO:
+#   - `develop/` branches to `dev/`
+#   - make jobs idempotent
+
+resources:
+  - name: next-release
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: master
+      paths:
+        - next-release
+  - name: q2-branching-scheme
+    type: git
+    source:
+      uri: https://github.com/thermokarst/q2-branching-scheme
+      branch: develop/main
+      git_config:
+        - name: user.name
+          value: q2d2
+        - name: user.email
+          value: q2d2.noreply@gmail.com
+
+jobs:
+  - name: feature-freeze
+    plan:
+      - get: next-release
+        trigger: true
+      - get: q2-branching-scheme
+      - task: feature-freeze
+        file: busywork/ci/feature-freeze.yml
