@@ -2,7 +2,11 @@
 
 set -x -e
 echo $PATH
-conda build -c https://conda.anaconda.org/qiime2 -c defaults --override-channels --output-folder builds --python 3.5 qiime2-source/ci/recipe
-
+pwd
+cd qiime2-source
+pwd
+conda build -c https://conda.anaconda.org/qiime2 -c defaults --override-channels --output-folder ../builds --python 3.5 qiime2-source/ci/recipe
+cd ..
+pwd
 ls
 find builds
