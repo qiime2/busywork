@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e -x
+env
 ls
 ls qiime2-source
 ls builds
