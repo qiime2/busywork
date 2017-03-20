@@ -8,6 +8,7 @@ image_resource:
     version: latest
 
 inputs:
+  - name: busywork
   - name: builds
   - name: qiime2-source
 
