@@ -8,7 +8,9 @@ image_resource:
     version: latest
 
 params:
-  - PATH: /opt/conda/bin:$PATH
+  - PATH: >-
+      /opt/conda/bin:/opt/rh/devtoolset-2/root/usr/bin:/usr/local/sbin
+      :/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 
 inputs:
   - name: busywork
