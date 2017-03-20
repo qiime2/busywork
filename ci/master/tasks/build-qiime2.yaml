@@ -1,0 +1,18 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: condaforge/linux-anvil
+    version: latest
+
+inputs:
+  - name: busywork
+  - name: qiime2-source
+
+outputs:
+  - name: builds
+
+run:
+  path: busywork/ci/master/tasks/build-qiime2.sh

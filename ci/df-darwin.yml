@@ -1,9 +1,0 @@
----
-
-platform: darwin
-
-inputs:
-  - name: busywork
-
-run:
-  path: busywork/ci/scripts/df.sh

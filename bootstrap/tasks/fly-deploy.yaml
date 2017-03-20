@@ -16,4 +16,4 @@ inputs:
   - name: busywork
 
 run:
-  path: busywork/ci/bootstrap/scripts/deploy.sh
+  path: busywork/bootstrap/tasks/fly-deploy.sh

@@ -1,0 +1,22 @@
+---
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: madmin
+
+  - name: qiime2-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/qiime2
+      branch: dev/main
+
+jobs:
+  - name: build-qiime2
+    plan:
+      - get: busywork
+      - get: qiime2-source
+        trigger: true
+      - task: build-qiime2
+        file: busywork/master/pipelines/tasks/build-qiime2.yaml

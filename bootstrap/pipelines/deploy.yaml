@@ -3,15 +3,15 @@ resources:
     type: git
     source:
       uri: https://github.com/qiime2/busywork
-      branch: master
+      branch: madmin
 
 jobs:
-  - name: deploy-pipelines
+  - name: deploy
     plan:
       - get: busywork
         trigger: true
-      - task: deploy
-        file: busywork/ci/bootstrap/fly-deploy-pipelines.yml
+      - task: fly-deploy
+        file: busywork/bootstrap/tasks/fly-deploy.yml
         params:
           CONCOURSE_USER: {{concourse_user}}
           CONCOURSE_PASS: {{concourse_pass}}
