@@ -6,5 +6,8 @@ inputs:
   - name: builds
   - name: qiime2-source
 
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
 run:
   path: busywork/ci/master/tasks/test-qiime2.sh
