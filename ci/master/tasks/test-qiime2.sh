@@ -4,6 +4,7 @@ set -e -x
 ls
 ls qiime2-source
 ls builds
+conda update -y conda
 
 conda create -y -n test-env
 source activate test-env
