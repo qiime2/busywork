@@ -12,4 +12,5 @@ inputs:
   - name: builds
   - name: qiime2-source
 
-file: busywork/ci/master/tasks/test-qiime2.sh
+run:
+  path: busywork/ci/master/tasks/test-qiime2.sh
