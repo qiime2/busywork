@@ -19,4 +19,4 @@ jobs:
       - get: qiime2-source
         trigger: true
       - task: build-qiime2
-        file: busywork/master/pipelines/tasks/build-qiime2.yaml
+        file: busywork/ci/master/tasks/build-qiime2.yaml

@@ -14,7 +14,7 @@ set -x
 for product_path in busywork/ci/*
 do
   product_name=$(basename "$product_path")
-  for pipeline_path in "$product_path/pipelines/*.yaml"
+  for pipeline_path in "$product_path"/pipelines/*.yaml
   do
     pipeline_name=$(basename "$pipeline_path")
     pipeline_name="${pipeline_name%.*}"
