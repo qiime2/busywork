@@ -7,6 +7,9 @@ image_resource:
     repository: condaforge/linux-anvil
     version: latest
 
+params:
+  - PATH: /opt/conda/bin:$PATH
+
 inputs:
   - name: busywork
   - name: qiime2-source
