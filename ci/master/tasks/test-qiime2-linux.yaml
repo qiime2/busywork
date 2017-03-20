@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+
+inputs:
+  - name: builds
+  - name: qiime2-source
+
+file: busywork/ci/master/tasks/test-qiime2.sh

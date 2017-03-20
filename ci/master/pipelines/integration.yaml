@@ -20,3 +20,8 @@ jobs:
         trigger: true
       - task: build-qiime2
         file: busywork/ci/master/tasks/build-qiime2.yaml
+      - aggregate:
+        - task: test-qiime2-linux
+          file: busywork/ci/master/task/test-qiime2-linux.yaml
+        - task: test-qiime2-darwin
+          file: busywork/ci/master/task/test-qiime2-darwin.yaml
