@@ -10,7 +10,7 @@ resources:
     type: git
     source:
       uri: https://github.com/nervous-laughter/qiime2
-      branch: dev/main
+      branch: master
 
 jobs:
   - name: build-qiime2
