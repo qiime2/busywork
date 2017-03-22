@@ -11,6 +11,12 @@ params:
   CONCOURSE_USER:
   CONCOURSE_PASS:
   CONCOURSE_HOST:
+  GITHUB_USER:
+  GITHUB_PASS:
+  FTP_HOST:
+  FTP_CHANNEL_ROOT:
+  FTP_USER:
+  FTP_PASS:
 
 inputs:
   - name: busywork
