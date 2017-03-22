@@ -14,4 +14,5 @@ ls qiime2-channel/noarch
 ls builds
 
 cd q2-types-source
+git fetch --tags
 conda build -c ../qiime2-channel -c qiime2 -c biocore -c defaults --override-channels --python 3.5 --output-folder ../builds ci/recipe
