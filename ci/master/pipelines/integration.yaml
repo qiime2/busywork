@@ -18,10 +18,25 @@ resources:
       uri: https://github.com/nervous-laughter/qiime2
       branch: master
 
+  - name: q2-types-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2-types
+      branch: master
+
   - name: qiime2-channel
     type: conda-channel
     source:
       package: qiime2
+      host: {{ftp_host}}
+      channel_root: {{ftp_channel_root}}
+      username: {{ftp_user}}
+      password: {{ftp_pass}}
+
+  - name: q2-types-channel
+    type: conda-channel
+    source:
+      package: q2-types
       host: {{ftp_host}}
       channel_root: {{ftp_channel_root}}
       username: {{ftp_user}}
@@ -41,5 +56,23 @@ jobs:
         - task: test-qiime2-darwin
           file: busywork/ci/master/tasks/test-qiime2-darwin.yaml
       - put: qiime2-channel
+        params:
+          channel: builds
+
+  - name: build-q2-types
+    plan:
+      - get: busywork
+      - get: q2-types-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+      - task: build-q2-types
+        file: busywork/ci/master/tasks/build-q2-types.yaml
+      - aggregate:
+        - task: test-q2-types-linux
+          file: busywork/ci/master/tasks/test-q2-types-linux.yaml
+        - task: test-q2-types-darwin
+          file: busywork/ci/master/tasks/test-q2-types-darwin.yaml
+      - put: q2-types-channel
         params:
           channel: builds
