@@ -42,6 +42,7 @@ resources:
       username: {{ftp_user}}
       password: {{ftp_pass}}
 
+# TODO make channel puts serial
 jobs:
   - name: build-qiime2
     plan:
@@ -62,6 +63,7 @@ jobs:
   - name: build-q2-types
     plan:
       - get: busywork
+      - get: qiime2-source
       - get: q2-types-source
         trigger: true
       - get: qiime2-channel
