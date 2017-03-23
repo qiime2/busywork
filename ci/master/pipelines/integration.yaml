@@ -30,6 +30,12 @@ resources:
       uri: https://github.com/nervous-laughter/q2-types
       branch: master
 
+  - name: q2-feature-table-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2-feature-table
+      branch: master
+
   - name: qiime2-channel
     type: conda-channel
     source:
@@ -52,6 +58,15 @@ resources:
     type: conda-channel
     source:
       package: q2-types
+      host: {{ftp_host}}
+      channel_root: {{ftp_channel_root}}
+      username: {{ftp_user}}
+      password: {{ftp_pass}}
+
+  - name: q2-feature-table-channel
+    type: conda-channel
+    source:
+      package: q2-feature-table
       host: {{ftp_host}}
       channel_root: {{ftp_channel_root}}
       username: {{ftp_user}}
@@ -103,5 +118,30 @@ jobs:
         - task: test-q2-types-darwin
           file: busywork/ci/master/tasks/test-q2-types-darwin.yaml
       - put: q2-types-channel
+        params:
+          channel: builds
+
+  - name: build-q2-feature-table
+    plan:
+      - get: busywork
+      - get: qiime2-source
+      - get: q2templates-source
+      - get: q2-types-source
+      - get: q2-feature-table-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+      - get: q2templates-channel
+        trigger: true
+      - get: q2-types-channel
+        trigger: true
+      - task: build-q2-feature-table
+        file: busywork/ci/master/tasks/build-q2-feature-table.yaml
+      - aggregate:
+        - task: test-q2-feature-table-linux
+          file: busywork/ci/master/tasks/test-q2-feature-table-linux.yaml
+        - task: test-q2-feature-table-darwin
+          file: busywork/ci/master/tasks/test-q2-feature-table-darwin.yaml
+      - put: q2-feature-table-channel
         params:
           channel: builds

@@ -1,0 +1,18 @@
+---
+platform: darwin
+
+inputs:
+  - name: busywork
+  - name: builds
+  - name: qiime2-source
+  - name: q2templates-source
+  - name: q2-types-source
+  - name: qiime2-channel
+  - name: q2templates-channel
+  - name: q2-types-channel
+
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+run:
+  path: busywork/ci/master/tasks/test-q2-feature-table.sh
