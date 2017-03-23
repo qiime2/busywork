@@ -6,10 +6,8 @@ conda update -y conda
 conda create -y -n test-env
 source activate test-env
 
-conda env update -f qiime2-source/ci/environment.yaml
-conda env update -f q2-types-source/ci/environment.yaml
 conda install -y pytest
-conda install -y -c ./builds -c ./qiime2-channel --override-channels q2-types
+conda install -y -c ./builds -c ./qiime2-channel -c qiime2 -c biocore -c defaults --override-channels q2-types
 echo "backend: Agg" > matplotlibrc
 
 py.test --pyargs q2_types

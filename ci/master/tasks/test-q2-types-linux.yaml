@@ -10,9 +10,7 @@ image_resource:
 inputs:
   - name: busywork
   - name: builds
-  - name: qiime2-source
   - name: qiime2-channel
-  - name: q2-types-source
 
 run:
   path: busywork/ci/master/tasks/test-q2-types.sh
