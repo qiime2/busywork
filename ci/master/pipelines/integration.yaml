@@ -18,6 +18,12 @@ resources:
       uri: https://github.com/nervous-laughter/qiime2
       branch: master
 
+  - name: q2templates-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2templates
+      branch: master
+
   - name: q2-types-source
     type: git
     source:
@@ -33,6 +39,15 @@ resources:
       username: {{ftp_user}}
       password: {{ftp_pass}}
 
+  - name: q2templates-channel
+    type: conda-channel
+    source:
+      package: q2templates
+      host: {{ftp_host}}
+      channel_root: {{ftp_channel_root}}
+      username: {{ftp_user}}
+      password: {{ftp_pass}}
+
   - name: q2-types-channel
     type: conda-channel
     source:
@@ -42,7 +57,7 @@ resources:
       username: {{ftp_user}}
       password: {{ftp_pass}}
 
-# TODO make channel puts serial
+# TODO make channel puts serial (use pool resource for locking)
 jobs:
   - name: build-qiime2
     plan:
@@ -57,6 +72,18 @@ jobs:
         - task: test-qiime2-darwin
           file: busywork/ci/master/tasks/test-qiime2-darwin.yaml
       - put: qiime2-channel
+        params:
+          channel: builds
+
+  - name: build-q2templates
+    plan:
+      - get: busywork
+      - get: q2templates-source
+        trigger: true
+      - task: build-q2templates
+        file: busywork/ci/master/tasks/build-q2templates.yaml
+      # NOTE: there currently are no tests for q2templates
+      - put: q2templates-channel
         params:
           channel: builds
 
