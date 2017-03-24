@@ -151,6 +151,7 @@ jobs:
 
   - name: integration
     plan:
+      - get: busywork
       - get: nightly
         trigger: true
       - get: qiime2-channel
