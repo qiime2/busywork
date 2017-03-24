@@ -3,8 +3,7 @@
 set -e
 # Fix this someday
 apt-get update
-apt-get install gnupg -y
-apt-get install wget -y
+apt-get install wget -y --allow-unauthenticated # Really??
 wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux" --no-check-certificate
 chmod +x ./fly
 
