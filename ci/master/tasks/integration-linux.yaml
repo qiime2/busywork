@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+
+inputs:
+  - name: qiime2-channel
+  - name: q2templates-channel
+  - name: q2-types-channel
+  - name: q2-feature-table-channel
+
+run:
+  path: busywork/ci/master/tasks/integration.sh

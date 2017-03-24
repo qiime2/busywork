@@ -12,6 +12,13 @@ resources:
       uri: https://github.com/qiime2/busywork
       branch: madmin
 
+  - name: nightly
+    type: time
+    source:
+      start: 12:00 AM
+      stop: 1:00 AM
+      location: America/Phoenix
+
   - name: qiime2-source
     type: git
     source:
@@ -141,3 +148,21 @@ jobs:
       - put: q2-feature-table-channel
         params:
           channel: builds
+
+  - name: integration
+    plan:
+      - get: nightly
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+      - get: q2templates-channel
+        trigger: true
+      - get: q2-types-channel
+        trigger: true
+      - get: q2-feature-table-channel
+        trigger: true
+      - aggregate:
+        - task: integration-linux
+          file: busywork/ci/master/tasks/integration-linux.yaml
+        - task: integration-darwin
+          file: busywork/ci/master/tasks/integration-darwin.yaml

@@ -1,0 +1,14 @@
+---
+platform: darwin
+
+inputs:
+  - name: qiime2-channel
+  - name: q2templates-channel
+  - name: q2-types-channel
+  - name: q2-feature-table-channel
+
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+run:
+  path: busywork/ci/master/tasks/integration.sh
