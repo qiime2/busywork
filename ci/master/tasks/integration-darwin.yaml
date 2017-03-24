@@ -2,6 +2,7 @@
 platform: darwin
 
 inputs:
+  - name: busywork
   - name: qiime2-channel
   - name: q2templates-channel
   - name: q2-types-channel
