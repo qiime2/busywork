@@ -9,6 +9,10 @@ groups:
   - name: deploy
     jobs:
       - integration
+      - upload-qiime2
+      - upload-q2templates
+      - upload-q2-types
+      - upload-q2-feature-table
 
 resource_types:
   - name: conda-channel
@@ -178,3 +182,31 @@ jobs:
           file: busywork/ci/master/tasks/integration-linux.yaml
         - task: integration-darwin
           file: busywork/ci/master/tasks/integration-darwin.yaml
+
+  - name: upload-qiime2
+    plan:
+      - get: qiime2-channel
+        trigger: true
+        passed:
+          - integration
+
+  - name: upload-q2templates
+    plan:
+      - get: q2templates-channel
+        trigger: true
+        passed:
+          - integration
+
+  - name: upload-q2-types
+    plan:
+      - get: q2-types-channel
+        trigger: true
+        passed:
+          - integration
+
+  - name: upload-q2-feature-table
+    plan:
+      - get: q2-feature-table-channel
+        trigger: true
+        passed:
+          - integration
