@@ -1,4 +1,15 @@
 ---
+groups:
+  - name: build
+    jobs:
+      - build-qiime2
+      - build-q2templates
+      - build-q2-types
+      - build-q2-feature-table
+  - name: deploy
+    jobs:
+      - integration
+
 resource_types:
   - name: conda-channel
     type: docker-image
