@@ -151,8 +151,8 @@ jobs:
 
   - name: integration
     plan:
-      - get: nightly
-        trigger: true
+      # - get: nightly
+      #   trigger: true
       - get: qiime2-channel
         trigger: true
       - get: q2templates-channel
