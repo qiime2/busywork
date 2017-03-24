@@ -3,7 +3,7 @@
 set -e
 # Fix this someday
 apt-get update
-apt-get install gnugpg -y
+apt-get install gnupg -y
 apt-get install wget -y
 wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux" --no-check-certificate
 chmod +x ./fly
