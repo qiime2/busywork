@@ -69,47 +69,47 @@ resources:
   - name: qiime2-channel
     type: conda-channel
     source:
-      package: qiime2
-      host: {{ftp_host}}
-      channel_root: {{ftp_channel_root}}
-      username: {{ftp_user}}
-      password: {{ftp_pass}}
+      pkg_name: qiime2
+      uri: ftp://{{ftp_host}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
 
   - name: q2cli-channel
     type: conda-channel
     source:
-      package: q2cli
-      host: {{ftp_host}}
-      channel_root: {{ftp_channel_root}}
-      username: {{ftp_user}}
-      password: {{ftp_pass}}
+      pkg_name: q2cli
+      uri: ftp://{{ftp_host}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
 
   - name: q2templates-channel
     type: conda-channel
     source:
-      package: q2templates
-      host: {{ftp_host}}
-      channel_root: {{ftp_channel_root}}
-      username: {{ftp_user}}
-      password: {{ftp_pass}}
+      pkg_name: q2templates
+      uri: ftp://{{ftp_host}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
 
   - name: q2-types-channel
     type: conda-channel
     source:
-      package: q2-types
-      host: {{ftp_host}}
-      channel_root: {{ftp_channel_root}}
-      username: {{ftp_user}}
-      password: {{ftp_pass}}
+      pkg_name: q2-types
+      uri: ftp://{{ftp_host}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
 
   - name: q2-feature-table-channel
     type: conda-channel
     source:
-      package: q2-feature-table
-      host: {{ftp_host}}
-      channel_root: {{ftp_channel_root}}
-      username: {{ftp_user}}
-      password: {{ftp_pass}}
+      pkg_name: q2-feature-table
+      uri: ftp://{{ftp_host}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
 
 # TODO make channel puts serial (use pool resource for locking)
 jobs:
@@ -136,13 +136,17 @@ jobs:
         trigger: true
       - get: qiime2-channel
         trigger: true
-      - task: build-q2cli
-        file: busywork/ci/master/tasks/build-q2cli.yaml
       - aggregate:
-        - task: test-q2cli-linux
-          file: busywork/ci/master/tasks/test-q2cli-linux.yaml
-        - task: test-q2cli-darwin
-          file: busywork/ci/master/tasks/test-q2cli-darwin.yaml
+        - do:
+          - task: build-q2cli-linux
+            file: busywork/ci/master/tasks/build-q2cli-linux.yaml
+          - task: test-q2cli-linux
+            file: busywork/ci/master/tasks/test-q2cli-linux.yaml
+        - do:
+          - task: build-q2cli-darwin
+            file: busywork/ci/master/tasks/build-q2cli-darwin.yaml
+          - task: test-q2cli-darwin
+            file: busywork/ci/master/tasks/test-q2cli-darwin.yaml
       - put: q2cli-channel
         params:
           channel: builds
