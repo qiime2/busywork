@@ -3,6 +3,7 @@ groups:
   - name: build
     jobs:
       - build-qiime2
+      - build-q2cli
       - build-q2templates
       - build-q2-types
       - build-q2-feature-table
@@ -10,6 +11,7 @@ groups:
     jobs:
       - integration
       - upload-qiime2
+      - upload-q2cli
       - upload-q2templates
       - upload-q2-types
       - upload-q2-feature-table
@@ -40,6 +42,12 @@ resources:
       uri: https://github.com/nervous-laughter/qiime2
       branch: master
 
+  - name: q2cli-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2cli
+      branch: master
+
   - name: q2templates-source
     type: git
     source:
@@ -62,6 +70,15 @@ resources:
     type: conda-channel
     source:
       package: qiime2
+      host: {{ftp_host}}
+      channel_root: {{ftp_channel_root}}
+      username: {{ftp_user}}
+      password: {{ftp_pass}}
+
+  - name: q2cli-channel
+    type: conda-channel
+    source:
+      package: q2cli
       host: {{ftp_host}}
       channel_root: {{ftp_channel_root}}
       username: {{ftp_user}}
@@ -109,6 +126,24 @@ jobs:
         - task: test-qiime2-darwin
           file: busywork/ci/master/tasks/test-qiime2-darwin.yaml
       - put: qiime2-channel
+        params:
+          channel: builds
+
+  - name: build-q2cli
+    plan:
+      - get: busywork
+      - get: q2cli-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+      - task: build-q2cli
+        file: busywork/ci/master/tasks/build-q2cli.yaml
+      - aggregate:
+        - task: test-q2cli-linux
+          file: busywork/ci/master/tasks/test-q2cli-linux.yaml
+        - task: test-q2cli-darwin
+          file: busywork/ci/master/tasks/test-q2cli-darwin.yaml
+      - put: q2cli-channel
         params:
           channel: builds
 
@@ -171,6 +206,8 @@ jobs:
         trigger: true
       - get: qiime2-channel
         trigger: true
+      - get: q2cli-channel
+        trigger: true
       - get: q2templates-channel
         trigger: true
       - get: q2-types-channel
@@ -186,6 +223,13 @@ jobs:
   - name: upload-qiime2
     plan:
       - get: qiime2-channel
+        trigger: true
+        passed:
+          - integration
+
+  - name: upload-q2cli
+    plan:
+      - get: q2cli-channel
         trigger: true
         passed:
           - integration

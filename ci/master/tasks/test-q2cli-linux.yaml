@@ -9,11 +9,8 @@ image_resource:
 
 inputs:
   - name: busywork
+  - name: builds
   - name: qiime2-channel
-  - name: q2cli-channel
-  - name: q2templates-channel
-  - name: q2-types-channel
-  - name: q2-feature-table-channel
 
 run:
-  path: busywork/ci/master/tasks/integration.sh
+  path: busywork/ci/master/tasks/test-q2cli.sh
