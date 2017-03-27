@@ -10,6 +10,6 @@ conda install -y -c ./builds -c ./qiime2-channel -c qiime2 -c defaults --overrid
 conda install -y nose
 echo "backend: Agg" > matplotlibrc
 
-QIIMETEST= nosetests
+QIIMETEST= nosetests q2cli
 QIIMETEST= source tab-qiime
 QIIMETEST= qiime
