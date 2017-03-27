@@ -70,7 +70,7 @@ resources:
     type: conda-channel
     source:
       pkg_name: qiime2
-      uri: ftp://{{ftp_host}}
+      uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
       pass: {{ftp_pass}}
@@ -79,7 +79,7 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2cli
-      uri: ftp://{{ftp_host}}
+      uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
       pass: {{ftp_pass}}
@@ -88,7 +88,7 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2templates
-      uri: ftp://{{ftp_host}}
+      uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
       pass: {{ftp_pass}}
@@ -97,7 +97,7 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2-types
-      uri: ftp://{{ftp_host}}
+      uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
       pass: {{ftp_pass}}
@@ -106,7 +106,7 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2-feature-table
-      uri: ftp://{{ftp_host}}
+      uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
       pass: {{ftp_pass}}
