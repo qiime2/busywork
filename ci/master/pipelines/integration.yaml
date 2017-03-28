@@ -133,6 +133,7 @@ jobs:
       - get: busywork
       - get: qiime2-channel
         trigger: true
+        passed: [build-qiime2]
       - aggregate:
         - task: test-linux
           file: busywork/ci/master/tasks/qiime2/test-linux.yaml
@@ -253,7 +254,7 @@ jobs:
     plan:
       - get: qiime2-channel
         trigger: true
-        passed: [unit-test-qiime2, integration]
+        passed: [integration]
 
   #
   # - name: upload-q2cli
