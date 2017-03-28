@@ -4,10 +4,10 @@ platform: darwin
 inputs:
   - name: busywork
   - name: qiime2-channel
-  - name: q2cli-channel
-  - name: q2templates-channel
-  - name: q2-types-channel
-  - name: q2-feature-table-channel
+  # - name: q2cli-channel
+  # - name: q2templates-channel
+  # - name: q2-types-channel
+  # - name: q2-feature-table-channel
 
 params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin

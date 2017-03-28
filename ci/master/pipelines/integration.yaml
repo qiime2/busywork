@@ -1,20 +1,20 @@
 ---
-groups:
-  - name: build
-    jobs:
-      - build-qiime2
-      - build-q2cli
-      - build-q2templates
-      - build-q2-types
-      - build-q2-feature-table
-  - name: deploy
-    jobs:
-      - integration
-      - upload-qiime2
-      - upload-q2cli
-      - upload-q2templates
-      - upload-q2-types
-      - upload-q2-feature-table
+# groups:
+#   - name: build
+#     jobs:
+#       - build-qiime2
+#       - build-q2cli
+#       - build-q2templates
+#       - build-q2-types
+#       - build-q2-feature-table
+#   - name: deploy
+#     jobs:
+#       - integration
+#       - upload-qiime2
+#       - upload-q2cli
+#       - upload-q2templates
+#       - upload-q2-types
+#       - upload-q2-feature-table
 
 resource_types:
   - name: conda-channel
@@ -42,29 +42,29 @@ resources:
       uri: https://github.com/nervous-laughter/qiime2
       branch: master
 
-  - name: q2cli-source
-    type: git
-    source:
-      uri: https://github.com/nervous-laughter/q2cli
-      branch: master
-
-  - name: q2templates-source
-    type: git
-    source:
-      uri: https://github.com/nervous-laughter/q2templates
-      branch: master
-
-  - name: q2-types-source
-    type: git
-    source:
-      uri: https://github.com/nervous-laughter/q2-types
-      branch: master
-
-  - name: q2-feature-table-source
-    type: git
-    source:
-      uri: https://github.com/nervous-laughter/q2-feature-table
-      branch: master
+  # - name: q2cli-source
+  #   type: git
+  #   source:
+  #     uri: https://github.com/nervous-laughter/q2cli
+  #     branch: master
+  #
+  # - name: q2templates-source
+  #   type: git
+  #   source:
+  #     uri: https://github.com/nervous-laughter/q2templates
+  #     branch: master
+  #
+  # - name: q2-types-source
+  #   type: git
+  #   source:
+  #     uri: https://github.com/nervous-laughter/q2-types
+  #     branch: master
+  #
+  # - name: q2-feature-table-source
+  #   type: git
+  #   source:
+  #     uri: https://github.com/nervous-laughter/q2-feature-table
+  #     branch: master
 
   - name: qiime2-channel
     type: conda-channel
@@ -75,43 +75,42 @@ resources:
       user: {{ftp_user}}
       pass: {{ftp_pass}}
 
-  - name: q2cli-channel
-    type: conda-channel
-    source:
-      pkg_name: q2cli
-      uri: {{ftp_uri}}
-      channel: {{ftp_channel_root}}
-      user: {{ftp_user}}
-      pass: {{ftp_pass}}
+  # - name: q2cli-channel
+  #   type: conda-channel
+  #   source:
+  #     pkg_name: q2cli
+  #     uri: {{ftp_uri}}
+  #     channel: {{ftp_channel_root}}
+  #     user: {{ftp_user}}
+  #     pass: {{ftp_pass}}
+  #
+  # - name: q2templates-channel
+  #   type: conda-channel
+  #   source:
+  #     pkg_name: q2templates
+  #     uri: {{ftp_uri}}
+  #     channel: {{ftp_channel_root}}
+  #     user: {{ftp_user}}
+  #     pass: {{ftp_pass}}
+  #
+  # - name: q2-types-channel
+  #   type: conda-channel
+  #   source:
+  #     pkg_name: q2-types
+  #     uri: {{ftp_uri}}
+  #     channel: {{ftp_channel_root}}
+  #     user: {{ftp_user}}
+  #     pass: {{ftp_pass}}
+  #
+  # - name: q2-feature-table-channel
+  #   type: conda-channel
+  #   source:
+  #     pkg_name: q2-feature-table
+  #     uri: {{ftp_uri}}
+  #     channel: {{ftp_channel_root}}
+  #     user: {{ftp_user}}
+  #     pass: {{ftp_pass}}
 
-  - name: q2templates-channel
-    type: conda-channel
-    source:
-      pkg_name: q2templates
-      uri: {{ftp_uri}}
-      channel: {{ftp_channel_root}}
-      user: {{ftp_user}}
-      pass: {{ftp_pass}}
-
-  - name: q2-types-channel
-    type: conda-channel
-    source:
-      pkg_name: q2-types
-      uri: {{ftp_uri}}
-      channel: {{ftp_channel_root}}
-      user: {{ftp_user}}
-      pass: {{ftp_pass}}
-
-  - name: q2-feature-table-channel
-    type: conda-channel
-    source:
-      pkg_name: q2-feature-table
-      uri: {{ftp_uri}}
-      channel: {{ftp_channel_root}}
-      user: {{ftp_user}}
-      pass: {{ftp_pass}}
-
-# TODO make channel puts serial (use pool resource for locking)
 jobs:
   - name: build-qiime2
     plan:
@@ -119,109 +118,114 @@ jobs:
       - get: qiime2-source
         trigger: true
       - aggregate:
-        - do:
-          - task: build-linux
-            file: busywork/ci/master/tasks/qiime2/build-linux.yaml
-          - task: test-linux
-            file: busywork/ci/master/tasks/qiime2/test-linux.yaml
-        - do:
-          - task: build-darwin
-            file: busywork/ci/master/tasks/qiime2/build-darwin.yaml
-          - task: test-darwin
-            file: busywork/ci/master/tasks/qiime2/test-darwin.yaml
+        - task: build-linux
+          file: busywork/ci/master/tasks/qiime2/build-linux.yaml
+        - task: build-darwin
+          file: busywork/ci/master/tasks/qiime2/build-darwin.yaml
       - task: merge-channels
         file: busywork/ci/master/tasks/merge-channels.yaml
       - put: qiime2-channel
         params:
           from: builds
 
-  - name: build-q2cli
+  - name: unit-test-qiime2
     plan:
       - get: busywork
-      - get: q2cli-source
-        trigger: true
       - get: qiime2-channel
         trigger: true
       - aggregate:
-        - do:
-          - task: build-linux
-            file: busywork/ci/master/tasks/q2cli/build-linux.yaml
-          - task: test-linux
-            file: busywork/ci/master/tasks/q2cli/test-linux.yaml
-        - do:
-          - task: build-darwin
-            file: busywork/ci/master/tasks/q2cli/build-darwin.yaml
-          - task: test-darwin
-            file: busywork/ci/master/tasks/q2cli/test-darwin.yaml
-      - put: q2cli-channel
-        params:
-          from: builds
-
-  - name: build-q2templates
-    plan:
-      - get: busywork
-      - get: q2templates-source
-        trigger: true
-      - aggregate:
-        - do:
-          - task: build-linux
-            file: busywork/ci/master/tasks/q2templates/build-linux.yaml
-            # TODO: add tests
-        - do:
-          - task: build-darwin
-            file: busywork/ci/master/tasks/q2templates/build-darwin.yaml
-            # TODO: add tests
-      - put: q2templates-channel
-        params:
-          from: builds
-
-  - name: build-q2-types
-    plan:
-      - get: busywork
-      - get: q2-types-source
-        trigger: true
-      - get: qiime2-channel
-        trigger: true
-      - aggregate:
-        - do:
-          - task: build-linux
-            file: busywork/ci/master/tasks/q2-types/build-linux.yaml
-          - task: test-linux
-            file: busywork/ci/master/tasks/q2-types/test-linux.yaml
-        - do:
-          - task: build-darwin
-            file: busywork/ci/master/tasks/q2-types/build-darwin.yaml
-          - task: test-darwin
-            file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
-      - put: q2-types-channel
-        params:
-          from: builds
-
-  - name: build-q2-feature-table
-    plan:
-      - get: busywork
-      - get: q2-feature-table-source
-        trigger: true
-      - get: qiime2-channel
-        trigger: true
-      - get: q2templates-channel
-        trigger: true
-      - get: q2-types-channel
-        trigger: true
-      - aggregate:
-        - do:
-          - task: build-linux
-            file: busywork/ci/master/tasks/q2-feature-table/build-linux.yaml
-          - task: test-linux
-            file: busywork/ci/master/tasks/q2-feature-table/test-linux.yaml
-        - do:
-          - task: build-darwin
-            file: busywork/ci/master/tasks/q2-feature-table/build-darwin.yaml
-          - task: test-darwin
-            file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
-      - put: q2-feature-table-channel
-        params:
-          from: builds
+        - task: test-linux
+          file: busywork/ci/master/tasks/qiime2/test-linux.yaml
+        - task: test-darwin
+          file: busywork/ci/master/tasks/qiime2/test-darwin.yaml
+  #
+  # - name: build-q2cli
+  #   plan:
+  #     - get: busywork
+  #     - get: q2cli-source
+  #       trigger: true
+  #     - get: qiime2-channel
+  #       trigger: true
+  #     - aggregate:
+  #       - do:
+  #         - task: build-linux
+  #           file: busywork/ci/master/tasks/q2cli/build-linux.yaml
+  #         - task: test-linux
+  #           file: busywork/ci/master/tasks/q2cli/test-linux.yaml
+  #       - do:
+  #         - task: build-darwin
+  #           file: busywork/ci/master/tasks/q2cli/build-darwin.yaml
+  #         - task: test-darwin
+  #           file: busywork/ci/master/tasks/q2cli/test-darwin.yaml
+  #     - put: q2cli-channel
+  #       params:
+  #         from: builds
+  #
+  # - name: build-q2templates
+  #   plan:
+  #     - get: busywork
+  #     - get: q2templates-source
+  #       trigger: true
+  #     - aggregate:
+  #       - do:
+  #         - task: build-linux
+  #           file: busywork/ci/master/tasks/q2templates/build-linux.yaml
+  #           # TODO: add tests
+  #       - do:
+  #         - task: build-darwin
+  #           file: busywork/ci/master/tasks/q2templates/build-darwin.yaml
+  #           # TODO: add tests
+  #     - put: q2templates-channel
+  #       params:
+  #         from: builds
+  #
+  # - name: build-q2-types
+  #   plan:
+  #     - get: busywork
+  #     - get: q2-types-source
+  #       trigger: true
+  #     - get: qiime2-channel
+  #       trigger: true
+  #     - aggregate:
+  #       - do:
+  #         - task: build-linux
+  #           file: busywork/ci/master/tasks/q2-types/build-linux.yaml
+  #         - task: test-linux
+  #           file: busywork/ci/master/tasks/q2-types/test-linux.yaml
+  #       - do:
+  #         - task: build-darwin
+  #           file: busywork/ci/master/tasks/q2-types/build-darwin.yaml
+  #         - task: test-darwin
+  #           file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
+  #     - put: q2-types-channel
+  #       params:
+  #         from: builds
+  #
+  # - name: build-q2-feature-table
+  #   plan:
+  #     - get: busywork
+  #     - get: q2-feature-table-source
+  #       trigger: true
+  #     - get: qiime2-channel
+  #       trigger: true
+  #     - get: q2templates-channel
+  #       trigger: true
+  #     - get: q2-types-channel
+  #       trigger: true
+  #     - aggregate:
+  #       - do:
+  #         - task: build-linux
+  #           file: busywork/ci/master/tasks/q2-feature-table/build-linux.yaml
+  #         - task: test-linux
+  #           file: busywork/ci/master/tasks/q2-feature-table/test-linux.yaml
+  #       - do:
+  #         - task: build-darwin
+  #           file: busywork/ci/master/tasks/q2-feature-table/build-darwin.yaml
+  #         - task: test-darwin
+  #           file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
+  #     - put: q2-feature-table-channel
+  #       params:
+  #         from: builds
 
   - name: integration
     plan:
@@ -230,14 +234,15 @@ jobs:
         trigger: true
       - get: qiime2-channel
         trigger: true
-      - get: q2cli-channel
-        trigger: true
-      - get: q2templates-channel
-        trigger: true
-      - get: q2-types-channel
-        trigger: true
-      - get: q2-feature-table-channel
-        trigger: true
+        passed: [unit-test-qiime2]
+      # - get: q2cli-channel
+      #   trigger: true
+      # - get: q2templates-channel
+      #   trigger: true
+      # - get: q2-types-channel
+      #   trigger: true
+      # - get: q2-feature-table-channel
+      #   trigger: true
       - aggregate:
         - task: integration-linux
           file: busywork/ci/master/tasks/integration-linux.yaml
@@ -248,33 +253,33 @@ jobs:
     plan:
       - get: qiime2-channel
         trigger: true
-        passed:
-          - integration
+        passed: [unit-test-qiime2, integration]
 
-  - name: upload-q2cli
-    plan:
-      - get: q2cli-channel
-        trigger: true
-        passed:
-          - integration
-
-  - name: upload-q2templates
-    plan:
-      - get: q2templates-channel
-        trigger: true
-        passed:
-          - integration
-
-  - name: upload-q2-types
-    plan:
-      - get: q2-types-channel
-        trigger: true
-        passed:
-          - integration
-
-  - name: upload-q2-feature-table
-    plan:
-      - get: q2-feature-table-channel
-        trigger: true
-        passed:
-          - integration
+  #
+  # - name: upload-q2cli
+  #   plan:
+  #     - get: q2cli-channel
+  #       trigger: true
+  #       passed:
+  #         - integration
+  #
+  # - name: upload-q2templates
+  #   plan:
+  #     - get: q2templates-channel
+  #       trigger: true
+  #       passed:
+  #         - integration
+  #
+  # - name: upload-q2-types
+  #   plan:
+  #     - get: q2-types-channel
+  #       trigger: true
+  #       passed:
+  #         - integration
+  #
+  # - name: upload-q2-feature-table
+  #   plan:
+  #     - get: q2-feature-table-channel
+  #       trigger: true
+  #       passed:
+  #         - integration
