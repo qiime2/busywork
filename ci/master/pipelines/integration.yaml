@@ -191,7 +191,7 @@ jobs:
 
   # TODO: Test q2templates someday
 
-  - name: build-q2-types:
+  - name: build-q2-types
     plan:
       - get: busywork
       - get: q2-types-source
