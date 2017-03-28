@@ -19,4 +19,4 @@ outputs:
   - name: builds
 
 run:
-  path: busywork/ci/master/tasks/build-q2-types.sh
+  path: busywork/ci/master/tasks/q2-types/build.sh
