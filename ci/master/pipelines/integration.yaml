@@ -206,17 +206,17 @@ jobs:
         trigger: true
       - get: q2-types-channel
         trigger: true
-      - aggregate:
-        - do:
-          - task: build-linux
-            file: busywork/ci/master/tasks/q2-feature-table/build-linux.yaml
-          - task: test-linux
-            file: busywork/ci/master/tasks/q2-feature-table/test-linux.yaml
-        - do:
-          - task: build-darwin
-            file: busywork/ci/master/tasks/q2-feature-table/build-darwin.yaml
-          - task: test-darwin
-            file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
+      # - aggregate:
+      #   - do:
+      - task: build-linux
+        file: busywork/ci/master/tasks/q2-feature-table/build-linux.yaml
+      - task: test-linux
+        file: busywork/ci/master/tasks/q2-feature-table/test-linux.yaml
+        # - do:
+      - task: build-darwin
+        file: busywork/ci/master/tasks/q2-feature-table/build-darwin.yaml
+      - task: test-darwin
+        file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
       - put: q2-feature-table-channel
         params:
           from: builds
