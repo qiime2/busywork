@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
   - name: busywork
-  - name: build-linux
+  - name: qiime2-channel
 
 run:
   path: busywork/ci/master/tasks/qiime2/test.sh
