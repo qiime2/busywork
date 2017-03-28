@@ -8,6 +8,7 @@ image_resource:
     version: latest
 
 inputs:
+  - name: busywork
   - name: build-linux
   - name: build-darwin
 
