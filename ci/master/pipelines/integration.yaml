@@ -127,7 +127,7 @@ jobs:
           file: busywork/ci/master/tasks/test-qiime2-darwin.yaml
       - put: qiime2-channel
         params:
-          channel: builds
+          from: builds
 
   - name: build-q2cli
     plan:
@@ -149,7 +149,7 @@ jobs:
             file: busywork/ci/master/tasks/test-q2cli-darwin.yaml
       - put: q2cli-channel
         params:
-          channel: builds
+          from: builds
 
   - name: build-q2templates
     plan:
@@ -161,7 +161,7 @@ jobs:
       # NOTE: there currently are no tests for q2templates
       - put: q2templates-channel
         params:
-          channel: builds
+          from: builds
 
   - name: build-q2-types
     plan:
@@ -179,7 +179,7 @@ jobs:
           file: busywork/ci/master/tasks/test-q2-types-darwin.yaml
       - put: q2-types-channel
         params:
-          channel: builds
+          from: builds
 
   - name: build-q2-feature-table
     plan:
@@ -201,7 +201,7 @@ jobs:
           file: busywork/ci/master/tasks/test-q2-feature-table-darwin.yaml
       - put: q2-feature-table-channel
         params:
-          channel: builds
+          from: builds
 
   - name: integration
     plan:
