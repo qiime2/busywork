@@ -1,15 +1,15 @@
 ---
 platform: darwin
 
-inputs:
-  - name: busywork
-  - name: builds
-  - name: qiime2-channel
-
 params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
 
+inputs:
+  - name: busywork
+  - name: builds
+  - name: qiime2-channel
+
 run:
-  path: busywork/ci/master/tasks/test-q2cli.sh
+  path: busywork/ci/master/tasks/q2cli/test.sh
