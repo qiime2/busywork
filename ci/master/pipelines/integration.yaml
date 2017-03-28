@@ -209,20 +209,20 @@ jobs:
         params:
           from: builds
 
-  # - name: unit-test-q2-types
-  #   plan:
-  #     - get: busywork
-  #     - get: q2-types-channel
-  #       trigger: true
-  #       passed: [unit-test-q2-types]
-  #     - get: qiime2-channel
-  #       trigger: true
-  #       passed: [unit-test-qiime2]
-  #     - aggregate:
-  #       - task: test-linux
-  #         file: busywork/ci/master/tasks/q2-types/test-linux.yaml
-  #       - task: test-darwin
-  #         file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
+  - name: unit-test-q2-types
+    plan:
+      - get: busywork
+      - get: q2-types-channel
+        trigger: true
+        passed: [build-q2-types]
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - aggregate:
+        - task: test-linux
+          file: busywork/ci/master/tasks/q2-types/test-linux.yaml
+        - task: test-darwin
+          file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
 
   #
   # - name: build-q2-feature-table
@@ -266,7 +266,7 @@ jobs:
         trigger: true
       - get: q2-types-channel
         trigger: true
-        # passed: [unit-test-q2-types]
+        passed: [unit-test-q2-types]
       # - get: q2-feature-table-channel
       #   trigger: true
       - aggregate:
