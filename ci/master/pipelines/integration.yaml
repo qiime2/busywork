@@ -118,13 +118,17 @@ jobs:
       - get: busywork
       - get: qiime2-source
         trigger: true
-      - task: build-qiime2
-        file: busywork/ci/master/tasks/build-qiime2.yaml
       - aggregate:
-        - task: test-qiime2-linux
-          file: busywork/ci/master/tasks/test-qiime2-linux.yaml
-        - task: test-qiime2-darwin
-          file: busywork/ci/master/tasks/test-qiime2-darwin.yaml
+        - do:
+          - task: build-linux
+            file: busywork/ci/master/tasks/qiime2/build-linux.yaml
+          - task: test-linux
+            file: busywork/ci/master/tasks/qiime2/test-linux.yaml
+        - do:
+          - task: build-darwin
+            file: busywork/ci/master/tasks/qiime2/build-darwin.yaml
+          - task: test-darwin
+            file: busywork/ci/master/tasks/qiime2/test-darwin.yaml
       - put: qiime2-channel
         params:
           from: builds
@@ -138,15 +142,15 @@ jobs:
         trigger: true
       - aggregate:
         - do:
-          - task: build-q2cli-linux
-            file: busywork/ci/master/tasks/build-q2cli-linux.yaml
-          - task: test-q2cli-linux
-            file: busywork/ci/master/tasks/test-q2cli-linux.yaml
+          - task: build-linux
+            file: busywork/ci/master/tasks/q2cli/build-linux.yaml
+          - task: test-linux
+            file: busywork/ci/master/tasks/q2cli/test-linux.yaml
         - do:
-          - task: build-q2cli-darwin
-            file: busywork/ci/master/tasks/build-q2cli-darwin.yaml
-          - task: test-q2cli-darwin
-            file: busywork/ci/master/tasks/test-q2cli-darwin.yaml
+          - task: build-darwin
+            file: busywork/ci/master/tasks/q2cli/build-darwin.yaml
+          - task: test-darwin
+            file: busywork/ci/master/tasks/q2cli/test-darwin.yaml
       - put: q2cli-channel
         params:
           from: builds
@@ -156,9 +160,15 @@ jobs:
       - get: busywork
       - get: q2templates-source
         trigger: true
-      - task: build-q2templates
-        file: busywork/ci/master/tasks/build-q2templates.yaml
-      # NOTE: there currently are no tests for q2templates
+      - aggregate:
+        - do:
+          - task: build-linux
+            file: busywork/ci/master/tasks/q2templates/build-linux.yaml
+            # TODO: add tests
+        - do:
+          - task: build-darwin
+            file: busywork/ci/master/tasks/q2templates/build-darwin.yaml
+            # TODO: add tests
       - put: q2templates-channel
         params:
           from: builds
@@ -170,13 +180,17 @@ jobs:
         trigger: true
       - get: qiime2-channel
         trigger: true
-      - task: build-q2-types
-        file: busywork/ci/master/tasks/build-q2-types.yaml
       - aggregate:
-        - task: test-q2-types-linux
-          file: busywork/ci/master/tasks/test-q2-types-linux.yaml
-        - task: test-q2-types-darwin
-          file: busywork/ci/master/tasks/test-q2-types-darwin.yaml
+        - do:
+          - task: build-linux
+            file: busywork/ci/master/tasks/q2-types/build-linux.yaml
+          - task: test-linux
+            file: busywork/ci/master/tasks/q2-types/test-linux.yaml
+        - do:
+          - task: build-darwin
+            file: busywork/ci/master/tasks/q2-types/build-darwin.yaml
+          - task: test-darwin
+            file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
       - put: q2-types-channel
         params:
           from: builds
@@ -192,13 +206,17 @@ jobs:
         trigger: true
       - get: q2-types-channel
         trigger: true
-      - task: build-q2-feature-table
-        file: busywork/ci/master/tasks/build-q2-feature-table.yaml
       - aggregate:
-        - task: test-q2-feature-table-linux
-          file: busywork/ci/master/tasks/test-q2-feature-table-linux.yaml
-        - task: test-q2-feature-table-darwin
-          file: busywork/ci/master/tasks/test-q2-feature-table-darwin.yaml
+        - do:
+          - task: build-linux
+            file: busywork/ci/master/tasks/q2-feature-table/build-linux.yaml
+          - task: test-linux
+            file: busywork/ci/master/tasks/q2-feature-table/test-linux.yaml
+        - do:
+          - task: build-darwin
+            file: busywork/ci/master/tasks/q2-feature-table/build-darwin.yaml
+          - task: test-darwin
+            file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
       - put: q2-feature-table-channel
         params:
           from: builds
