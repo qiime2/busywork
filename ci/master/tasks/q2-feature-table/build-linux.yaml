@@ -18,7 +18,7 @@ inputs:
   - name: q2-types-channel
 
 outputs:
-  - name: builds
+  - name: build-linux
 
 run:
   path: busywork/ci/master/tasks/q2-feature-table/build.sh

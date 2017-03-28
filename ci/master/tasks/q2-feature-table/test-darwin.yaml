@@ -8,7 +8,7 @@ params:
 
 inputs:
   - name: busywork
-  - name: builds
+  - name: q2-feature-table-channel
   - name: qiime2-channel
   - name: q2templates-channel
   - name: q2-types-channel

@@ -5,6 +5,7 @@ set -x -e
 conda update -y -c defaults --override-channels conda
 conda update -y -c defaults --override-channels conda-build
 
+BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 cd q2-feature-table-source
 git fetch --tags
-conda build -c ../q2-types-channel -c ../q2templates-channel -c ../qiime2-channel -c qiime2 -c biocore -c defaults --override-channels --python 3.5 --output-folder ../builds ci/recipe
+conda build -c ../q2-types-channel -c ../q2templates-channel -c ../qiime2-channel -c qiime2 -c biocore -c defaults --override-channels --python 3.5 --output-folder $BUILD_DIR ci/recipe
