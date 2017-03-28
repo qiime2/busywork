@@ -18,4 +18,4 @@ outputs:
   - name: builds
 
 run:
-  path: busywork/ci/master/tasks/build-qiime2.sh
+  path: busywork/ci/master/tasks/qiime2/build.sh
