@@ -21,4 +21,4 @@ outputs:
   - name: builds
 
 run:
-  path: busywork/ci/master/tasks/build-q2-feature-table.sh
+  path: busywork/ci/master/tasks/q2-feature-table/build.sh
