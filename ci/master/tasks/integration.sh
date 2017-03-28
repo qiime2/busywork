@@ -15,5 +15,3 @@ conda install -y -c ./qiime2-channel -c qiime2 -c biocore -c defaults --override
 echo "backend: Agg" > matplotlibrc
 
 conda list
-
-$(exit 1)
