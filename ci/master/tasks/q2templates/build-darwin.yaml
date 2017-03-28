@@ -11,7 +11,7 @@ inputs:
   - name: q2templates-source
 
 outputs:
-  - name: builds
+  - name: build-darwin
 
 run:
   path: busywork/ci/master/tasks/q2templates/build.sh

@@ -15,7 +15,7 @@ inputs:
   - name: q2templates-source
 
 outputs:
-  - name: builds
+  - name: build-linux
 
 run:
   path: busywork/ci/master/tasks/q2templates/build.sh

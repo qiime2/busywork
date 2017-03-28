@@ -47,12 +47,12 @@ resources:
     source:
       uri: https://github.com/nervous-laughter/q2cli
       branch: master
-  #
-  # - name: q2templates-source
-  #   type: git
-  #   source:
-  #     uri: https://github.com/nervous-laughter/q2templates
-  #     branch: master
+
+  - name: q2templates-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2templates
+      branch: master
   #
   # - name: q2-types-source
   #   type: git
@@ -83,15 +83,15 @@ resources:
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
       pass: {{ftp_pass}}
-  #
-  # - name: q2templates-channel
-  #   type: conda-channel
-  #   source:
-  #     pkg_name: q2templates
-  #     uri: {{ftp_uri}}
-  #     channel: {{ftp_channel_root}}
-  #     user: {{ftp_user}}
-  #     pass: {{ftp_pass}}
+
+  - name: q2templates-channel
+    type: conda-channel
+    source:
+      pkg_name: q2templates
+      uri: {{ftp_uri}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
   #
   # - name: q2-types-channel
   #   type: conda-channel
@@ -173,24 +173,24 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/q2cli/test-darwin.yaml
 
-  # - name: build-q2templates
-  #   plan:
-  #     - get: busywork
-  #     - get: q2templates-source
-  #       trigger: true
-  #     - aggregate:
-  #       - do:
-  #         - task: build-linux
-  #           file: busywork/ci/master/tasks/q2templates/build-linux.yaml
-  #           # TODO: add tests
-  #       - do:
-  #         - task: build-darwin
-  #           file: busywork/ci/master/tasks/q2templates/build-darwin.yaml
-  #           # TODO: add tests
-  #     - put: q2templates-channel
-  #       params:
-  #         from: builds
-  #
+  - name: build-q2templates
+    plan:
+      - get: busywork
+      - get: q2templates-source
+        trigger: true
+      - aggregate:
+        - task: build-linux
+          file: busywork/ci/master/tasks/q2templates/build-linux.yaml
+        - task: build-darwin
+          file: busywork/ci/master/tasks/q2templates/build-darwin.yaml
+      - task: merge-channels
+        file: busywork/ci/master/tasks/merge-channels.yaml
+      - put: q2templates-channel
+        params:
+          from: builds
+
+  # TODO: Test q2templates someday
+
   # - name: build-q2-types
   #   plan:
   #     - get: busywork
@@ -250,8 +250,8 @@ jobs:
       - get: q2cli-channel
         trigger: true
         passed: [unit-test-q2cli]
-      # - get: q2templates-channel
-      #   trigger: true
+      - get: q2templates-channel
+        trigger: true
       # - get: q2-types-channel
       #   trigger: true
       # - get: q2-feature-table-channel
@@ -273,14 +273,13 @@ jobs:
       - get: q2cli-channel
         trigger: true
         passed: [integration]
-  #
-  # - name: upload-q2templates
-  #   plan:
-  #     - get: q2templates-channel
-  #       trigger: true
-  #       passed:
-  #         - integration
-  #
+
+  - name: upload-q2templates
+    plan:
+      - get: q2templates-channel
+        trigger: true
+        passed: [integration]
+
   # - name: upload-q2-types
   #   plan:
   #     - get: q2-types-channel
