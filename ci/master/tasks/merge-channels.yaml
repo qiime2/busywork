@@ -8,8 +8,11 @@ image_resource:
     version: latest
 
 inputs:
-  - name: busywork
   - name: build-linux
+  - name: build-darwin
+
+outputs:
+  - name: builds
 
 run:
-  path: busywork/ci/master/tasks/qiime2/test.sh
+  path: busywork/ci/master/tasks/merge.sh

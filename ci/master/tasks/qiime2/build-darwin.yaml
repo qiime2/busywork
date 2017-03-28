@@ -11,7 +11,7 @@ inputs:
   - name: qiime2-source
 
 outputs:
-  - name: builds
+  - name: build-darwin
 
 run:
   path: busywork/ci/master/tasks/qiime2/build.sh

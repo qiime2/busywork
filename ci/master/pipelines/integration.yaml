@@ -118,17 +118,19 @@ jobs:
       - get: busywork
       - get: qiime2-source
         trigger: true
-      # - aggregate:
-      #   - do:
-      - task: build-linux
-        file: busywork/ci/master/tasks/qiime2/build-linux.yaml
-      - task: test-linux
-        file: busywork/ci/master/tasks/qiime2/test-linux.yaml
-        # - do:
-      - task: build-darwin
-        file: busywork/ci/master/tasks/qiime2/build-darwin.yaml
-      - task: test-darwin
-        file: busywork/ci/master/tasks/qiime2/test-darwin.yaml
+      - aggregate:
+        - do:
+          - task: build-linux
+            file: busywork/ci/master/tasks/qiime2/build-linux.yaml
+          - task: test-linux
+            file: busywork/ci/master/tasks/qiime2/test-linux.yaml
+        - do:
+          - task: build-darwin
+            file: busywork/ci/master/tasks/qiime2/build-darwin.yaml
+          - task: test-darwin
+            file: busywork/ci/master/tasks/qiime2/test-darwin.yaml
+      - task: merge-channels
+        file: busywork/ci/master/tasks/merge-channels.yaml
       - put: qiime2-channel
         params:
           from: builds

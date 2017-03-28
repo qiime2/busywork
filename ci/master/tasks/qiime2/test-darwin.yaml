@@ -8,7 +8,7 @@ params:
 
 inputs:
   - name: busywork
-  - name: builds
+  - name: build-darwin
 
 run:
   path: busywork/ci/master/tasks/qiime2/test.sh
