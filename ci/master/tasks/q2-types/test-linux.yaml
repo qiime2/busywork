@@ -13,4 +13,4 @@ inputs:
   - name: qiime2-channel
 
 run:
-  path: busywork/ci/master/tasks/test-q2-types.sh
+  path: busywork/ci/master/tasks/q2-types/test.sh
