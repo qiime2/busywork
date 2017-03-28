@@ -15,4 +15,4 @@ inputs:
   - name: q2-types-channel
 
 run:
-  path: busywork/ci/master/tasks/test-q2-feature-table.sh
+  path: busywork/ci/master/tasks/q2-feature-table/test.sh
