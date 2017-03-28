@@ -16,7 +16,7 @@ inputs:
   - name: qiime2-channel
 
 outputs:
-  - name: builds
+  - name: build-linux
 
 run:
   path: busywork/ci/master/tasks/q2cli/build.sh
