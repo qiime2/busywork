@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e -x
-BUILD_DIR=$(find $(pwd) -name build-*)
+BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 
 conda update -y conda
 conda create -y -p ./test-env
