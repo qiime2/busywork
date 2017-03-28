@@ -15,4 +15,4 @@ outputs:
   - name: builds
 
 run:
-  path: busywork/ci/master/tasks/build-q2cli.sh
+  path: busywork/ci/master/tasks/q2cli/build.sh
