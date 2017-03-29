@@ -16,6 +16,7 @@ groups:
       - integration
   - name: deploy
     jobs:
+      - integration
       - upload-qiime2
       - upload-q2cli
       - upload-q2templates
