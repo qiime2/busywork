@@ -1,27 +1,26 @@
 ---
- groups:
-   - name: build
-     jobs:
-       - build-qiime2
-       - build-q2cli
-       - build-q2templates
-       - build-q2-types
-       - build-q2-feature-table
-   - name: test
-     jobs:
-       - unit-test-qiime2
-       - unit-test-q2cli
-       - unit-test-q2templates
-       - unit-test-q2-types
-       - unit-test-q2-feature-table
-       - integration
-   - name: deploy
-     jobs:
-       - upload-qiime2
-       - upload-q2cli
-       - upload-q2templates
-       - upload-q2-types
-       - upload-q2-feature-table
+groups:
+  - name: build
+    jobs:
+      - build-qiime2
+      - build-q2cli
+      - build-q2templates
+      - build-q2-types
+      - build-q2-feature-table
+  - name: test
+    jobs:
+      - unit-test-qiime2
+      - unit-test-q2cli
+      - unit-test-q2-types
+      - unit-test-q2-feature-table
+      - integration
+  - name: deploy
+    jobs:
+      - upload-qiime2
+      - upload-q2cli
+      - upload-q2templates
+      - upload-q2-types
+      - upload-q2-feature-table
 
 resource_types:
   - name: conda-channel
