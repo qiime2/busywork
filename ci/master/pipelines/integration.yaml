@@ -11,6 +11,7 @@ groups:
       - build-q2-composition
       - build-q2-deblur
       - build-q2-demux
+      - build-q2-diversity
   - name: test
     jobs:
       - unit-test-qiime2
@@ -21,6 +22,7 @@ groups:
       - unit-test-q2-composition
       - unit-test-q2-deblur
       - unit-test-q2-demux
+      - unit-test-q2-diversity
       - integration
   - name: deploy
     jobs:
@@ -33,6 +35,7 @@ groups:
       - upload-q2-composition
       - upload-q2-deblur
       - upload-q2-demux
+      - upload-q2-diversity
   - name: all
     jobs:
       - build-qiime2
@@ -44,6 +47,7 @@ groups:
       - build-q2-composition
       - build-q2-deblur
       - build-q2-demux
+      - build-q2-diversity
       - unit-test-qiime2
       - unit-test-q2cli
       - unit-test-q2-types
@@ -52,6 +56,7 @@ groups:
       - unit-test-q2-composition
       - unit-test-q2-deblur
       - unit-test-q2-demux
+      - unit-test-q2-diversity
       - integration
       - upload-qiime2
       - upload-q2cli
@@ -62,6 +67,7 @@ groups:
       - upload-q2-composition
       - upload-q2-deblur
       - upload-q2-demux
+      - upload-q2-diversity
 
 resource_types:
   - name: conda-channel
@@ -135,6 +141,12 @@ resources:
     type: git
     source:
       uri: https://github.com/nervous-laughter/q2-demux
+      branch: master
+
+  - name: q2-diversity-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2-diversity
       branch: master
 
   - name: qiime2-channel
@@ -213,6 +225,15 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2-demux
+      uri: {{ftp_uri}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+
+  - name: q2-diversity-channel
+    type: conda-channel
+    source:
+      pkg_name: q2-diversity
       uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
@@ -721,7 +742,7 @@ jobs:
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             PKG_NAME: q2-deblur
-            TEST_RUNNER_CMD: py.test --pyargs q2_deblur
+            TEST_RUNNER_CMD: nosetests q2_deblur
           config:
             inputs:
               - name: busywork
@@ -810,6 +831,96 @@ jobs:
               - name: q2templates-channel
               - name: q2-types-channel
 
+  - name: build-q2-diversity
+    plan:
+      - get: busywork
+      - get: q2-diversity-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2templates-channel
+        trigger: true
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - get: q2-feature-table-channel
+        trigger: true
+        passed: [unit-test-q2-feature-table]
+      - aggregate:
+        - task: build-linux
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-diversity-source
+                path: source
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+              - name: q2-feature-table-channel
+        - task: build-darwin
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-diversity-source
+                path: source
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+              - name: q2-feature-table-channel
+      - task: merge-channels
+        file: busywork/ci/master/tasks/merge-channels.yaml
+      - put: q2-diversity-channel
+        params:
+          from: builds
+
+  - name: unit-test-q2-diversity
+    plan:
+      - get: busywork
+      - get: q2-diversity-channel
+        trigger: true
+        passed: [build-q2-diversity]
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2templates-channel
+        trigger: true
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - get: q2-feature-table-channel
+        trigger: true
+        passed: [unit-test-q2-feature-table]
+      - aggregate:
+        - task: test-linux
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            PKG_NAME: q2-diversity
+            TEST_RUNNER_CMD: py.test --pyargs q2_diversity
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-diversity-channel
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+              - name: q2-feature-table-channel
+        - task: test-darwin
+          file: busywork/ci/master/tasks/test-darwin.yaml
+          params:
+            PKG_NAME: q2-diversity
+            TEST_RUNNER_CMD: py.test --pyargs q2_diversity
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-diversity-channel
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+              - name: q2-feature-table-channel
+
   - name: integration
     plan:
       - get: busywork
@@ -841,6 +952,9 @@ jobs:
       - get: q2-demux-channel
         trigger: true
         passed: [unit-test-q2-demux]
+      - get: q2-diversity-channel
+        trigger: true
+        passed: [unit-test-q2-diversity]
       - aggregate:
         - task: integration-linux
           file: busywork/ci/master/tasks/integration-linux.yaml
@@ -898,5 +1012,11 @@ jobs:
   - name: upload-q2-demux
     plan:
       - get: q2-demux-channel
+        trigger: true
+        passed: [integration]
+
+  - name: upload-q2-diversity
+    plan:
+      - get: q2-diversity-channel
         trigger: true
         passed: [integration]
