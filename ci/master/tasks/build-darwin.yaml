@@ -1,0 +1,13 @@
+---
+platform: darwin
+
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  - LC_ALL: en_US.UTF-8
+  - LANG: en_US.UTF-8
+
+outputs:
+  - name: build-darwin
+
+run:
+  path: busywork/ci/master/tasks/build.sh

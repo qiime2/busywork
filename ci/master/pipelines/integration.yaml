@@ -215,7 +215,13 @@ jobs:
                 path: source
               - name: qiime2-channel
         - task: build-darwin
-          file: busywork/ci/master/tasks/q2-types/build-darwin.yaml
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-types-source
+                path: source
+              - name: qiime2-channel
       - task: merge-channels
         file: busywork/ci/master/tasks/merge-channels.yaml
       - put: q2-types-channel
@@ -233,9 +239,23 @@ jobs:
         passed: [unit-test-qiime2]
       - aggregate:
         - task: test-linux
-          file: busywork/ci/master/tasks/q2-types/test-linux.yaml
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            PKG_NAME: q2-types
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-types-channel
+              - name: qiime2-channel
         - task: test-darwin
           file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
+          params:
+            PKG_NAME: q2-types
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-types-channel
+              - name: qiime2-channel
 
   - name: build-q2-feature-table
     plan:
