@@ -20,6 +20,7 @@ inputs:
   - name: q2-demux-channel
   - name: q2-diversity-channel
   - name: q2-emperor-channel
+  - name: q2-feature-classifier-channel
 
 run:
   path: busywork/ci/master/tasks/integration.sh
