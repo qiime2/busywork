@@ -202,11 +202,18 @@ jobs:
       - get: busywork
       - get: q2-types-source
         trigger: true
+        name: source
       - get: qiime2-channel
         passed: [unit-test-qiime2]
       - aggregate:
         - task: build-linux
-          file: busywork/ci/master/tasks/q2-types/build-linux.yaml
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-types-source
+                path: source
+              - name: qiime2-channel
         - task: build-darwin
           file: busywork/ci/master/tasks/q2-types/build-darwin.yaml
       - task: merge-channels
