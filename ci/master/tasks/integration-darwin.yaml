@@ -13,6 +13,7 @@ inputs:
   - name: q2-deblur-channel
   - name: q2-demux-channel
   - name: q2-diversity-channel
+  - name: q2-emperor-channel
 
 params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
