@@ -152,9 +152,23 @@ jobs:
         passed: [build-qiime2]
       - aggregate:
         - task: test-linux
-          file: busywork/ci/master/tasks/qiime2/test-linux.yaml
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            - PKG_NAME: qiime2
+            - TEST_RUNNER_CMD: nosetests qiime2
+          config:
+            inputs:
+              - name: busywork
+              - name: qiime2-channel
         - task: test-darwin
-          file: busywork/ci/master/tasks/qiime2/test-darwin.yaml
+          file: busywork/ci/master/tasks/test-darwin.yaml
+          params:
+            - PKG_NAME: qiime2
+            - TEST_RUNNER_CMD: nosetests qiime2
+          config:
+            inputs:
+              - name: busywork
+              - name: qiime2-channel
 
   - name: build-q2cli
     plan:
@@ -165,9 +179,21 @@ jobs:
         passed: [unit-test-qiime2]
       - aggregate:
         - task: build-linux
-          file: busywork/ci/master/tasks/q2cli/build-linux.yaml
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2cli-source
+                path: source
+              - name: qiime2-channel
         - task: build-darwin
-          file: busywork/ci/master/tasks/q2cli/build-darwin.yaml
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2cli-source
+                path: source
+              - name: qiime2-channel
       - task: merge-channels
         file: busywork/ci/master/tasks/merge-channels.yaml
       - put: q2cli-channel
@@ -185,9 +211,25 @@ jobs:
         passed: [unit-test-qiime2]
       - aggregate:
         - task: test-linux
-          file: busywork/ci/master/tasks/q2cli/test-linux.yaml
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            - PKG_NAME: q2cli
+            - TEST_RUNNER_CMD: nosetests q2cli
+          config:
+            inputs:
+              - name: busywork
+              - name: q2cli-channel
+              - name: qiime2-channel
         - task: test-darwin
-          file: busywork/ci/master/tasks/q2cli/test-darwin.yaml
+          file: busywork/ci/master/tasks/test-darwin.yaml
+          params:
+            - PKG_NAME: q2cli
+            - TEST_RUNNER_CMD: nosetests q2cli
+          config:
+            inputs:
+              - name: busywork
+              - name: q2cli-channel
+              - name: qiime2-channel
 
   - name: build-q2templates
     plan:
@@ -196,9 +238,19 @@ jobs:
         trigger: true
       - aggregate:
         - task: build-linux
-          file: busywork/ci/master/tasks/q2templates/build-linux.yaml
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2templates-source
+                path: source
         - task: build-darwin
-          file: busywork/ci/master/tasks/q2templates/build-darwin.yaml
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2templates-source
+                path: source
       - task: merge-channels
         file: busywork/ci/master/tasks/merge-channels.yaml
       - put: q2templates-channel
@@ -262,7 +314,6 @@ jobs:
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             PKG_NAME: q2-types
-            PKG_NAME: q2-types
             TEST_RUNNER_CMD: py.test --pyargs q2_types
           config:
             inputs:
@@ -285,9 +336,25 @@ jobs:
         passed: [unit-test-q2-types]
       - aggregate:
         - task: build-linux
-          file: busywork/ci/master/tasks/q2-feature-table/build-linux.yaml
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-feature-table-source
+                path: source
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
         - task: build-darwin
-          file: busywork/ci/master/tasks/q2-feature-table/build-darwin.yaml
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-feature-table-source
+                path: source
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
       - task: merge-channels
         file: busywork/ci/master/tasks/merge-channels.yaml
       - put: q2-feature-table-channel
@@ -310,9 +377,29 @@ jobs:
         passed: [unit-test-q2-types]
       - aggregate:
         - task: test-linux
-          file: busywork/ci/master/tasks/q2-feature-table/test-linux.yaml
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            PKG_NAME: q2-feature-table
+            TEST_RUNNER_CMD: py.test --pyargs q2_feature_table
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-feature-table-channel
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
         - task: test-darwin
           file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
+          params:
+            PKG_NAME: q2-feature-table
+            TEST_RUNNER_CMD: py.test --pyargs q2_feature_table
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-feature-table-channel
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
 
   - name: integration
     plan:
