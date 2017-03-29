@@ -13,7 +13,7 @@ conda install -y $CHANNELS \
   -c defaults \
   -c https://conda.anaconda.org/bioconda \
   --override-channels \
-  qiime2 q2cli q2templates q2-types q2-feature-table q2-alignment q2-composition
+  qiime2 q2cli q2templates q2-types q2-feature-table q2-alignment q2-composition q2-deblur
 
 echo "backend: Agg" > matplotlibrc
 
