@@ -7,12 +7,14 @@ groups:
       - build-q2templates
       - build-q2-types
       - build-q2-feature-table
+      - build-q2-alignment
   - name: test
     jobs:
       - unit-test-qiime2
       - unit-test-q2cli
       - unit-test-q2-types
       - unit-test-q2-feature-table
+      - unit-test-q2-alignment
       - integration
   - name: deploy
     jobs:
@@ -21,6 +23,7 @@ groups:
       - upload-q2templates
       - upload-q2-types
       - upload-q2-feature-table
+      - upload-q2-alignment
 
 resource_types:
   - name: conda-channel
@@ -72,6 +75,12 @@ resources:
       uri: https://github.com/nervous-laughter/q2-feature-table
       branch: master
 
+  - name: q2-alignment-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2-alignment
+      branch: master
+
   - name: qiime2-channel
     type: conda-channel
     source:
@@ -112,6 +121,15 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2-feature-table
+      uri: {{ftp_uri}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+
+  - name: q2-alignment-channel
+    type: conda-channel
+    source:
+      pkg_name: q2-alignment
       uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
@@ -405,6 +423,78 @@ jobs:
               - name: q2templates-channel
               - name: q2-types-channel
 
+  - name: build-q2-alignment
+    plan:
+      - get: busywork
+      - get: q2-alignment-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - aggregate:
+        - task: build-linux
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-alignment-source
+                path: source
+              - name: qiime2-channel
+              - name: q2-types-channel
+        - task: build-darwin
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-alignment-source
+                path: source
+              - name: qiime2-channel
+              - name: q2-types-channel
+      - task: merge-channels
+        file: busywork/ci/master/tasks/merge-channels.yaml
+      - put: q2-alignment-channel
+        params:
+          from: builds
+
+  - name: unit-test-q2-alignment
+    plan:
+      - get: busywork
+      - get: q2-alignment-channel
+        trigger: true
+        passed: [build-q2-alignment]
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - aggregate:
+        - task: test-linux
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            PKG_NAME: q2-alignment
+            TEST_RUNNER_CMD: py.test --pyargs q2_alignment
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-alignment-channel
+              - name: qiime2-channel
+              - name: q2-types-channel
+        - task: test-darwin
+          file: busywork/ci/master/tasks/test-darwin.yaml
+          params:
+            PKG_NAME: q2-alignment
+            TEST_RUNNER_CMD: py.test --pyargs q2_alignment
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-alignment-channel
+              - name: qiime2-channel
+              - name: q2-types-channel
+
   - name: integration
     plan:
       - get: busywork
@@ -424,6 +514,9 @@ jobs:
       - get: q2-feature-table-channel
         trigger: true
         passed: [unit-test-q2-feature-table]
+      - get: q2-alignment-channel
+        trigger: true
+        passed: [unit-test-q2-alignment]
       - aggregate:
         - task: integration-linux
           file: busywork/ci/master/tasks/integration-linux.yaml
@@ -457,5 +550,11 @@ jobs:
   - name: upload-q2-feature-table
     plan:
       - get: q2-feature-table-channel
+        trigger: true
+        passed: [integration]
+
+  - name: upload-q2-alignment
+    plan:
+      - get: q2-alignment-channel
         trigger: true
         passed: [integration]
