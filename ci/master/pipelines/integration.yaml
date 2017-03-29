@@ -16,6 +16,7 @@ groups:
       - build-q2-feature-classifier
       - build-q2-phylogeny
       - build-q2-quality-filter
+      - build-q2-taxa
   - name: test
     jobs:
       - unit-test-qiime2
@@ -31,6 +32,7 @@ groups:
       - unit-test-q2-feature-classifier
       - unit-test-q2-phylogeny
       - unit-test-q2-quality-filter
+      - unit-test-q2-taxa
       - integration
   - name: deploy
     jobs:
@@ -48,6 +50,7 @@ groups:
       - upload-q2-feature-classifier
       - upload-q2-phylogeny
       - upload-q2-quality-filter
+      - upload-q2-taxa
   - name: all
     jobs:
       - build-qiime2
@@ -64,6 +67,7 @@ groups:
       - build-q2-feature-classifier
       - build-q2-phylogeny
       - build-q2-quality-filter
+      - build-q2-taxa
       - unit-test-qiime2
       - unit-test-q2cli
       - unit-test-q2-types
@@ -77,6 +81,7 @@ groups:
       - unit-test-q2-feature-classifier
       - unit-test-q2-phylogeny
       - unit-test-q2-quality-filter
+      - unit-test-q2-taxa
       - integration
       - upload-qiime2
       - upload-q2cli
@@ -92,6 +97,7 @@ groups:
       - upload-q2-feature-classifier
       - upload-q2-phylogeny
       - upload-q2-quality-filter
+      - upload-q2-taxa
 
 resource_types:
   - name: conda-channel
@@ -195,6 +201,12 @@ resources:
     type: git
     source:
       uri: https://github.com/nervous-laughter/q2-quality-filter
+      branch: master
+
+  - name: q2-taxa-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2-taxa
       branch: master
 
   - name: qiime2-channel
@@ -318,6 +330,15 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2-quality-filter
+      uri: {{ftp_uri}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+
+  - name: q2-taxa-channel
+    type: conda-channel
+    source:
+      pkg_name: q2-taxa
       uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
@@ -1309,6 +1330,86 @@ jobs:
               - name: q2templates-channel
               - name: q2-types-channel
 
+  - name: build-q2-taxa
+    plan:
+      - get: busywork
+      - get: q2-taxa-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2templates-channel
+        trigger: true
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - aggregate:
+        - task: build-linux
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-taxa-source
+                path: source
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+        - task: build-darwin
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-taxa-source
+                path: source
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+      - task: merge-channels
+        file: busywork/ci/master/tasks/merge-channels.yaml
+      - put: q2-taxa-channel
+        params:
+          from: builds
+
+  - name: unit-test-q2-taxa
+    plan:
+      - get: busywork
+      - get: q2-taxa-channel
+        trigger: true
+        passed: [build-q2-taxa]
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2templates-channel
+        trigger: true
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - aggregate:
+        - task: test-linux
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            PKG_NAME: q2-taxa
+            TEST_RUNNER_CMD: py.test --pyargs q2_taxa
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-taxa-channel
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+        - task: test-darwin
+          file: busywork/ci/master/tasks/test-darwin.yaml
+          params:
+            PKG_NAME: q2-taxa
+            TEST_RUNNER_CMD: py.test --pyargs q2_taxa
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-taxa-channel
+              - name: qiime2-channel
+              - name: q2templates-channel
+              - name: q2-types-channel
+
   - name: integration
     plan:
       - get: busywork
@@ -1355,6 +1456,9 @@ jobs:
       - get: q2-quality-filter-channel
         trigger: true
         passed: [unit-test-q2-quality-filter]
+      - get: q2-taxa-channel
+        trigger: true
+        passed: [unit-test-q2-taxa]
       - aggregate:
         - task: integration-linux
           file: busywork/ci/master/tasks/integration-linux.yaml
@@ -1442,5 +1546,11 @@ jobs:
   - name: upload-q2-quality-filter
     plan:
       - get: q2-quality-filter-channel
+        trigger: true
+        passed: [integration]
+
+  - name: upload-q2-taxa-filter
+    plan:
+      - get: q2-taxa-filter-channel
         trigger: true
         passed: [integration]
