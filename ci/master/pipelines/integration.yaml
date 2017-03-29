@@ -14,6 +14,7 @@ groups:
       - build-q2-diversity
       - build-q2-emperor
       - build-q2-feature-classifier
+      - build-q2-phylogeny
   - name: test
     jobs:
       - unit-test-qiime2
@@ -27,6 +28,7 @@ groups:
       - unit-test-q2-diversity
       - unit-test-q2-emperor
       - unit-test-q2-feature-classifier
+      - unit-test-q2-phylogeny
       - integration
   - name: deploy
     jobs:
@@ -42,6 +44,7 @@ groups:
       - upload-q2-diversity
       - upload-q2-emperor
       - upload-q2-feature-classifier
+      - upload-q2-phylogeny
   - name: all
     jobs:
       - build-qiime2
@@ -56,6 +59,7 @@ groups:
       - build-q2-diversity
       - build-q2-emperor
       - build-q2-feature-classifier
+      - build-q2-phylogeny
       - unit-test-qiime2
       - unit-test-q2cli
       - unit-test-q2-types
@@ -67,6 +71,7 @@ groups:
       - unit-test-q2-diversity
       - unit-test-q2-emperor
       - unit-test-q2-feature-classifier
+      - unit-test-q2-phylogeny
       - integration
       - upload-qiime2
       - upload-q2cli
@@ -80,6 +85,7 @@ groups:
       - upload-q2-diversity
       - upload-q2-emperor
       - upload-q2-feature-classifier
+      - upload-q2-phylogeny
 
 resource_types:
   - name: conda-channel
@@ -171,6 +177,12 @@ resources:
     type: git
     source:
       uri: https://github.com/nervous-laughter/q2-feature-classifier
+      branch: master
+
+  - name: q2-phylogeny-source
+    type: git
+    source:
+      uri: https://github.com/nervous-laughter/q2-phylogeny
       branch: master
 
   - name: qiime2-channel
@@ -276,6 +288,15 @@ resources:
     type: conda-channel
     source:
       pkg_name: q2-feature-classifier
+      uri: {{ftp_uri}}
+      channel: {{ftp_channel_root}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+
+  - name: q2-phylogeny-channel
+    type: conda-channel
+    source:
+      pkg_name: q2-phylogeny
       uri: {{ftp_uri}}
       channel: {{ftp_channel_root}}
       user: {{ftp_user}}
@@ -1115,6 +1136,78 @@ jobs:
               - name: qiime2-channel
               - name: q2-types-channel
 
+  - name: build-q2-phylogeny
+    plan:
+      - get: busywork
+      - get: q2-phylogeny-source
+        trigger: true
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - aggregate:
+        - task: build-linux
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-phylogeny-source
+                path: source
+              - name: qiime2-channel
+              - name: q2-types-channel
+        - task: build-darwin
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-phylogeny-source
+                path: source
+              - name: qiime2-channel
+              - name: q2-types-channel
+      - task: merge-channels
+        file: busywork/ci/master/tasks/merge-channels.yaml
+      - put: q2-phylogeny-channel
+        params:
+          from: builds
+
+  - name: unit-test-q2-phylogeny
+    plan:
+      - get: busywork
+      - get: q2-phylogeny-channel
+        trigger: true
+        passed: [build-q2-phylogeny]
+      - get: qiime2-channel
+        trigger: true
+        passed: [unit-test-qiime2]
+      - get: q2-types-channel
+        trigger: true
+        passed: [unit-test-q2-types]
+      - aggregate:
+        - task: test-linux
+          file: busywork/ci/master/tasks/test-linux.yaml
+          params:
+            PKG_NAME: q2-phylogeny
+            TEST_RUNNER_CMD: py.test --pyargs q2_feature_classifier
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-phylogeny-channel
+              - name: qiime2-channel
+              - name: q2-types-channel
+        - task: test-darwin
+          file: busywork/ci/master/tasks/test-darwin.yaml
+          params:
+            PKG_NAME: q2-phylogeny
+            TEST_RUNNER_CMD: py.test --pyargs q2_feature_classifier
+          config:
+            inputs:
+              - name: busywork
+              - name: q2-phylogeny-channel
+              - name: qiime2-channel
+              - name: q2-types-channel
+
   - name: integration
     plan:
       - get: busywork
@@ -1155,6 +1248,9 @@ jobs:
       - get: q2-feature-classifier-channel
         trigger: true
         passed: [unit-test-q2-feature-classifier]
+      - get: q2-phylogeny-channel
+        trigger: true
+        passed: [unit-test-q2-phylogeny]
       - aggregate:
         - task: integration-linux
           file: busywork/ci/master/tasks/integration-linux.yaml
@@ -1230,5 +1326,11 @@ jobs:
   - name: upload-q2-feature-classifier
     plan:
       - get: q2-feature-classifier-channel
+        trigger: true
+        passed: [integration]
+
+  - name: upload-q2-phylogeny
+    plan:
+      - get: q2-phylogeny-channel
         trigger: true
         passed: [integration]

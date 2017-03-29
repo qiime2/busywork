@@ -15,6 +15,7 @@ inputs:
   - name: q2-diversity-channel
   - name: q2-emperor-channel
   - name: q2-feature-classifier-channel
+  - name: q2-phylogeny-channel
 
 params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
