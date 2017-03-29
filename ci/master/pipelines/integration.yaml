@@ -125,9 +125,19 @@ jobs:
         trigger: true
       - aggregate:
         - task: build-linux
-          file: busywork/ci/master/tasks/qiime2/build-linux.yaml
+          file: busywork/ci/master/tasks/build-linux.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: qiime2-source
+                path: source
         - task: build-darwin
-          file: busywork/ci/master/tasks/qiime2/build-darwin.yaml
+          file: busywork/ci/master/tasks/build-darwin.yaml
+          config:
+            inputs:
+              - name: busywork
+              - name: qiime2-source
+                path: source
       - task: merge-channels
         file: busywork/ci/master/tasks/merge-channels.yaml
       - put: qiime2-channel
