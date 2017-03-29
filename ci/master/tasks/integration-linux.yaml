@@ -17,6 +17,7 @@ inputs:
   - name: q2-alignment-channel
   - name: q2-composition-channel
   - name: q2-deblur-channel
+  - name: q2-demux-channel
 
 run:
   path: busywork/ci/master/tasks/integration.sh
