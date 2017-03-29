@@ -14,4 +14,4 @@ outputs:
   - name: build-linux
 
 run:
-  path: busywork/ci/master/tasks/q2-types/build.sh
+  path: busywork/ci/master/tasks/build.sh
