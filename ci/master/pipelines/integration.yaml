@@ -249,7 +249,7 @@ jobs:
               - name: q2-types-channel
               - name: qiime2-channel
         - task: test-darwin
-          file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
+          file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             PKG_NAME: q2-types
             PKG_NAME: q2-types
