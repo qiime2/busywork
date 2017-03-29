@@ -210,7 +210,6 @@ jobs:
           file: busywork/ci/master/tasks/build-linux.yaml
           config:
             inputs:
-              - name: busywork
               - name: q2-types-source
                 path: source
               - name: qiime2-channel
