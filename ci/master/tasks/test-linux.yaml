@@ -8,7 +8,7 @@ image_resource:
     version: latest
 
 params:
-  - TEST_RUNNER_CMD: py.test --pyargs
+  - TEST_RUNNER_CMD:
   - PKG_NAME:
 
 inputs:
@@ -17,4 +17,4 @@ inputs:
   - name: qiime2-channel
 
 run:
-  path: busywork/ci/master/tasks/q2-types/test.sh
+  path: busywork/ci/master/tasks/test.sh

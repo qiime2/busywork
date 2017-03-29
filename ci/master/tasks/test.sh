@@ -11,4 +11,4 @@ conda install -y -c $CHANNELS -c qiime2 -c biocore -c defaults --override-channe
 conda install -y pytest
 echo "backend: Agg" > matplotlibrc
 
-$TEST_RUNNER_CMD $PKG_NAME
+$TEST_RUNNER_CMD

@@ -242,6 +242,7 @@ jobs:
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
             PKG_NAME: q2-types
+            TEST_RUNNER_CMD: py.test --pyargs q2_types
           config:
             inputs:
               - name: busywork
@@ -251,6 +252,8 @@ jobs:
           file: busywork/ci/master/tasks/q2-types/test-darwin.yaml
           params:
             PKG_NAME: q2-types
+            PKG_NAME: q2-types
+            TEST_RUNNER_CMD: py.test --pyargs q2_types
           config:
             inputs:
               - name: busywork

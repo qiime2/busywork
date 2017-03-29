@@ -5,7 +5,7 @@ params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
-  - TEST_RUNNER_CMD: py.test --pyargs
+  - TEST_RUNNER_CMD:
   - PKG_NAME:
 
 run:
