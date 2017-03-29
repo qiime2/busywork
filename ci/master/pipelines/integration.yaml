@@ -155,7 +155,7 @@ jobs:
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
             - PKG_NAME: qiime2
-            - TEST_RUNNER_CMD: nosetests qiime2
+            - TEST_RUNNER_CMD: QIIMETEST= nosetests qiime2
           config:
             inputs:
               - name: busywork
@@ -164,7 +164,7 @@ jobs:
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             - PKG_NAME: qiime2
-            - TEST_RUNNER_CMD: nosetests qiime2
+            - TEST_RUNNER_CMD: QIIMETEST= nosetests qiime2
           config:
             inputs:
               - name: busywork
@@ -214,7 +214,7 @@ jobs:
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
             - PKG_NAME: q2cli
-            - TEST_RUNNER_CMD: nosetests q2cli
+            - TEST_RUNNER_CMD: QIIMETEST= nosetests q2cli
           config:
             inputs:
               - name: busywork
@@ -224,7 +224,7 @@ jobs:
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             - PKG_NAME: q2cli
-            - TEST_RUNNER_CMD: nosetests q2cli
+            - TEST_RUNNER_CMD: QIIMETEST= nosetests q2cli
           config:
             inputs:
               - name: busywork
@@ -389,7 +389,7 @@ jobs:
               - name: q2templates-channel
               - name: q2-types-channel
         - task: test-darwin
-          file: busywork/ci/master/tasks/q2-feature-table/test-darwin.yaml
+          file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             PKG_NAME: q2-feature-table
             TEST_RUNNER_CMD: py.test --pyargs q2_feature_table
