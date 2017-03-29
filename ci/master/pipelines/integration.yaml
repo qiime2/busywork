@@ -155,7 +155,8 @@ jobs:
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
             - PKG_NAME: qiime2
-            - TEST_RUNNER_CMD: QIIMETEST= nosetests qiime2
+            - QIIMETEST: 1
+            - TEST_RUNNER_CMD: nosetests qiime2
           config:
             inputs:
               - name: busywork
@@ -164,7 +165,8 @@ jobs:
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             - PKG_NAME: qiime2
-            - TEST_RUNNER_CMD: QIIMETEST= nosetests qiime2
+            - QIIMETEST: 1
+            - TEST_RUNNER_CMD: nosetests qiime2
           config:
             inputs:
               - name: busywork
@@ -214,7 +216,8 @@ jobs:
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
             - PKG_NAME: q2cli
-            - TEST_RUNNER_CMD: QIIMETEST= nosetests q2cli
+            - QIIMETEST: 1
+            - TEST_RUNNER_CMD: nosetests q2cli
           config:
             inputs:
               - name: busywork
@@ -224,7 +227,8 @@ jobs:
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
             - PKG_NAME: q2cli
-            - TEST_RUNNER_CMD: QIIMETEST= nosetests q2cli
+            - QIIMETEST: 1
+            - TEST_RUNNER_CMD: nosetests q2cli
           config:
             inputs:
               - name: busywork

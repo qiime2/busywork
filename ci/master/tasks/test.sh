@@ -12,4 +12,4 @@ conda install -y pytest
 conda install -y nose
 echo "backend: Agg" > matplotlibrc
 
-$($TEST_RUNNER_CMD)
+$TEST_RUNNER_CMD
