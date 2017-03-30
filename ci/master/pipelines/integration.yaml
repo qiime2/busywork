@@ -1549,8 +1549,8 @@ jobs:
         trigger: true
         passed: [integration]
 
-  - name: upload-q2-taxa-filter
+  - name: upload-q2-taxa
     plan:
-      - get: q2-taxa-filter-channel
+      - get: q2-taxa-channel
         trigger: true
         passed: [integration]
