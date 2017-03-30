@@ -1,4 +1,4 @@
-concourse-db:
+db:
   image: postgres:9.5
   volumes:
     - {{ base_dir }}/{{ pgdata_dir }}:/var/lib/postgresql/data
@@ -7,10 +7,10 @@ concourse-db:
     POSTGRES_USER: {{ pg_user }}
     POSTGRES_PASSWORD: {{ pg_pass }}
 
-concourse-web:
+web:
   image: concourse/concourse
   links:
-    - concourse-db
+    - db
   command: web
   ports:
     - 127.0.0.1:{{ service_port }}:8080
@@ -24,4 +24,4 @@ concourse-web:
     CONCOURSE_BASIC_AUTH_USERNAME: {{ auth_user }}
     CONCOURSE_BASIC_AUTH_PASSWORD: {{ auth_pass }}
     CONCOURSE_EXTERNAL_URL: {{ protocol }}://{{ external_host }}:{{ public_port }}
-    CONCOURSE_POSTGRES_DATA_SOURCE: postgres://{{ pg_user }}:{{ pg_pass }}@concourse-db:5432/{{ pg_db }}?sslmode=disable
+    CONCOURSE_POSTGRES_DATA_SOURCE: postgres://{{ pg_user }}:{{ pg_pass }}@db:5432/{{ pg_db }}?sslmode=disable
