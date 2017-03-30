@@ -2,6 +2,10 @@
 
 set -e -x
 
+# Fix this someday
+apt-get update
+apt-get install wget -y --allow-unauthenticated # Really??
+
 conda update -y conda
 conda create -y -p ./test-env
 source activate ./test-env
