@@ -125,6 +125,12 @@ resources:
       stop: 1:00 AM
       location: America/Phoenix
 
+  - name: docs-source
+    type: git
+    source:
+      uri: https://github.com/qiime2/docs
+      branch: master
+
   - name: qiime2-source
     type: git
     source:
@@ -1508,6 +1514,8 @@ jobs:
       - aggregate:
         - get: busywork
         - get: nightly
+          trigger: true
+        - get: docs-source
           trigger: true
         - get: qiime2-channel
           trigger: true

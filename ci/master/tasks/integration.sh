@@ -31,6 +31,13 @@ conda install -y $CHANNELS \
   q2-quality-filter \
   q2-taxa
 
+conda list
+
+cd docs-source
+pip install -r requirements.txt
 echo "backend: Agg" > matplotlibrc
 
-conda list
+make clean
+make dummy
+make preview
+make html
