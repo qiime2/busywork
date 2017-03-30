@@ -1505,56 +1505,57 @@ jobs:
 
   - name: integration
     plan:
-      - get: busywork
-      - get: nightly
-        trigger: true
-      - get: qiime2-channel
-        trigger: true
-        passed: [unit-test-qiime2]
-      - get: q2cli-channel
-        trigger: true
-        passed: [unit-test-q2cli]
-      - get: q2templates-channel
-        trigger: true
-      - get: q2-types-channel
-        trigger: true
-        passed: [unit-test-q2-types]
-      - get: q2-feature-table-channel
-        trigger: true
-        passed: [unit-test-q2-feature-table]
-      - get: q2-alignment-channel
-        trigger: true
-        passed: [unit-test-q2-alignment]
-      - get: q2-composition-channel
-        trigger: true
-        passed: [unit-test-q2-composition]
-      - get: q2-dada2-channel
-        trigger: true
-        passed: [unit-test-q2-dada2]
-      # - get: q2-deblur-channel
-      #   trigger: true
-      #   passed: [unit-test-q2-deblur]
-      - get: q2-demux-channel
-        trigger: true
-        passed: [unit-test-q2-demux]
-      - get: q2-diversity-channel
-        trigger: true
-        passed: [unit-test-q2-diversity]
-      - get: q2-emperor-channel
-        trigger: true
-        passed: [unit-test-q2-emperor]
-      - get: q2-feature-classifier-channel
-        trigger: true
-        passed: [unit-test-q2-feature-classifier]
-      - get: q2-phylogeny-channel
-        trigger: true
-        passed: [unit-test-q2-phylogeny]
-      - get: q2-quality-filter-channel
-        trigger: true
-        passed: [unit-test-q2-quality-filter]
-      - get: q2-taxa-channel
-        trigger: true
-        passed: [unit-test-q2-taxa]
+      - aggregate:
+        - get: busywork
+        - get: nightly
+          trigger: true
+        - get: qiime2-channel
+          trigger: true
+          passed: [unit-test-qiime2]
+        - get: q2cli-channel
+          trigger: true
+          passed: [unit-test-q2cli]
+        - get: q2templates-channel
+          trigger: true
+        - get: q2-types-channel
+          trigger: true
+          passed: [unit-test-q2-types]
+        - get: q2-feature-table-channel
+          trigger: true
+          passed: [unit-test-q2-feature-table]
+        - get: q2-alignment-channel
+          trigger: true
+          passed: [unit-test-q2-alignment]
+        - get: q2-composition-channel
+          trigger: true
+          passed: [unit-test-q2-composition]
+        - get: q2-dada2-channel
+          trigger: true
+          passed: [unit-test-q2-dada2]
+        # - get: q2-deblur-channel
+        #   trigger: true
+        #   passed: [unit-test-q2-deblur]
+        - get: q2-demux-channel
+          trigger: true
+          passed: [unit-test-q2-demux]
+        - get: q2-diversity-channel
+          trigger: true
+          passed: [unit-test-q2-diversity]
+        - get: q2-emperor-channel
+          trigger: true
+          passed: [unit-test-q2-emperor]
+        - get: q2-feature-classifier-channel
+          trigger: true
+          passed: [unit-test-q2-feature-classifier]
+        - get: q2-phylogeny-channel
+          trigger: true
+          passed: [unit-test-q2-phylogeny]
+        - get: q2-quality-filter-channel
+          trigger: true
+          passed: [unit-test-q2-quality-filter]
+        - get: q2-taxa-channel
+          trigger: true
+          passed: [unit-test-q2-taxa]
       - aggregate:
         - task: integration-linux
           file: busywork/ci/master/tasks/integration-linux.yaml
