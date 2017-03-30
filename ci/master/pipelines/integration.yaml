@@ -1435,9 +1435,9 @@ jobs:
       - get: q2-composition-channel
         trigger: true
         passed: [unit-test-q2-composition]
-      - get: q2-deblur-channel
-        trigger: true
-        passed: [unit-test-q2-deblur]
+      # - get: q2-deblur-channel
+      #   trigger: true
+      #   passed: [unit-test-q2-deblur]
       - get: q2-demux-channel
         trigger: true
         passed: [unit-test-q2-demux]
@@ -1507,11 +1507,11 @@ jobs:
         trigger: true
         passed: [integration]
 
-  - name: upload-q2-deblur
-    plan:
-      - get: q2-deblur-channel
-        trigger: true
-        passed: [integration]
+  # - name: upload-q2-deblur
+  #   plan:
+  #     - get: q2-deblur-channel
+  #       trigger: true
+  #       passed: [integration]
 
   - name: upload-q2-demux
     plan:
