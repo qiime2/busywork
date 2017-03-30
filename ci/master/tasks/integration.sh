@@ -14,7 +14,22 @@ conda install -y $CHANNELS \
   -c https://conda.anaconda.org/conda-forge \
   -c https://conda.anaconda.org/bioconda \
   --override-channels \
-  qiime2 q2cli q2templates q2-types q2-feature-table q2-alignment q2-composition $(: q2-deblur) q2-demux q2-diversity q2-emperor q2-feature-classifier q2-phylogeny q2-quality-filter q2-taxa
+  qiime2 \
+  q2cli \
+  q2templates \
+  q2-types \
+  q2-feature-table \
+  q2-alignment \
+  q2-composition \
+  q2-dada2 \
+  $(: q2-deblur) \
+  q2-demux \
+  q2-diversity \
+  q2-emperor \
+  q2-feature-classifier \
+  q2-phylogeny \
+  q2-quality-filter \
+  q2-taxa
 
 echo "backend: Agg" > matplotlibrc
 

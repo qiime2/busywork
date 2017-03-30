@@ -16,6 +16,7 @@ inputs:
   - name: q2-feature-table-channel
   - name: q2-alignment-channel
   - name: q2-composition-channel
+  - name: q2-dada2-channel
   # - name: q2-deblur-channel
   - name: q2-demux-channel
   - name: q2-diversity-channel
