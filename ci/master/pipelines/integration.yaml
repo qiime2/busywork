@@ -114,6 +114,7 @@ resource_types:
 resources:
   - name: busywork
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
@@ -127,108 +128,126 @@ resources:
 
   - name: docs-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/qiime2/docs
       branch: master
 
   - name: qiime2-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/qiime2
       branch: master
 
   - name: q2cli-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2cli
       branch: master
 
   - name: q2templates-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2templates
       branch: master
 
   - name: q2-types-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-types
       branch: master
 
   - name: q2-feature-table-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-feature-table
       branch: master
 
   - name: q2-alignment-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-alignment
       branch: master
 
   - name: q2-composition-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-composition
       branch: master
 
   - name: q2-dada2-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-dada2
       branch: master
 
   - name: q2-deblur-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-deblur
       branch: master
 
   - name: q2-demux-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-demux
       branch: master
 
   - name: q2-diversity-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-diversity
       branch: master
 
   - name: q2-emperor-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-emperor
       branch: master
 
   - name: q2-feature-classifier-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-feature-classifier
       branch: master
 
   - name: q2-phylogeny-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-phylogeny
       branch: master
 
   - name: q2-quality-filter-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-quality-filter
       branch: master
 
   - name: q2-taxa-source
     type: git
+    check_every: 10m
     source:
       uri: https://github.com/nervous-laughter/q2-taxa
       branch: master
 
   - name: qiime2-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: qiime2
       uri: {{ftp_uri}}
@@ -238,6 +257,7 @@ resources:
 
   - name: q2cli-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2cli
       uri: {{ftp_uri}}
@@ -247,6 +267,7 @@ resources:
 
   - name: q2templates-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2templates
       uri: {{ftp_uri}}
@@ -256,6 +277,7 @@ resources:
 
   - name: q2-types-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-types
       uri: {{ftp_uri}}
@@ -265,6 +287,7 @@ resources:
 
   - name: q2-feature-table-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-feature-table
       uri: {{ftp_uri}}
@@ -274,6 +297,7 @@ resources:
 
   - name: q2-alignment-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-alignment
       uri: {{ftp_uri}}
@@ -283,6 +307,7 @@ resources:
 
   - name: q2-composition-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-composition
       uri: {{ftp_uri}}
@@ -292,6 +317,7 @@ resources:
 
   - name: q2-dada2-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-dada2
       uri: {{ftp_uri}}
@@ -301,6 +327,7 @@ resources:
 
   - name: q2-deblur-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-deblur
       uri: {{ftp_uri}}
@@ -310,6 +337,7 @@ resources:
 
   - name: q2-demux-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-demux
       uri: {{ftp_uri}}
@@ -319,6 +347,7 @@ resources:
 
   - name: q2-diversity-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-diversity
       uri: {{ftp_uri}}
@@ -328,6 +357,7 @@ resources:
 
   - name: q2-emperor-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-emperor
       uri: {{ftp_uri}}
@@ -337,6 +367,7 @@ resources:
 
   - name: q2-feature-classifier-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-feature-classifier
       uri: {{ftp_uri}}
@@ -346,6 +377,7 @@ resources:
 
   - name: q2-phylogeny-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-phylogeny
       uri: {{ftp_uri}}
@@ -355,6 +387,7 @@ resources:
 
   - name: q2-quality-filter-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-quality-filter
       uri: {{ftp_uri}}
@@ -364,6 +397,7 @@ resources:
 
   - name: q2-taxa-channel
     type: conda-channel
+    check_every: 10m
     source:
       pkg_name: q2-taxa
       uri: {{ftp_uri}}
