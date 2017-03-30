@@ -43,7 +43,7 @@ groups:
       - upload-q2-feature-table
       - upload-q2-alignment
       - upload-q2-composition
-      - upload-q2-deblur
+      # - upload-q2-deblur
       - upload-q2-demux
       - upload-q2-diversity
       - upload-q2-emperor
@@ -60,7 +60,7 @@ groups:
       - build-q2-feature-table
       - build-q2-alignment
       - build-q2-composition
-      - build-q2-deblur
+      # - build-q2-deblur
       - build-q2-demux
       - build-q2-diversity
       - build-q2-emperor
