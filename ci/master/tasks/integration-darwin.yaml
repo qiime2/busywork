@@ -1,6 +1,11 @@
 ---
 platform: darwin
 
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  - LC_ALL: en_US.UTF-8
+  - LANG: en_US.UTF-8
+
 inputs:
   - name: busywork
   - name: docs-source
@@ -20,9 +25,6 @@ inputs:
   - name: q2-phylogeny-channel
   - name: q2-quality-filter-channel
   - name: q2-taxa-channel
-
-params:
-  - PATH: /Users/caporasolab/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 run:
   path: busywork/ci/master/tasks/integration.sh
