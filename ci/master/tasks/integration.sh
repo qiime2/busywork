@@ -2,9 +2,12 @@
 
 set -e -v
 
-# Fix this someday
-apt-get update -q
-apt-get install wget -q -y --allow-unauthenticated # Really??
+if [ `uname` == "Linux" ]
+then
+  # Fix this someday
+  apt-get update -q
+  apt-get install wget -q -y --allow-unauthenticated # Really??
+fi
 
 conda update -q -y conda
 conda create -q -y -p ./test-env
@@ -38,8 +41,6 @@ conda install -q -y $CHANNELS \
   q2-phylogeny \
   q2-quality-filter \
   q2-taxa
-
-conda list
 
 cd docs-source
 pip install -q -r requirements.txt

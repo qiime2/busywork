@@ -20,6 +20,4 @@ conda install -q -y $CHANNELS \
   --override-channels $PKG_NAME pytest nose
 echo "backend: Agg" > matplotlibrc
 
-conda list
-
 $TEST_RUNNER_CMD
