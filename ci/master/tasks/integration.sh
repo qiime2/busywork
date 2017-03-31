@@ -1,17 +1,17 @@
 #!/bin/bash
 
-set -e -x
+set -e
 
 # Fix this someday
-apt-get update
-apt-get install wget -y --allow-unauthenticated # Really??
+apt-get update -q
+apt-get install wget -q -y --allow-unauthenticated # Really??
 
-conda update -y conda
-conda create -y -p ./test-env
+conda update -q -y conda
+conda create -q -y -p ./test-env
 source activate ./test-env
 
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
-conda install -y $CHANNELS \
+conda install -q -y $CHANNELS \
   -c https://conda.anaconda.org/qiime2 \
   -c https://conda.anaconda.org/biocore \
   -c defaults \
@@ -38,7 +38,7 @@ conda install -y $CHANNELS \
 conda list
 
 cd docs-source
-pip install -r requirements.txt
+pip install -q -r requirements.txt
 echo "backend: Agg" > matplotlibrc
 
 make clean

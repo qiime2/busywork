@@ -1,15 +1,15 @@
 #!/bin/bash
 
-set -x -e
+set -e
 
-conda update -y -c defaults --override-channels conda
-conda update -y -c defaults --override-channels conda-build
+conda update -q -y -c defaults --override-channels conda
+conda update -q -y -c defaults --override-channels conda-build
 
 BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 cd ./source
 git fetch --tags
-conda build $CHANNELS \
+conda build -q $CHANNELS \
   -c https://conda.anaconda.org/qiime2 \
   -c https://conda.anaconda.org/biocore \
   -c defaults \
