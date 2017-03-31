@@ -8,7 +8,11 @@ apt-get install wget -q -y --allow-unauthenticated # Really??
 
 conda update -q -y conda
 conda create -q -y -p ./test-env
+
+set +v
+echo "source activate ./test-env"
 source activate ./test-env
+set -v
 
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 conda install -q -y $CHANNELS \
