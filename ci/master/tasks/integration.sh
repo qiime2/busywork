@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -e -v
 
 # Fix this someday
 apt-get update -q

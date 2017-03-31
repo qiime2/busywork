@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -e -v
 
 conda update -q -y -c defaults --override-channels conda
 conda update -q -y -c defaults --override-channels conda-build

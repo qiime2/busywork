@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -e -v
 
 cp -r build-darwin/* builds
 cp -r build-linux/* builds

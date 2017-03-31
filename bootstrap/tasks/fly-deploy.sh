@@ -1,17 +1,16 @@
 #!/bin/bash
 
-set -e
+set -e -v
+
 # Fix this someday
-apt-get update
-apt-get install wget -y --allow-unauthenticated # Really??
-wget -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux" --no-check-certificate
+apt-get update -q
+apt-get install wget -q -y --allow-unauthenticated # Really??
+wget -q -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux" --no-check-certificate
 chmod +x ./fly
 
 ./fly -t qiime2 login -k -c $CONCOURSE_HOST -u $CONCOURSE_USER -p $CONCOURSE_PASS
 
 FTP_URI="ftp://$FTP_HOST"
-
-set -x
 
 for product_path in busywork/ci/*
 do

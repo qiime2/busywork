@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -e -v
 
 conda update -q -y conda
 conda create -q -y -p ./test-env
