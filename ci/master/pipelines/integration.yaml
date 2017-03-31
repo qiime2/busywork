@@ -54,56 +54,56 @@ groups:
       - upload-q2-phylogeny
       - upload-q2-quality-filter
       - upload-q2-taxa
-  - name: all
-    jobs:
-      - build-qiime2
-      - build-q2cli
-      - build-q2templates
-      - build-q2-types
-      - build-q2-feature-table
-      - build-q2-alignment
-      - build-q2-composition
-      - build-q2-dada2
-      - build-q2-deblur
-      - build-q2-demux
-      - build-q2-diversity
-      - build-q2-emperor
-      - build-q2-feature-classifier
-      - build-q2-phylogeny
-      - build-q2-quality-filter
-      - build-q2-taxa
-      - unit-test-qiime2
-      - unit-test-q2cli
-      - unit-test-q2-types
-      - unit-test-q2-feature-table
-      - unit-test-q2-alignment
-      - unit-test-q2-composition
-      - unit-test-q2-dada2
-      - unit-test-q2-deblur
-      - unit-test-q2-demux
-      - unit-test-q2-diversity
-      - unit-test-q2-emperor
-      - unit-test-q2-feature-classifier
-      - unit-test-q2-phylogeny
-      - unit-test-q2-quality-filter
-      - unit-test-q2-taxa
-      - integration
-      - upload-qiime2
-      - upload-q2cli
-      - upload-q2templates
-      - upload-q2-types
-      - upload-q2-feature-table
-      - upload-q2-alignment
-      - upload-q2-composition
-      - upload-q2-dada2
-      # - upload-q2-deblur
-      - upload-q2-demux
-      - upload-q2-diversity
-      - upload-q2-emperor
-      - upload-q2-feature-classifier
-      - upload-q2-phylogeny
-      - upload-q2-quality-filter
-      - upload-q2-taxa
+  # - name: all
+  #   jobs:
+  #     - build-qiime2
+  #     - build-q2cli
+  #     - build-q2templates
+  #     - build-q2-types
+  #     - build-q2-feature-table
+  #     - build-q2-alignment
+  #     - build-q2-composition
+  #     - build-q2-dada2
+  #     - build-q2-deblur
+  #     - build-q2-demux
+  #     - build-q2-diversity
+  #     - build-q2-emperor
+  #     - build-q2-feature-classifier
+  #     - build-q2-phylogeny
+  #     - build-q2-quality-filter
+  #     - build-q2-taxa
+  #     - unit-test-qiime2
+  #     - unit-test-q2cli
+  #     - unit-test-q2-types
+  #     - unit-test-q2-feature-table
+  #     - unit-test-q2-alignment
+  #     - unit-test-q2-composition
+  #     - unit-test-q2-dada2
+  #     - unit-test-q2-deblur
+  #     - unit-test-q2-demux
+  #     - unit-test-q2-diversity
+  #     - unit-test-q2-emperor
+  #     - unit-test-q2-feature-classifier
+  #     - unit-test-q2-phylogeny
+  #     - unit-test-q2-quality-filter
+  #     - unit-test-q2-taxa
+  #     - integration
+  #     - upload-qiime2
+  #     - upload-q2cli
+  #     - upload-q2templates
+  #     - upload-q2-types
+  #     - upload-q2-feature-table
+  #     - upload-q2-alignment
+  #     - upload-q2-composition
+  #     - upload-q2-dada2
+  #     # - upload-q2-deblur
+  #     - upload-q2-demux
+  #     - upload-q2-diversity
+  #     - upload-q2-emperor
+  #     - upload-q2-feature-classifier
+  #     - upload-q2-phylogeny
+  #     - upload-q2-quality-filter
+  #     - upload-q2-taxa
 
 resource_types:
   - name: conda-channel
