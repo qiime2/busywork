@@ -6,7 +6,7 @@ if [ `uname` == "Linux" ]
 then
   # Fix this someday
   apt-get update -q
-  apt-get install wget build-essential -q -y --allow-unauthenticated # Really??
+  apt-get install unzip wget build-essential -q -y --allow-unauthenticated # Really??
 fi
 
 conda update -q -y conda
