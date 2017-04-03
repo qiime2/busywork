@@ -128,7 +128,7 @@ resources:
   - name: docs-source
     type: git
     source:
-      uri: https://github.com/qiime2/docs
+      uri: https://github.com/nervous-laughter/docs
       branch: master
 
   - name: qiime2-source
