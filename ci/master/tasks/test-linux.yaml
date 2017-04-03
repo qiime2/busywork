@@ -9,7 +9,6 @@ image_resource:
 
 params:
   - TEST_RUNNER_CMD:
-  - PKG_NAME:
 
 inputs:
   - name: busywork
