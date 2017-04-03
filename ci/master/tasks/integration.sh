@@ -33,7 +33,7 @@ conda install -q -y $CHANNELS \
   q2-alignment \
   q2-composition \
   q2-dada2 \
-  $(: q2-deblur) \
+  q2-deblur \
   q2-demux \
   q2-diversity \
   q2-emperor \
