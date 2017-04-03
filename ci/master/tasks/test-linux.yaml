@@ -8,6 +8,7 @@ image_resource:
     version: latest
 
 params:
+  - MPLBACKEND: Agg
   - TEST_RUNNER_CMD:
 
 inputs:

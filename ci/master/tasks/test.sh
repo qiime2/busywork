@@ -19,6 +19,5 @@ conda install -q -y $CHANNELS \
   -c https://conda.anaconda.org/conda-forge \
   -c https://conda.anaconda.org/bioconda \
   --override-channels $PKG_NAMES pytest nose
-echo "backend: Agg" > matplotlibrc
 
 $TEST_RUNNER_CMD

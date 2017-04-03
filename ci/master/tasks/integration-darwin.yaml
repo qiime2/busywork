@@ -5,6 +5,7 @@ params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
+  - MPLBACKEND: Agg
 
 inputs:
   - name: busywork

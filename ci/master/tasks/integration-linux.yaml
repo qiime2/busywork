@@ -7,6 +7,9 @@ image_resource:
     repository: continuumio/miniconda3
     version: latest
 
+params:
+  - MPLBACKEND: Agg
+
 inputs:
   - name: busywork
   - name: docs-source

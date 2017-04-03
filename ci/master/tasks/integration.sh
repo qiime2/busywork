@@ -30,7 +30,6 @@ conda install -q -y $CHANNELS \
 
 cd docs-source
 pip install -q -r requirements.txt
-echo "backend: Agg" > matplotlibrc
 
 make clean
 make dummy
