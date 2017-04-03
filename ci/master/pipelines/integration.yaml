@@ -408,7 +408,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            - PKG_NAME: qiime2
             - QIIMETEST: 1
             - TEST_RUNNER_CMD: nosetests qiime2
           config:
@@ -418,7 +417,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            - PKG_NAME: qiime2
             - QIIMETEST: 1
             - TEST_RUNNER_CMD: nosetests qiime2
           config:
@@ -469,7 +467,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            - PKG_NAME: q2cli
             - QIIMETEST: 1
             - TEST_RUNNER_CMD: nosetests q2cli
           config:
@@ -480,7 +477,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            - PKG_NAME: q2cli
             - QIIMETEST: 1
             - TEST_RUNNER_CMD: nosetests q2cli
           config:
@@ -561,7 +557,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-types
             TEST_RUNNER_CMD: py.test --pyargs q2_types
           config:
             inputs:
@@ -571,7 +566,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-types
             TEST_RUNNER_CMD: py.test --pyargs q2_types
           config:
             inputs:
@@ -637,7 +631,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-feature-table
             TEST_RUNNER_CMD: py.test --pyargs q2_feature_table
           config:
             inputs:
@@ -649,7 +642,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-feature-table
             TEST_RUNNER_CMD: py.test --pyargs q2_feature_table
           config:
             inputs:
@@ -711,7 +703,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-alignment
             TEST_RUNNER_CMD: py.test --pyargs q2_alignment
           config:
             inputs:
@@ -722,7 +713,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-alignment
             TEST_RUNNER_CMD: py.test --pyargs q2_alignment
           config:
             inputs:
@@ -783,7 +773,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-composition
             TEST_RUNNER_CMD: py.test --pyargs q2_composition
           config:
             inputs:
@@ -794,7 +783,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-composition
             TEST_RUNNER_CMD: py.test --pyargs q2_composition
           config:
             inputs:
@@ -855,7 +843,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-dada2
             TEST_RUNNER_CMD: py.test --pyargs q2_dada2
           config:
             inputs:
@@ -866,7 +853,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-dada2
             TEST_RUNNER_CMD: py.test --pyargs q2_dada2
           config:
             inputs:
@@ -933,7 +919,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-deblur
             TEST_RUNNER_CMD: nosetests q2_deblur
           config:
             inputs:
@@ -945,7 +930,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-deblur
             TEST_RUNNER_CMD: nosetests q2_deblur
           config:
             inputs:
@@ -1013,7 +997,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-demux
             TEST_RUNNER_CMD: py.test --pyargs q2_demux
           config:
             inputs:
@@ -1025,7 +1008,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-demux
             TEST_RUNNER_CMD: py.test --pyargs q2_demux
           config:
             inputs:
@@ -1101,7 +1083,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-diversity
             TEST_RUNNER_CMD: py.test --pyargs q2_diversity
           config:
             inputs:
@@ -1114,7 +1095,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-diversity
             TEST_RUNNER_CMD: py.test --pyargs q2_diversity
           config:
             inputs:
@@ -1183,7 +1163,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-emperor
             TEST_RUNNER_CMD: py.test --pyargs q2_emperor
           config:
             inputs:
@@ -1195,7 +1174,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-emperor
             TEST_RUNNER_CMD: py.test --pyargs q2_emperor
           config:
             inputs:
@@ -1257,7 +1235,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-feature-classifier
             TEST_RUNNER_CMD: py.test --pyargs q2_feature_classifier
           config:
             inputs:
@@ -1268,7 +1245,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-feature-classifier
             TEST_RUNNER_CMD: py.test --pyargs q2_feature_classifier
           config:
             inputs:
@@ -1329,7 +1305,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-phylogeny
             TEST_RUNNER_CMD: py.test --pyargs q2_phylogeny
           config:
             inputs:
@@ -1340,7 +1315,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-phylogeny
             TEST_RUNNER_CMD: py.test --pyargs q2_phylogeny
           config:
             inputs:
@@ -1407,7 +1381,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-quality-filter
             TEST_RUNNER_CMD: nosetests q2_quality_filter
           config:
             inputs:
@@ -1419,7 +1392,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-quality-filter
             TEST_RUNNER_CMD: nosetests q2_quality_filter
           config:
             inputs:
@@ -1487,7 +1459,6 @@ jobs:
         - task: test-linux
           file: busywork/ci/master/tasks/test-linux.yaml
           params:
-            PKG_NAME: q2-taxa
             TEST_RUNNER_CMD: py.test --pyargs q2_taxa
           config:
             inputs:
@@ -1499,7 +1470,6 @@ jobs:
         - task: test-darwin
           file: busywork/ci/master/tasks/test-darwin.yaml
           params:
-            PKG_NAME: q2-taxa
             TEST_RUNNER_CMD: py.test --pyargs q2_taxa
           config:
             inputs:
