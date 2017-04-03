@@ -6,10 +6,8 @@ params:
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
 
-inputs:
-  - name: busywork
-  - name: docs-source
+outputs:
   - name: conda-env
 
 run:
-  path: busywork/ci/master/tasks/integration.sh
+  path: busywork/ci/master/tasks/env.sh
