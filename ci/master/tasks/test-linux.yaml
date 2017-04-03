@@ -9,10 +9,12 @@ image_resource:
 
 params:
   - TEST_RUNNER_CMD:
+  - PKG_NAME:
 
 inputs:
   - name: busywork
-  - name: conda-env
+  - name: q2-types-channel
+  - name: qiime2-channel
 
 run:
   path: busywork/ci/master/tasks/test.sh

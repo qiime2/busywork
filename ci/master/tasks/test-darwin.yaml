@@ -6,10 +6,7 @@ params:
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
   - TEST_RUNNER_CMD:
-
-inputs:
-  - name: busywork
-  - name: conda-env
+  - PKG_NAME:
 
 run:
   path: busywork/ci/master/tasks/test.sh
