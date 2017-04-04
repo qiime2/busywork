@@ -15,4 +15,6 @@ export PATH=/usr/local/bin:$PATH
 if [[ ! -x /usr/local/bin/python ]]; then
     echo "installing python2"
     brew install python --framework --with-brewed-openssl
+    echo "installing wget"
+    brew install wget
 fi
