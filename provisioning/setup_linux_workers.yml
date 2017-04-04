@@ -3,4 +3,4 @@
 - name: set up linux workers
   hosts: linux_workers
   roles:
-    - linux_worker
+    - setup_linux_worker

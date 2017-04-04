@@ -20,7 +20,6 @@
 
 - name: deploy concourse worker containers
   become: True
-  docker_service:
-    project_src: "{{ base_dir }}"
-    files:
-      - linux_worker.yml
+  command: docker-compose -f {{ base_dir }}/linux_worker.yml up -d
+  register: dc
+  changed_when: '"Creating concourse_worker_1" in dc.stderr'

@@ -1,0 +1,13 @@
+---
+
+- name: stop concourse containers
+  become: True
+  command: docker-compose -f {{ base_dir }}/linux_worker.yml down
+  register: dc
+  changed_when: '"Stopping concourse_worker_1" in dc.stderr'
+
+- name: remove concourse configuration
+  become: True
+  file:
+    path: "{{ base_dir }}/linux_worker.yml"
+    state: absent
