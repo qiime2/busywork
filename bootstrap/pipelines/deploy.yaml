@@ -18,7 +18,8 @@ jobs:
           CONCOURSE_HOST: {{concourse_host}}
           GITHUB_USER: {{github_user}}
           GITHUB_PASS: {{github_pass}}
-          FTP_HOST: {{ftp_host}}
-          FTP_CHANNEL_ROOT: {{ftp_channel_root}}
+          FTP_URI: {{ftp_uri}}
           FTP_USER: {{ftp_user}}
           FTP_PASS: {{ftp_pass}}
+          ANACONDA_USER: {{anaconda_user}}
+          ANACONDA_PASS: {{anaconda_pass}}

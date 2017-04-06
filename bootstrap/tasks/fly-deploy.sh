@@ -5,23 +5,32 @@ set -e -v
 # Fix this someday
 apt-get update -q
 apt-get install wget -q -y --allow-unauthenticated # Really??
-wget -q -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux" --no-check-certificate
+conda -q -y install jinja2 pyyaml
+
+# Set up fly
+wget -q -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
 chmod +x ./fly
+./fly -t qiime2 login -c $CONCOURSE_HOST -u $CONCOURSE_USER -p $CONCOURSE_PASS
 
-./fly -t qiime2 login -k -c $CONCOURSE_HOST -u $CONCOURSE_USER -p $CONCOURSE_PASS
-
-FTP_URI="ftp://$FTP_HOST"
-
+# Template out pipelines, all pipelines should have unique names
 for product_path in busywork/ci/*
 do
-  product_name=$(basename "$product_path")
-  for pipeline_path in "$product_path"/pipelines/*.yaml
-  do
-    pipeline_name=$(basename "$pipeline_path")
-    pipeline_name="${pipeline_name%.*}"
-    pipeline_name="$product_name-$pipeline_name"
-    ./fly -t qiime2 set-pipeline -n -p $pipeline_name -c $pipeline_path --var "github_user=$GITHUB_USER" --var "github_pass=$GITHUB_PASS" --var "ftp_uri=$FTP_URI" --var "ftp_channel_root=$FTP_CHANNEL_ROOT" --var "ftp_user=$FTP_USER" --var "ftp_pass=$FTP_PASS"
-    ./fly -t qiime2 expose-pipeline -p $pipeline_name
-    ./fly -t qiime2 unpause-pipeline -p $pipeline_name
-  done
+  $product_path/template.py ./pipelines
+done
+
+# Deploy pipelines with secrets
+for pipeline_path in ./pipelines/*.yaml
+do
+  pipeline_name=$(basename "$pipeline_path")
+  pipeline_name="${pipeline_name%.*}"
+  ./fly -t qiime2 set-pipeline -n -p $pipeline_name -c $pipeline_path \
+      --var "github_user=$GITHUB_USER" \
+      --var "github_pass=$GITHUB_PASS" \
+      --var "ftp_uri=$FTP_URI" \
+      --var "ftp_user=$FTP_USER" \
+      --var "ftp_pass=$FTP_PASS" \
+      --var "anaconda_user=$ANACONDA_USER" \
+      --var "anaconda_pass=$ANACONDA_PASS"
+  ./fly -t qiime2 expose-pipeline -p $pipeline_name
+  ./fly -t qiime2 unpause-pipeline -p $pipeline_name
 done

@@ -1,0 +1,39 @@
+# Linux
+{%- macro make_linux_config(projects, defaults) %}
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+params:
+  - MPLBACKEND: Agg
+  - SPHINXOPTS: "-q"
+inputs:
+  - name: busywork
+  - name: docs-source
+  {%- for project in projects %}
+  - name: {{ project.name }}-channel
+  {%- endfor %}
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
+{%- endmacro %}
+
+# Darwub
+{%- macro make_darwin_config(projects, defaults) %}
+platform: darwin
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  - LC_ALL: en_US.UTF-8
+  - LANG: en_US.UTF-8
+  - MPLBACKEND: Agg
+  - SPHINXOPTS: "-q"
+inputs:
+  - name: busywork
+  - name: docs-source
+  {%- for project in projects %}
+  - name: {{ project.name }}-channel
+  {%- endfor %}
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
+{%- endmacro %}

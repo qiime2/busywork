@@ -1,0 +1,178 @@
+{%- import 'macros/build.yaml' as build %}
+{%- import 'macros/merge.yaml' as merge %}
+{%- import 'macros/unit-test.yaml' as unit_test %}
+{%- import 'macros/integration.yaml' as integration %}
+groups:
+  - name: build
+    jobs:
+      {%- for project in projects %}
+      - build-{{ project.name }}
+      {%- endfor %}
+  - name: test
+    jobs:
+      {%- for project in projects %}
+      {%- if project.testable %}
+      - unit-test-{{ project.name }}
+      {%- endif %}
+      {%- endfor %}
+      - integration
+  - name: upload
+    jobs:
+      {%- for project in projects %}
+      - upload-{{ project.name }}
+      {%- endfor %}
+  - name: all
+    jobs:
+      {%- for project in projects %}
+      - build-{{ project.name }}
+      {%- if project.testable %}
+      - unit-test-{{ project.name }}
+      - upload-{{ project.name }}
+      {%- endif %}
+      {%- endfor %}
+      - integration
+
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: madmin
+
+  - name: nightly
+    type: time
+    source:
+      start: 12:00 AM
+      stop: 1:00 AM
+      location: America/Phoenix
+
+  - name: docs-source
+    type: git
+    source:
+      uri: https://github.com/{{ defaults.github_org }}/docs
+      branch: {{ defaults.release_branch }}
+      {%- if defaults.tag %}
+      tag: {{ defaults.tag }}
+      {%- endif %}
+
+  {%- for project in projects %}
+  - name: {{ project.name }}-source
+    type: git
+    source:
+      uri: https://github.com/{{ project.github_org }}/{{ project.name }}
+      branch: {{ project.release_branch }}
+      {%- if project.tag %}
+      tag: {{ project.tag }}
+      {%- endif %}
+
+  - name: {{ project.name }}-channel
+    type: conda-channel
+    source:
+      pkg_name: {{ project.name }}
+      channel: {{ project.dev_channel }}
+      {%- raw %}
+      uri: {{ftp_uri}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+      {%- endraw %}
+
+  - name: {{ project.name }}-anaconda
+    type: conda-channel
+    source:
+      pkg_name: {{ project.name }}
+      uri: https://conda.anaconda.org
+      channel: {{ project.rc_channel }}
+      {%- raw %}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
+      {%- endraw %}
+  {% endfor %}
+jobs:
+  {%- for project in projects %}
+  - name: build-{{ project.name }}
+    plan:
+      - aggregate:
+        - get: busywork
+        - get: {{ project.name }}-source
+          trigger: true
+        {%- for dep in project.deps %}
+        - get: {{ dep.name }}-channel
+          {%- if dep.testable %}
+          passed: [unit-test-{{ dep.name }}]
+          {%- endif %}
+        {%- endfor %}
+      - aggregate:
+        - task: build-linux
+          config:
+            {{- build.make_linux_config(project, defaults)|indent(12) }}
+        - task: build-darwin
+          config:
+            {{- build.make_darwin_config(project, defaults)|indent(12) }}
+      - task: merge-channels
+        config:
+          {{- merge.make_config(defaults)|indent(10) }}
+      - put: {{ project.name }}-channel
+        params:
+          from: builds
+  {%- if project.testable %}
+
+  - name: unit-test-{{project.name}}
+    plan:
+      - aggregate:
+        - get: busywork
+        - get: {{project.name}}-channel
+          trigger: true
+          passed: [build-{{project.name}}]
+        {%- for dep in project.deps %}
+        - get: {{ dep.name }}-channel
+          trigger: true
+          {%- if dep.testable %}
+          passed: [unit-test-{{ dep.name }}]
+          {%- endif %}
+        {%- endfor %}
+      - aggregate:
+        - task: test-linux
+          config:
+            {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
+        - task: test-darwin
+          config:
+            {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
+  {%- endif %}
+
+  - name: upload-{{ project.name }}
+    plan:
+      - get: {{ project.name }}-channel
+        trigger: true
+        passed: [integration]
+      - put: {{ project.name }}-anaconda
+        params:
+          from: {{ project.name }}-channel
+  {% endfor %}
+  - name: integration
+    plan:
+      - aggregate:
+        - get: busywork
+        - get: nightly
+          trigger: true
+        - get: docs-source
+          trigger: true
+        {%- for project in projects %}
+        - get: {{ project.name }}-channel
+          trigger: true
+          {%- if project.testable %}
+          passed: [unit-test-{{ project.name }}]
+          {%- endif %}
+        {%- endfor %}
+      - aggregate:
+        - task: integration-linux
+          config:
+            {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+        - task: integration-darwin
+          config:
+            {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+
+resource_types:
+  - name: conda-channel
+    type: docker-image
+    source:
+      repository: qiime2/conda-channel-resource

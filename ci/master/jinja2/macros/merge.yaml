@@ -1,19 +1,17 @@
----
+# Linux
+{%- macro make_config(defaults) %}
 platform: linux
-
 image_resource:
   type: docker-image
   source:
     repository: continuumio/miniconda3
     version: latest
-
 inputs:
   - name: busywork
   - name: build-linux
   - name: build-darwin
-
 outputs:
   - name: builds
-
 run:
-  path: busywork/ci/master/tasks/merge.sh
+  path: busywork/ci/{{ defaults.release_branch }}/bin/merge.sh
+{%- endmacro %}

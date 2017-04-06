@@ -32,6 +32,6 @@ cd docs-source
 pip install -q -r requirements.txt
 
 make clean
-SPHINXOPTS='-q' make dummy
-SPHINXOPTS='-q' make preview
-SPHINXOPTS='-q' make html
+make dummy
+make preview
+make html
