@@ -31,6 +31,9 @@ params:
   - LANG: en_US.UTF-8
   - MPLBACKEND: Agg
   - TEST_RUNNER_CMD: {{ project.test_runner }}
+  {%- for key, value in project.extra_params.items() %}
+  - {{ key }}: {{ value }}
+  {%- endfor %}
 inputs:
   - name: busywork
   - name: {{ project.name }}-channel
