@@ -15,8 +15,6 @@ def fill_in_defaults(variables):
         lookup[updated['name']] = updated
 
     for project in variables['projects']:
-        # There is a cycle here causing repr/str to recurse forever, it really
-        # doesn't matter unless you are trying to print
         project['deps'][:] = [lookup[p] for p in project['deps']]
 
     return variables
