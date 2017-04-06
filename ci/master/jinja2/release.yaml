@@ -1,0 +1,11 @@
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: madmin
+
+jobs:
+  - name: release
+    plan:
+      - get: busywork
