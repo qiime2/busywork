@@ -5,7 +5,7 @@ set -e -v
 # Fix this someday
 apt-get update -q
 apt-get install wget -q -y --allow-unauthenticated # Really??
-conda -q -y install jinja2 pyyaml
+conda install -q -y jinja2 pyyaml
 
 # Set up fly
 wget -q -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
