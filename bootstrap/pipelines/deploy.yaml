@@ -4,7 +4,6 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
-      paths: ci/**/*
 
 jobs:
   - name: deploy

@@ -2,10 +2,9 @@
 
 import sys
 import os
+import glob
 import jinja2
 import yaml
-
-PIPELINES = ['staging.yaml', 'release.yaml']
 
 def fill_in_defaults(variables):
     variables = variables.copy()
@@ -30,10 +29,11 @@ def main(output_dir):
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(os.path.join(root, 'jinja2')))
 
-    for pipeline in PIPELINES:
+    for pipeline in env.list_templates(
+            filter_func=lambda x: x.startswith('pipelines/')):
         template = env.get_template(pipeline)
-        pipeline_name = \
-            '-'.join([variables['defaults']['release_branch'], pipeline])
+        pipeline_name = '-'.join([variables['defaults']['release_branch'],
+                                  os.path.basename(pipeline)])
         with open(os.path.join(output_dir, pipeline_name), 'w') as fh:
             fh.write(template.render(variables))
 
