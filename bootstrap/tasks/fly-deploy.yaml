@@ -22,7 +22,6 @@ params:
 
 inputs:
   - name: busywork
-  - name: pipelines
 
 outputs:
   - name: pipelines
