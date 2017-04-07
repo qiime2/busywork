@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: {{ pg_user }}
       POSTGRES_PASSWORD: {{ pg_pass }}
   web:
-    image: concourse/concourse
+    image: concourse/concourse:2.7.0
     links:
       - db
     command: web

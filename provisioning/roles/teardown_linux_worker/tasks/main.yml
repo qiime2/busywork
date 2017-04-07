@@ -1,5 +1,10 @@
 ---
 
+- name: copy linux worker docker compose template
+  template:
+    src: ../../setup_linux_worker/templates/linux_worker.yml
+    dest: "{{ base_dir }}"
+
 - name: stop concourse containers
   become: True
   command: docker-compose -f {{ base_dir }}/linux_worker.yml down
