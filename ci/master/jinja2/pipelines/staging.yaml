@@ -27,8 +27,8 @@ groups:
       - build-{{ project.name }}
       {%- if project.testable %}
       - unit-test-{{ project.name }}
-      - upload-{{ project.name }}
       {%- endif %}
+      - upload-{{ project.name }}
       {%- endfor %}
       - integration
 
