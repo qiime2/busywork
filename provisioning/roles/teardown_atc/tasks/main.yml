@@ -1,0 +1,34 @@
+---
+
+- name: copy atc docker compose template
+  template:
+    src: ../../setup_atc/templates/atc.yml
+    dest: "{{ base_dir }}"
+
+- name: stop atc and pg containers
+  become: True
+  command: docker-compose -f {{ base_dir }}/atc.yml down
+  register: dc
+  changed_when: '"Stopping concourse_db_1" in dc.stderr and "Stopping concourse_web_1" in dc.stderr'
+
+- name: remove nginx configuration
+  become: True
+  file:
+    path: /etc/nginx/{{ item }}
+    state: absent
+  with_items:
+    - sites-enabled/{{ external_host }}
+    - sites-available/{{ external_host }}.conf
+  notify:
+    - stop nginx
+    - start nginx
+
+- name: remove concourse configuration
+  become: True
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ base_dir }}/{{ keys_dir }}/"
+    - "{{ base_dir }}/{{ pgdata_dir }}/"
+    - "{{ base_dir }}/atc.yml"

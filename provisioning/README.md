@@ -19,32 +19,62 @@ This playbook assumes that the linux host as already been provisioned with
 docker and nginx. For an example of this, please see
 https://github.com/caporaso-lab/powertrip-provisioning
 
-### Setting up mac hosts
+### Setting up darwin hosts
 
-- Ensure SSH access is enabled on the mac host
-- Set up a keypair to use for access
-- From agent machine: `scp bin/bootstrap-mac-host.sh USER@MACHOST:~/`
-- On mac host:
-    - `chmod +x bootstrap-mac-host.sh`
-    - `./bootstrap-mac-host.sh`
+- Ensure SSH access is enabled on the mac host (copy `authorized_keys` from secrets)
+- From agent machine: `scp bin/bootstrap-darwin-host.sh USER@MACHOST:~/`
+- On darwin host:
+    - `./bootstrap-darwin-host.sh`
     - Follow the prompts
 
-## Provisioning
+## Setting Up Hosts
+
+- Set up all machines:
+
+    ```bash
+    $ SECRETS=/absolute/path/to/secrets_repo make setup_all
+    ```
 
 - Linux main hosts:
 
     ```bash
-    $ ansible-playbook -i /path/to/inventory -K --extra-vars 'tsa_keys=/path/to/keys' atc.yml
+    $ SECRETS=/absolute/path/to/secrets_repo make setup_atc
     ```
 
 - Linux worker hosts:
 
     ```bash
-    $ ansible-playbook -i /path/to/inventory -K --extra-vars 'tsa_keys=/path/to/keys' linux_workers.yml
+    $ SECRETS=/absolute/path/to/secrets_repo make setup_linux_workers
     ```
 
-- Mac worker hosts:
+- Darwin worker hosts:
 
     ```bash
-    $ ansible-playbook -i /path/to/inventory -K --extra-vars 'tsa_keys=/path/to/keys' mac_workers.yml
+    $ SECRETS=/absolute/path/to/secrets_repo make setup_darwin_workers
+    ```
+
+## Tearing Down Hosts
+
+- Tear down all machines:
+
+    ```bash
+    $ SECRETS=/absolute/path/to/secrets_repo make teardown_all
+    ```
+
+- Linux main hosts:
+
+    ```bash
+    $ SECRETS=/absolute/path/to/secrets_repo make teardown_atc
+    ```
+
+- Linux worker hosts:
+
+    ```bash
+    $ SECRETS=/absolute/path/to/secrets_repo make teardown_linux_workers
+    ```
+
+- Darwin worker hosts:
+
+    ```bash
+    $ SECRETS=/absolute/path/to/secrets_repo make teardown_darwin_workers
     ```

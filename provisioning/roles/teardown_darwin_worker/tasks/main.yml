@@ -1,0 +1,16 @@
+---
+- name: unload launchctl
+  shell: launchctl unload /Library/LaunchDaemons/org.qiime2.concourse.plist
+  become: true
+
+- name: remove concourse configuration
+  become: True
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ base_dir }}/run_worker.sh"
+    - "{{ base_dir }}/{{ keys_dir }}/"
+    - "{{ base_dir }}/{{ log_dir }}/"
+    - /Library/LaunchDaemons/org.qiime2.concourse.plist
+    - /usr/local/bin/concourse
