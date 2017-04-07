@@ -1,0 +1,20 @@
+---
+
+- name: copy ftp server docker compose template
+  template:
+    src: ../../setup_ftp_server/templates/ftp_server.yml
+    dest: "{{ ftp_dir }}"
+
+- name: stop ftp containers
+  become: True
+  command: docker-compose -f {{ ftp_dir }}/ftp_server.yml down
+  register: dc
+  changed_when: '"Stopping ftp_server_1" in dc.stderr'
+  environment:
+    PATH: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+- name: remove ftp configuration
+  become: True
+  file:
+    path: "{{ ftp_dir }}/ftp_server.yml"
+    state: absent

@@ -1,0 +1,26 @@
+---
+
+- name: make ftp dir
+  file:
+    name: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ftp_dir }}"
+    - "{{ ftp_dir }}/pass"
+    - "{{ ftp_dir }}/data"
+
+- name: copy passdb
+  copy:
+    src: "{{ passdb }}"
+    dest: "{{ ftp_dir }}/pass"
+
+- name: copy ftp server docker compose template
+  template:
+    src: ftp_server.yml
+    dest: "{{ ftp_dir }}"
+
+- name: start ftp containers
+  become: True
+  command: /usr/local/bin/docker-compose -f {{ ftp_dir }}/ftp_server.yml up -d
+  register: dc
+  changed_when: '"Creating ftp_server_1" in dc.stderr'

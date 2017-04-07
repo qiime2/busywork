@@ -1,0 +1,6 @@
+---
+
+- name: tear down ftp_server
+  hosts: toast
+  roles:
+    - teardown_ftp_server

@@ -1,0 +1,14 @@
+version: '3'
+services:
+  server:
+    image: stilliard/pure-ftpd:hardened
+    privileged: true
+    volumes:
+      - ./pass:/etc/pure-ftpd/passwd
+      - ./data:/home/ftpusers
+    ports:
+      - "2121:21"
+      - "30000-30009:30000-30009"
+    environment:
+      PUBLICHOST: localhost
+      ADDED_FLAGS: -d -d -O w3c:/var/log/pure-ftpd/transfer.log --tls=0
