@@ -7,14 +7,15 @@
 
 - name: stop ftp containers
   become: True
-  command: docker-compose -f {{ ftp_dir }}/ftp_server.yml down
+  command: /usr/local/bin/docker-compose -f {{ ftp_dir }}/ftp_server.yml down
   register: dc
   changed_when: '"Stopping ftp_server_1" in dc.stderr'
-  environment:
-    PATH: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 - name: remove ftp configuration
   become: True
   file:
-    path: "{{ ftp_dir }}/ftp_server.yml"
+    path: "{{ ftp_dir }}/{{ item }}"
     state: absent
+  with_items:
+    - ftp_server.yml
+    - pass
