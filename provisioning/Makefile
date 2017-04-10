@@ -34,3 +34,14 @@ teardown_darwin_workers:
 		teardown_darwin_workers.yml
 
 teardown_all: teardown_atc teardown_linux_workers teardown_darwin_workers
+
+setup_ftp_server:
+	ansible-playbook \
+		-i "$(SECRETS)/ansible_hosts/concourse/inventory" \
+		--extra-vars="passdb=$(SECRETS)/ansible_hosts/concourse/pureftpd.passwd" \
+		setup_ftp_server.yml
+
+teardown_ftp_server:
+	ansible-playbook \
+		-i "$(SECRETS)/ansible_hosts/concourse/inventory" \
+		teardown_ftp_server.yml
