@@ -5,7 +5,7 @@ set -e -v
 if [ `uname` == "Linux" ]
 then
   # Fix this someday
-  apt-get update -q
+  apt-get update -o Acquire::Check-Valid-Until=false -q
   apt-get install unzip wget build-essential -q -y --allow-unauthenticated # Really??
 fi
 
