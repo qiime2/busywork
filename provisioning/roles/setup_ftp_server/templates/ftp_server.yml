@@ -10,5 +10,5 @@ services:
       - "2121:21"
       - "30000-30009:30000-30009"
     environment:
-      PUBLICHOST: localhost
+      PUBLICHOST: "{{ ansible_host }}"
       ADDED_FLAGS: -d -d -O w3c:/var/log/pure-ftpd/transfer.log --tls=0
