@@ -18,7 +18,7 @@ inputs:
 outputs:
   - name: build-linux
 run:
-  path: busywork/ci/{{defaults.release_branch}}/bin/build.sh
+  path: busywork/ci/{{ defaults.release_branch }}/bin/build.sh
 {%- endmacro %}
 
 # Darwin
@@ -38,5 +38,5 @@ inputs:
 outputs:
   - name: build-darwin
 run:
-  path: busywork/ci/{{defaults.release_branch}}/bin/build.sh
+  path: busywork/ci/{{ defaults.release_branch }}/bin/build.sh
 {%- endmacro %}
