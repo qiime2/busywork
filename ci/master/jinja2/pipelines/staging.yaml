@@ -71,9 +71,9 @@ resources:
       pkg_name: {{ project.name }}
       channel: {{ project.dev_channel }}
       {%- raw %}
-      uri: {{ ftp_uri }}
-      user: {{ ftp_user }}
-      pass: {{ ftp_pass }}
+      uri: {{ftp_uri}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
       {%- endraw %}
 
   - name: {{ project.name }}-anaconda
@@ -83,8 +83,8 @@ resources:
       uri: https://conda.anaconda.org
       channel: {{ project.rc_channel }}
       {%- raw %}
-      user: {{ anaconda_user }}
-      pass: {{ anaconda_pass }}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
       {%- endraw %}
   {% endfor %}
 jobs:
