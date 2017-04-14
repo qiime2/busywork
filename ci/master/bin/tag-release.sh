@@ -49,6 +49,7 @@ do
   cp -r $repo-source tagged-$repo-source
   cd tagged-$repo-source
 
+  echo $PYTHONPATH
   ls ..
   pwd
   observed_release=$(_get_release)
