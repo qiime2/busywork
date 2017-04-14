@@ -3,7 +3,12 @@
 set -e -v
 
 # Fix this someday
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+apt-get clean
 apt-get update -o Acquire::Check-Valid-Until=false -q
+apt-get upgrade
+
 apt-get install wget -q -y --allow-unauthenticated # Really??
 conda install -q -y jinja2 pyyaml
 
