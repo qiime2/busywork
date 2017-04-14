@@ -49,6 +49,8 @@ do
   cp -r $repo-source tagged-$repo-source
   cd tagged-$repo-source
 
+  ls ..
+  pwd
   observed_release=$(_get_release)
 
   if [ "$observed_release" != "$expected_release" ]
