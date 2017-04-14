@@ -28,7 +28,8 @@ def main(output_dir):
         loader=jinja2.FileSystemLoader(os.path.join(root, 'jinja2')))
 
     for pipeline in env.list_templates(
-            filter_func=lambda x: x.startswith('pipelines/')):
+            filter_func=lambda x: x.startswith('pipelines/') and
+                                  (not os.path.basename(x).startswith('.'))):
         template = env.get_template(pipeline)
         pipeline_name = '-'.join([variables['defaults']['release_branch'],
                                   os.path.basename(pipeline)])

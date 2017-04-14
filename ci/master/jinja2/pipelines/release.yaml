@@ -1,11 +1,41 @@
+---
+{%- import 'macros/tag-release.yaml' as tag_release %}
+
+# TODO:
+#   - Make rendered yaml pretty! It's all over the place right now.
+#   - Can we use pyyaml instead of jinja2 to generate these configs?
+
 resources:
   - name: busywork
     type: git
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
+      paths:
+        - current-dev-release
+
+  {%- for project in projects %}
+  - name: {{ project.name }}-source
+    type: git
+    source:
+      uri: https://github.com/{{ project.github_org }}/{{ project.name }}
+      branch: {{ project.release_branch }}
+      {%- if project.tag %}
+      tag: {{ project.tag }}
+      {%- endif %}
+  {%- endfor %}
 
 jobs:
-  - name: release
+  - name: tag-release
     plan:
       - get: busywork
+      {%- for project in projects %}
+      - get: {{ project.name }}-source
+      {%- endfor %}
+      - task: tag-release
+        config:
+          {{- tag_release.make_config(projects)|indent(10) }}
+      {%- for project in projects %}
+      - put: {{ project.name }}-source
+        params: {repository: tagged-{{ project.name }}-source}
+      {%- endfor %}

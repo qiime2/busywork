@@ -1,3 +1,4 @@
+---
 {%- import 'macros/build.yaml' as build %}
 {%- import 'macros/merge.yaml' as merge %}
 {%- import 'macros/unit-test.yaml' as unit_test %}
