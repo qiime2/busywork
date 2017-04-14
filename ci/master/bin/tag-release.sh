@@ -9,8 +9,14 @@ echo "default login $GITHUB_USER password $GITHUB_PASS" > $HOME/.netrc
 
 set -x
 
-apt-get update -y
+# Fix this someday
+apt-get clean -y
+rm -rf /var/lib/apt/lists/*
+apt-get clean -y
+apt-get update -o Acquire::Check-Valid-Until=false -q -y
+apt-get upgrade -y
 apt-get install -y git
+
 git config --global user.name q2d2
 git config --global user.email "q2d2.noreply@gmail.com"
 
