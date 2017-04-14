@@ -4,7 +4,6 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-  source:
     repository: continuumio/miniconda3
     version: latest
 
