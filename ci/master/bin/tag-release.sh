@@ -20,7 +20,7 @@ apt-get install -y git
 git config --global user.name q2d2
 git config --global user.email "q2d2.noreply@gmail.com"
 
-local REPOS_ARRAY=(${REPOS_STRING[*]})
+REPOS_ARRAY=(${REPOS_STRING[*]})
 
 echo $REPOS_ARRAY
 echo ${REPOS_ARRAY[*]}
