@@ -4,10 +4,11 @@
 #   - make jobs idempotent
 
 set -e
+
 rm -f $HOME/.netrc
 echo "default login $GITHUB_USER password $GITHUB_PASS" > $HOME/.netrc
 
-set -x
+set -v
 
 # Fix this someday
 apt-get clean -y
@@ -17,6 +18,7 @@ apt-get update -o Acquire::Check-Valid-Until=false -q -y
 apt-get upgrade -y
 apt-get install -y git
 
+# TODO template q2d2 credentials
 git config --global user.name q2d2
 git config --global user.email "q2d2.noreply@gmail.com"
 
@@ -28,7 +30,7 @@ echo ${REPOS_ARRAY[0]}
 echo ${REPOS_ARRAY[1]}
 echo ${REPOS_ARRAY[2]}
 
-env
+exit 1
 
 #git clone qiime2 qiime2-feature-freeze
 #cd qiime2-feature-freeze
