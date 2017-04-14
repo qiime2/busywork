@@ -11,8 +11,8 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
-      paths:
-        - current-dev-release
+      #paths:
+      #  - current-dev-release
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
