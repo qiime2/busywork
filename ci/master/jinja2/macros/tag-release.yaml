@@ -10,8 +10,6 @@ image_resource:
 params:
   - REPOS_STRING: "{{ projects|join(' ', attribute='name') }}"
   {%- raw %}
-  - GITHUB_USER: {{github_user}}
-  - GITHUB_PASS: {{github_pass}}
   - GITHUB_TOKEN: {{github_token}}
   {%- endraw %}
 
@@ -23,7 +21,7 @@ inputs:
 
 outputs:
   {%- for project in projects %}
-  - name: tagged-{{ project.name }}-source
+  - name: {{ project.name }}-gh-release
   {%- endfor %}
 
 run:

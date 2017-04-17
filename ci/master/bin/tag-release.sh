@@ -3,8 +3,7 @@
 # TODO:
 #   - make jobs idempotent
 
-set -e
-set -v
+set -e -v
 
 # Fix this someday
 apt-get clean -y
@@ -14,17 +13,20 @@ apt-get update -o Acquire::Check-Valid-Until=false -q -y
 apt-get upgrade -y
 apt-get install -y git
 
-# TODO template q2d2 credentials
-git config --global user.name q2d2
-git config --global user.email "q2d2.noreply@gmail.com"
-
 # Convert a space-separated string to an array.
 REPOS_ARRAY=(${REPOS_STRING[*]})
 
+# Check if project version is `dev`
+_is_dev() {
+  python -c 'import versioneer; print("dev" in versioneer.get_version())'
+}
+
+_get_version() {
+  python -c 'import versioneer; print(versioneer.get_version())'
+}
+
 # Ask for current release in the current working directory.
 _get_release() {
-  # TODO:
-  # Do we need to check that it is dev, first?
   python -c 'import versioneer; version = versioneer.get_version(); release = ".".join(version.split(".")[:2]); print(release)'
 }
 
@@ -44,6 +46,12 @@ for repo in $REPOS_ARRAY
 do
   cd ${repo}-source
 
+  if [ "$(_is_dev)" != "False" ]
+  then
+    echo "Repo $repo HEAD is not `dev`: $(_get_version)"
+    exit 1
+  fi
+
   observed_release=$(_get_release)
 
   if [ "$observed_release" != "$expected_release" ]
@@ -53,7 +61,6 @@ do
   fi
 
   cd ../${repo}-gh-release
-  rm -f tag name
   echo "$observed_release.0" > tag
-  echo "QIIME 2 ${observed_release}" > name
+  echo "${repo} ${observed_release}.0" > name
 done
