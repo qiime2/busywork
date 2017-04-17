@@ -103,7 +103,7 @@ resources:
     source:
       pkg_name: {{ project.name }}
       channel: {{ project.test_channel }}
-      regex: "^{{ project.release|replace('.', '\.') }}\.[0-9]+$"
+      regex: "^{{ project.release|replace('.', '\\.') }}\\.[0-9]+$"
       {%- raw %}
       uri: {{ftp_uri}}
       user: {{ftp_user}}
