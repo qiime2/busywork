@@ -1,8 +1,9 @@
----
 {%- import 'macros/build.yaml' as build %}
 {%- import 'macros/merge.yaml' as merge %}
 {%- import 'macros/unit-test.yaml' as unit_test %}
 {%- import 'macros/integration.yaml' as integration %}
+{%- import 'macros/env-file.yaml' as env_file %}
+{%- import 'macros/merge-env-files.yaml' as merge_env_files %}
 groups:
   - name: build
     jobs:
@@ -22,6 +23,7 @@ groups:
       {%- for project in projects %}
       - upload-{{ project.name }}
       {%- endfor %}
+      - create-staging-env-files
   - name: all
     jobs:
       {%- for project in projects %}
@@ -32,6 +34,7 @@ groups:
       - upload-{{ project.name }}
       {%- endfor %}
       - integration
+      - create-staging-env-files
 
 resources:
   - name: busywork
@@ -56,6 +59,16 @@ resources:
       tag: {{ defaults.tag }}
       {%- endif %}
 
+  - name: environment-files
+    type: git
+    source:
+      uri: https://github.com/qiime2/environment-files
+      branch: master
+      {%- raw %}
+      username: {{github_user}}
+      password: {{github_pass}}
+      {%- endraw $}
+
   {%- for project in projects %}
   - name: {{ project.name }}-source
     type: git
@@ -70,7 +83,7 @@ resources:
     type: conda-channel
     source:
       pkg_name: {{ project.name }}
-      channel: {{ project.dev_channel }}
+      channel: {{ project.test_channel }}
       {%- raw %}
       uri: {{ftp_uri}}
       user: {{ftp_user}}
@@ -82,7 +95,7 @@ resources:
     source:
       pkg_name: {{ project.name }}
       uri: https://conda.anaconda.org
-      channel: {{ project.rc_channel }}
+      channel: {{ project.staging_channel }}
       {%- raw %}
       user: {{anaconda_user}}
       pass: {{anaconda_pass}}
@@ -171,6 +184,30 @@ jobs:
         - task: integration-darwin
           config:
             {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+
+  - name: create-staging-env-files
+    plan:
+      - aggregate:
+        - get: busywork
+        - get: environment-files
+        {%- for project in projects %}
+        - get: {{ project.name }}-anaconda
+          trigger: true
+          passed: [upload-{{ project.name }}]
+        {%- endfor %}
+      - aggregate:
+        - task: staging-env-file-linux
+          config:
+            {{- env_file.make_linux_config(projects, defaults)|indent(12) }}
+        - task: staging-env-file-darwin
+          config:
+            {{- env_file.make_darwin_config(projects, defaults)|indent(12) }}
+      - task: merge-and-commit-env-files
+        config:
+          {{- merge_env_files.make_config("staging", defaults)|indent(10) }}
+      - put: environment-files
+        params:
+          repository: updated-environment-files
 
 resource_types:
   - name: conda-channel
