@@ -67,7 +67,7 @@ resources:
       {%- raw %}
       username: {{github_user}}
       password: {{github_pass}}
-      {%- endraw $}
+      {%- endraw %}
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
