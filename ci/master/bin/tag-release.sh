@@ -13,6 +13,10 @@ apt-get update -o Acquire::Check-Valid-Until=false -q -y
 apt-get upgrade -y
 apt-get install -y git
 
+# Configure git
+git config --global user.name q2d2
+git config --global user.email "q2d2.noreply@gmail.com"
+
 # Convert a space-separated string to an array.
 REPOS_ARRAY=(${REPOS_STRING[*]})
 
