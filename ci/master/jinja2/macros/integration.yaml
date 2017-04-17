@@ -19,7 +19,7 @@ run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}
 
-# Darwub
+# Darwin
 {%- macro make_darwin_config(projects, defaults) %}
 platform: darwin
 params:

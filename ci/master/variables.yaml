@@ -1,9 +1,10 @@
 defaults:
+  release: 2017.4
   release_branch: master
   github_org: nervous-laughter
   tag: null
-  dev_channel: channel
-  rc_channel: q2d2
+  test_channel: channel
+  staging_channel: q2d2
   testable: true
   deps: []
   extra_params: {}
