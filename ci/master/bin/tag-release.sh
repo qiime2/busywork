@@ -48,11 +48,11 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
-  ls $repo-source/
-  ls $tagged-repo-source/
-  cp -r $repo-source/ tagged-$repo-source/
-  ls $tagged-repo-source/
-  cd tagged-$repo-source
+  ls ${repo}-source/
+  ls tagged-${repo}-source/
+  cp -r ${repo}-source/ tagged-${repo}-source/
+  ls tagged-${repo}-source/
+  cd tagged-${repo}-source
 
   echo $PYTHONPATH
   ls ..
