@@ -11,8 +11,6 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
-      #paths:
-      #  - current-dev-release
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
@@ -20,21 +18,15 @@ resources:
     source:
       uri: https://github.com/{{ project.github_org }}/{{ project.name }}
       branch: {{ project.release_branch }}
-      {%- if project.tag %}
-      tag: {{ project.tag }}
-      {%- endif %}
-
-  - name: {{ project.name }}-gh-release
-    type: github-release
-    source:
-      owner: {{ project.github_org }}
-      repository: {{ project.name }}
       {%- raw %}
-      access_token: {{github_token}}
+      username: {{github_user}}
+      password: {{github_pass}}
       {%- endraw %}
-      release: false
-      pre_release: true
-      drafts: false
+      git_config:
+        - name: user.email
+          value: q2d2.noreply@gmail.com
+        - name: user.name
+          value: q2d2
   {%- endfor %}
 
 jobs:
@@ -48,8 +40,9 @@ jobs:
         config:
           {{- tag_release.make_config(projects)|indent(10) }}
       {%- for project in projects %}
-      - put: {{ project.name }}-gh-release
+      - put: {{ project.name }}-source
         params:
-          name: {{ project.name }}-gh-release/name
-          tag: {{ project.name }}-gh-release/tag
+          repository: tagged-{{ project.name }}-source
+          tag: tagged-{{ project.name }}-source/tag
+          annotate: tagged-{{ project.name }}-source/annotate
       {%- endfor %}

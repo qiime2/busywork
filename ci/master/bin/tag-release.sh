@@ -60,7 +60,14 @@ do
     exit 1
   fi
 
-  cd ../${repo}-gh-release
-  echo "$observed_release.0" > tag
-  echo "${repo} ${observed_release}.0" > name
+  cd ..
+  git clone ${repo}-source tagged-${repo}-source
+  cd tagged-${repo}-source
+
+  version="${observed_release}.0"
+
+  git commit --allow-empty -m "REL: ${version}"
+
+  echo $version > tag
+  echo "${repo} ${version}" > annotate
 done

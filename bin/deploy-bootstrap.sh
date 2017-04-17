@@ -18,7 +18,7 @@ ftp_pass=$(grep "ftp_pass" $secrets_repo/ansible_hosts/concourse/host_vars/toast
 
 github_user=$(head -n1 $secrets_repo/keys/q2d2/github.csv | cut -f2 -d',')
 github_pass=$(head -n1 $secrets_repo/keys/q2d2/github.csv | cut -f3 -d',')
-github_token=$(head -n1 $secrets_repo/keys/q2d2/github.csv | cut -f4 -d',')
+github_token='NULL'
 
 anaconda_user=$(head -n1 $secrets_repo/keys/q2d2/anaconda.csv | cut -f2 -d',')
 anaconda_pass=$(head -n1 $secrets_repo/keys/q2d2/anaconda.csv | cut -f3 -d',')
