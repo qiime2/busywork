@@ -38,6 +38,6 @@ jobs:
       - put: {{ project.name }}-source
         params:
           repository: tagged-{{ project.name }}-source
-          tag: tag
+          tag: tagged-{{ project.name }}-source/tag
           annotate: annotate
       {%- endfor %}
