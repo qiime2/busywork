@@ -48,7 +48,7 @@ do
 
   if [ "$(_is_dev)" != "False" ]
   then
-    echo "Repo $repo HEAD is not `dev`: $(_get_version)"
+    echo "Repo $repo HEAD is not a development version: $(_get_version)"
     exit 1
   fi
 
