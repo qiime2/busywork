@@ -18,6 +18,7 @@ jobs:
           CONCOURSE_HOST: {{concourse_host}}
           GITHUB_USER: {{github_user}}
           GITHUB_PASS: {{github_pass}}
+          GITHUB_TOKEN: {{github_token}}
           FTP_URI: {{ftp_uri}}
           FTP_USER: {{ftp_user}}
           FTP_PASS: {{ftp_pass}}

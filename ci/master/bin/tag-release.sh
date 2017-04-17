@@ -4,12 +4,6 @@
 #   - make jobs idempotent
 
 set -e
-
-# Necessary for pushing (configures curl and other networking tools).
-rm -f $HOME/.netrc
-echo "default login $GITHUB_USER password $GITHUB_PASS" > $HOME/.netrc
-
-# NOTE: Do not echo commands above to avoid leaking secrets.
 set -v
 
 # Fix this someday
@@ -48,20 +42,18 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
-  git clone ${repo}-source tagged-${repo}-source
-  cd tagged-${repo}-source
-  git remote remove origin
-  git remote add origin $(cd ../${repo}-source && git remote get-url --push origin)
-  git remote -v
+  cd ${repo}-source
 
   observed_release=$(_get_release)
 
   if [ "$observed_release" != "$expected_release" ]
   then
     echo "Repo $repo has current dev release $observed_release but busywork/current-dev-release declares $expected_release."
-    rm -f $HOME/.netrc
     exit 1
   fi
-done
 
-rm -f $HOME/.netrc
+  cd ../${repo}-gh-release
+  rm -f tag name
+  echo "$observed_release.0" > tag
+  echo "QIIME 2 ${observed_release}" > name
+done

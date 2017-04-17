@@ -23,6 +23,18 @@ resources:
       {%- if project.tag %}
       tag: {{ project.tag }}
       {%- endif %}
+
+  - name: {{ project.name }}-gh-release
+    type: github-release
+    source:
+      owner: {{ project.github_org }}
+      repository: {{ project.name }}
+      {%- raw %}
+      access_token: {{github_token}}
+      {%- endraw %}
+      release: false
+      pre_release: true
+      drafts: false
   {%- endfor %}
 
 jobs:
@@ -36,6 +48,8 @@ jobs:
         config:
           {{- tag_release.make_config(projects)|indent(10) }}
       {%- for project in projects %}
-      - put: {{ project.name }}-source
-        params: {repository: tagged-{{ project.name }}-source}
+      - put: {{ project.name }}-gh-release
+        params:
+          name: name
+          tag: tag
       {%- endfor %}

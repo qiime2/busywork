@@ -12,6 +12,7 @@ params:
   {%- raw %}
   - GITHUB_USER: {{github_user}}
   - GITHUB_PASS: {{github_pass}}
+  - GITHUB_TOKEN: {{github_token}}
   {%- endraw %}
 
 inputs:

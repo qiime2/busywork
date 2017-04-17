@@ -18,6 +18,7 @@ ftp_pass=$(grep "ftp_pass" $secrets_repo/ansible_hosts/concourse/host_vars/toast
 
 github_user=$(head -n1 $secrets_repo/keys/q2d2/github.csv | cut -f2 -d',')
 github_pass=$(head -n1 $secrets_repo/keys/q2d2/github.csv | cut -f3 -d',')
+github_token=$(head -n1 $secrets_repo/keys/q2d2/github.csv | cut -f4 -d',')
 
 anaconda_user=$(head -n1 $secrets_repo/keys/q2d2/anaconda.csv | cut -f2 -d',')
 anaconda_pass=$(head -n1 $secrets_repo/keys/q2d2/anaconda.csv | cut -f3 -d',')
@@ -31,5 +32,6 @@ fly -t qiime2 set-pipeline -p bootstrap -c bootstrap/pipelines/deploy.yaml \
     --var "ftp_pass=$ftp_pass" \
     --var "github_user=$github_user" \
     --var "github_pass=$github_pass" \
+    --var "github_token=$github_token" \
     --var "anaconda_user=$anaconda_user" \
     --var "anaconda_pass=$anaconda_pass"
