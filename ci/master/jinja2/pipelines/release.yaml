@@ -50,6 +50,6 @@ jobs:
       {%- for project in projects %}
       - put: {{ project.name }}-gh-release
         params:
-          name: name
-          tag: tag
+          name: {{ project.name }}-gh-release/name
+          tag: {{ project.name }}-gh-release/tag
       {%- endfor %}
