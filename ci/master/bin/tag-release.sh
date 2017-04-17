@@ -46,7 +46,7 @@ trim() {
 
 expected_release="$(trim $(cat busywork/current-dev-release))"
 
-for repo in $REPOS_ARRAY
+for repo in "${REPOS_ARRAY[@]}"
 do
   echo $repo
   cd ${repo}-source
