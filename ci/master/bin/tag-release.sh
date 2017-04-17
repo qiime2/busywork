@@ -46,7 +46,7 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
-  cp -r $repo-source tagged-$repo-source
+  cp -r $repo-source/ tagged-$repo-source/
   cd tagged-$repo-source
 
   echo $PYTHONPATH
