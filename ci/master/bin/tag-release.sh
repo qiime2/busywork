@@ -50,10 +50,10 @@ for repo in $REPOS_ARRAY
 do
   echo ${repo}
 
-  cp -r ${repo}-source/ tagged-${repo}-source/
+  cp -R ${repo}-source/ tagged-${repo}-source/
   ls tagged-${repo}-source/
   cd tagged-${repo}-source
-  cd ${repo}-source
+  # cd ${repo}-source
 
   ls ..
   ls .
