@@ -48,15 +48,17 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
-  ls ${repo}-source/
-  ls tagged-${repo}-source/
+  echo ${repo}
+
   cp -r ${repo}-source/ tagged-${repo}-source/
   ls tagged-${repo}-source/
   cd tagged-${repo}-source
+  cd ${repo}-source
 
-  echo $PYTHONPATH
   ls ..
+  ls .
   pwd
+
   observed_release=$(_get_release)
 
   if [ "$observed_release" != "$expected_release" ]
