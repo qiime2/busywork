@@ -48,16 +48,11 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
-  echo ${repo}
-
-  cp -R ${repo}-source/ tagged-${repo}-source/
-  ls tagged-${repo}-source/
+  git clone ${repo}-source tagged-${repo}-source
   cd tagged-${repo}-source
-  # cd ${repo}-source
-
-  ls ..
-  ls .
-  pwd
+  git remote remove origin
+  git remote add origin $(cd ../${repo}-source && git remote get-url --push origin)
+  git remote -v
 
   observed_release=$(_get_release)
 
@@ -67,16 +62,6 @@ do
     rm -f $HOME/.netrc
     exit 1
   fi
-
-#  current_release="$(grep 'version=' setup.py | sed -E "s/^.*version=['\"](.+)['\"].*$/\1/" | cut -f1,2 -d'.')"
-#  next_version=$next_release.0.dev0
-#  git branch dev/$current_release
-#  git checkout dev/main
-#  sed -i "s/version=.*/version='$next_version',/g" setup.py
-#  git add setup.py
-#  git commit -m "VER: $next_version"
-#  git push origin dev/main
-#  git push origin dev/$current_release
 done
 
 rm -f $HOME/.netrc
