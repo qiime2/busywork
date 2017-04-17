@@ -46,7 +46,7 @@ for repo in $REPOS_ARRAY
 do
   cd ${repo}-source
 
-  if [ "$(_is_dev)" != "False" ]
+  if [ "$(_is_dev)" != "True" ]
   then
     echo "Repo $repo HEAD is not a development version: $(_get_version)"
     exit 1
