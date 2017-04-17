@@ -48,6 +48,7 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
+  echo $repo
   cd ${repo}-source
 
   if [ "$(_is_dev)" != "True" ]
@@ -72,6 +73,8 @@ do
 
   git commit --allow-empty -m "REL: ${version}"
 
-  echo $version > tag
-  echo "${repo} ${version}" > annotate
+  echo -n "${version}" > tag
+  echo -n "${repo} ${version}" > annotate
+
+  cd ..
 done

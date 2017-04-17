@@ -22,6 +22,11 @@ resources:
       username: {{github_user}}
       password: {{github_pass}}
       {%- endraw %}
+      git_config:
+        - name: user.email
+          value: q2d2.noreply@gmail.com
+        - name: user.name
+          value: q2d2
   {%- endfor %}
 
 jobs:
