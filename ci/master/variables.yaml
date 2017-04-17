@@ -5,6 +5,7 @@ defaults:
   tag: null
   test_channel: channel
   staging_channel: q2d2
+  release_channel: qiime2-staging/label/temp-delete-me
   testable: true
   deps: []
   extra_params: {}

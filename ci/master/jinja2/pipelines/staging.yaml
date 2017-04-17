@@ -18,12 +18,18 @@ groups:
       {%- endif %}
       {%- endfor %}
       - integration
-  - name: upload
+  - name: stage
     jobs:
       {%- for project in projects %}
-      - upload-{{ project.name }}
+      - stage-{{ project.name }}
       {%- endfor %}
       - create-staging-env-files
+  - name: release
+    jobs:
+      {%- for project in projects %}
+      - release-{{ project.name }}
+      {%- endfor %}
+      - create-release-env-files
   - name: all
     jobs:
       {%- for project in projects %}
@@ -31,10 +37,12 @@ groups:
       {%- if project.testable %}
       - unit-test-{{ project.name }}
       {%- endif %}
-      - upload-{{ project.name }}
+      - stage-{{ project.name }}
+      - release-{{ project.name }}
       {%- endfor %}
       - integration
       - create-staging-env-files
+      - create-release-env-files
 
 resources:
   - name: busywork
@@ -90,12 +98,35 @@ resources:
       pass: {{ftp_pass}}
       {%- endraw %}
 
+  - name: {{ project.name }}-channel-release
+    type: conda-channel
+    source:
+      pkg_name: {{ project.name }}
+      channel: {{ project.test_channel }}
+      regex: "^{{ project.release|replace('.', '\.') }}\.[0-9]+$"
+      {%- raw %}
+      uri: {{ftp_uri}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+      {%- endraw %}
+
   - name: {{ project.name }}-anaconda
     type: conda-channel
     source:
       pkg_name: {{ project.name }}
       uri: https://conda.anaconda.org
       channel: {{ project.staging_channel }}
+      {%- raw %}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
+      {%- endraw %}
+
+  - name: {{ project.name }}-anaconda-release
+    type: conda-channel
+    source:
+      pkg_name: {{ project.name }}
+      uri: https://conda.anaconda.org
+      channel: {{ project.release_channel }}
       {%- raw %}
       user: {{anaconda_user}}
       pass: {{anaconda_pass}}
@@ -153,7 +184,7 @@ jobs:
             {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
   {%- endif %}
 
-  - name: upload-{{ project.name }}
+  - name: stage-{{ project.name }}
     plan:
       - get: {{ project.name }}-channel
         trigger: true
@@ -161,6 +192,14 @@ jobs:
       - put: {{ project.name }}-anaconda
         params:
           from: {{ project.name }}-channel
+
+  - name: release-{{ project.name }}
+    plan:
+      - get: {{ project.name }}-channel-release
+        trigger: true
+      - put: {{ project.name }}-anaconda-release
+        params:
+          from: {{ project.name }}-channel-release
   {% endfor %}
   - name: integration
     plan:
@@ -193,7 +232,7 @@ jobs:
         {%- for project in projects %}
         - get: {{ project.name }}-anaconda
           trigger: true
-          passed: [upload-{{ project.name }}]
+          passed: [stage-{{ project.name }}]
         {%- endfor %}
       - aggregate:
         - task: staging-env-file-linux
@@ -205,6 +244,30 @@ jobs:
       - task: merge-and-commit-env-files
         config:
           {{- merge_env_files.make_config("staging", defaults)|indent(10) }}
+      - put: environment-files
+        params:
+          repository: updated-environment-files
+
+  - name: create-release-env-files
+    plan:
+      - aggregate:
+        - get: busywork
+        - get: environment-files
+        {%- for project in projects %}
+        - get: {{ project.name }}-anaconda-release
+          trigger: true
+          passed: [release-{{ project.name }}]
+        {%- endfor %}
+      - aggregate:
+        - task: staging-env-file-linux
+          config:
+            {{- env_file.make_linux_config(projects, defaults)|indent(12) }}
+        - task: staging-env-file-darwin
+          config:
+            {{- env_file.make_darwin_config(projects, defaults)|indent(12) }}
+      - task: merge-and-commit-env-files
+        config:
+          {{- merge_env_files.make_config("release", defaults)|indent(10) }}
       - put: environment-files
         params:
           repository: updated-environment-files
