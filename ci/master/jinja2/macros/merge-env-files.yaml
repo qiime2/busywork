@@ -18,5 +18,5 @@ inputs:
 outputs:
   - name: updated-environment-files
 run:
-  file: busywork/ci/{{ defaults.release_branch }}/bin/merge-env-files.sh
+  path: busywork/ci/{{ defaults.release_branch }}/bin/merge-env-files.sh
 {% endmacro %}
