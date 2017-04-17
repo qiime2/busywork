@@ -202,6 +202,7 @@ jobs:
           from: {{ project.name }}-channel-release
   {% endfor %}
   - name: integration
+    max_in_flight: 1
     plan:
       - aggregate:
         - get: busywork
