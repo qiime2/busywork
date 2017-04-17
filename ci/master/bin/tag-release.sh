@@ -29,6 +29,8 @@ REPOS_ARRAY=(${REPOS_STRING[*]})
 
 # Ask for current release in the current working directory.
 _get_release() {
+  # TODO:
+  # Do we need to check that it is dev, first?
   python -c 'import versioneer; version = versioneer.get_version(); release = ".".join(version.split(".")[:2]); print(release)'
 }
 
@@ -46,7 +48,10 @@ expected_release="$(trim $(cat busywork/current-dev-release))"
 
 for repo in $REPOS_ARRAY
 do
+  ls $repo-source/
+  ls $tagged-repo-source/
   cp -r $repo-source/ tagged-$repo-source/
+  ls $tagged-repo-source/
   cd tagged-$repo-source
 
   echo $PYTHONPATH
