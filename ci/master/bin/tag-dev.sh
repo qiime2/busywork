@@ -64,9 +64,10 @@ do
   git clone ${repo}-source tagged-${repo}-source
   cd tagged-${repo}-source
 
+  version="${expected_release}.0.dev0"
+
   if [ "$observed_release" != "$expected_release" ]
   then
-    version="${expected_release}.0.dev0"
     git commit --allow-empty -m "VER: ${version}"
   fi
 
