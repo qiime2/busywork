@@ -24,7 +24,7 @@ groups:
       {%- for project in projects %}
       - stage-{{ project.name }}
       {%- endfor %}
-      - batch-uploads-together 
+      - batch-uploads-together
       - create-staging-env-files
   - name: release
     jobs:
@@ -42,7 +42,9 @@ groups:
       - stage-{{ project.name }}
       - release-{{ project.name }}
       {%- endfor %}
+      - batch-builds-together
       - integration
+      - batch-uploads-together
       - create-staging-env-files
       - create-release-env-files
 
@@ -211,6 +213,7 @@ jobs:
           from: {{ project.name }}-channel-release
   {% endfor %}
   - name: batch-builds-together
+    build_logs_to_retain: 50
     plan:
       - get: throttle-timer
         trigger: true
@@ -246,6 +249,7 @@ jobs:
             {{- integration.make_linux_config(projects, defaults)|indent(12) }}
 
   - name: batch-uploads-together
+    build_logs_to_retain: 50
     plan:
       - get: throttle-timer
         trigger: true
