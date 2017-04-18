@@ -151,6 +151,7 @@ jobs:
           config:
             {{- build.make_linux_config(project, defaults)|indent(12) }}
         - task: build-darwin
+          attempts: 2
           config:
             {{- build.make_darwin_config(project, defaults)|indent(12) }}
       - task: merge-channels
@@ -180,6 +181,7 @@ jobs:
           config:
             {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
         - task: test-darwin
+          attempts: 2
           config:
             {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
   {%- endif %}
