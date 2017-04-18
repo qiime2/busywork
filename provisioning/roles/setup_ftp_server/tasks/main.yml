@@ -16,11 +16,14 @@
 
 - name: copy ftp server docker compose template
   template:
-    src: ftp_server.yml
+    src: "{{ item }}"
     dest: "{{ ftp_dir }}"
+  with_items:
+    - ftp_server.yml
+    - Dockerfile
 
 - name: start ftp containers
   become: True
-  command: /usr/local/bin/docker-compose -f {{ ftp_dir }}/ftp_server.yml up -d
+  command: /usr/local/bin/docker-compose -f {{ ftp_dir }}/ftp_server.yml up --build -d
   register: dc
   changed_when: '"Creating ftp_server_1" in dc.stderr'
