@@ -17,12 +17,14 @@ groups:
       - unit-test-{{ project.name }}
       {%- endif %}
       {%- endfor %}
+      - batch-builds-together
       - integration
   - name: stage
     jobs:
       {%- for project in projects %}
       - stage-{{ project.name }}
       {%- endfor %}
+      - batch-uploads-together 
       - create-staging-env-files
   - name: release
     jobs:
@@ -57,6 +59,11 @@ resources:
       start: 12:00 AM
       stop: 1:00 AM
       location: America/Phoenix
+
+  - name: throttle-timer
+    type: time
+    source:
+      interval: 10m
 
   - name: docs-source
     type: git
@@ -203,6 +210,17 @@ jobs:
         params:
           from: {{ project.name }}-channel-release
   {% endfor %}
+  - name: batch-builds-together
+    plan:
+      - get: throttle-timer
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-channel
+        {%- if project.testable %}
+        passed: [unit-test-{{ project.name }}]
+        {%- endif %}
+      {%- endfor %}
+
   - name: integration
     max_in_flight: 1
     plan:
@@ -216,7 +234,7 @@ jobs:
         - get: {{ project.name }}-channel
           trigger: true
           {%- if project.testable %}
-          passed: [unit-test-{{ project.name }}]
+          passed: [batch-builds-together]
           {%- endif %}
         {%- endfor %}
       - aggregate:
@@ -227,6 +245,17 @@ jobs:
           config:
             {{- integration.make_linux_config(projects, defaults)|indent(12) }}
 
+  - name: batch-uploads-together
+    plan:
+      - get: throttle-timer
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-anaconda
+        {%- if project.testable %}
+        passed: [stage-{{ project.name }}]
+        {%- endif %}
+      {%- endfor %}
+
   - name: create-staging-env-files
     max_in_flight: 1
     plan:
@@ -236,7 +265,7 @@ jobs:
         {%- for project in projects %}
         - get: {{ project.name }}-anaconda
           trigger: true
-          passed: [stage-{{ project.name }}]
+          passed: [batch-uploads-together]
         {%- endfor %}
       - aggregate:
         - task: staging-env-file-linux
