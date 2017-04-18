@@ -22,5 +22,5 @@ outputs:
   {%- endfor %}
 
 run:
-  path: busywork/ci/master/bin/tag-dev.sh
+  path: current-dev-release/ci/master/bin/tag-dev.sh
 {%- endmacro %}
