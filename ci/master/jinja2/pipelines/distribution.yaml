@@ -206,6 +206,7 @@ jobs:
     plan:
       - get: {{ project.name }}-channel-release
         trigger: true
+        passed: [integration]
       - put: {{ project.name }}-anaconda-release
         params:
           from: {{ project.name }}-channel-release
