@@ -19,6 +19,7 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
+      # TODO: uncomment when done with testing!
       # paths:
       #   - current-dev-release
 

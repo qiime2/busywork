@@ -69,7 +69,7 @@ do
   git clone ${repo}-source tagged-${repo}-source
   cd tagged-${repo}-source
 
-  version="${observed_release}.0.dev0"
+  version="${expected_release}.0.dev0"
 
   git commit --allow-empty -m "VER: ${version}"
 
