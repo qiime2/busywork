@@ -51,11 +51,12 @@ do
   echo $repo
   cd ${repo}-source
 
-  if [ "$(_is_dev)" != "False" ]
-  then
-    echo "Repo $repo HEAD is a development version: $(_get_version)"
-    exit 1
-  fi
+  # TODO: is this guard necessary
+  # if [ "$(_is_dev)" != "False" ]
+  # then
+  #   echo "Repo $repo HEAD is a development version: $(_get_version)"
+  #   exit 1
+  # fi
 
   observed_release=$(_get_release)
 
