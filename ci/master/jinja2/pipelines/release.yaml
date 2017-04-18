@@ -40,5 +40,4 @@ jobs:
           repository: tagged-{{ project.name }}-source
           tag: tagged-{{ project.name }}-source/tag
           annotate: annotate
-          rebase: True
       {%- endfor %}
