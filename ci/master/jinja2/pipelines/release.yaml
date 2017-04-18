@@ -1,4 +1,5 @@
 ---
+{%- import 'macros/tag-release.yaml' as tag_release %}
 {%- import 'macros/tag-dev.yaml' as tag_dev %}
 
 # TODO:
