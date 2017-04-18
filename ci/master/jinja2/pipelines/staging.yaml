@@ -228,6 +228,7 @@ jobs:
             {{- integration.make_linux_config(projects, defaults)|indent(12) }}
 
   - name: create-staging-env-files
+    max_in_flight: 1
     plan:
       - aggregate:
         - get: busywork
@@ -252,6 +253,7 @@ jobs:
           repository: updated-environment-files
 
   - name: create-release-env-files
+    max_in_flight: 1
     plan:
       - aggregate:
         - get: busywork
