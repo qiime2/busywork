@@ -1,11 +1,12 @@
 defaults:
-  release: 2017.4
+  release: 2017.4 # NOTE: when changing this line, edit the lines below, too
   release_branch: master
   github_org: nervous-laughter
   tag: null
-  test_channel: channel
-  staging_channel: q2d2
-  release_channel: qiime2-staging/label/temp-delete-me
+  # TODO: template the `release` into these values
+  test_channel: builds/2017.4
+  staging_channel: q2d2/label/2017.4
+  release_channel: qiime2-staging/label/2017.4
   testable: true
   deps: []
   extra_params: {}
