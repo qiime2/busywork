@@ -1,5 +1,5 @@
 ---
-{%- import 'macros/tag-release.yaml' as tag_release %}
+{%- import 'macros/tag-dev.yaml' as tag_dev %}
 
 # TODO:
 #   - Make rendered yaml pretty! It's all over the place right now.
@@ -11,6 +11,15 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
+
+  # TODO: serial_groups?
+  - name: current-dev-release
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: madmin
+      paths:
+        - current-dev-release
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
@@ -38,6 +47,25 @@ jobs:
       - put: {{ project.name }}-source
         params:
           repository: tagged-{{ project.name }}-source
+          # TODO: is this really necessary?!
+          tag: tagged-{{ project.name }}-source/tag
+          annotate: annotate
+      {%- endfor %}
+  - name: tag-dev
+    plan:
+      - get: current-dev-release
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-source
+      {%- endfor %}
+      - task: tag-dev
+        config:
+          {{- tag_dev.make_config(projects)|indent(10) }}
+      {%- for project in projects %}
+      - put: {{ project.name }}-source
+        params:
+          repository: tagged-{{ project.name }}-source
+          # TODO: is this really necessary?!
           tag: tagged-{{ project.name }}-source/tag
           annotate: annotate
       {%- endfor %}

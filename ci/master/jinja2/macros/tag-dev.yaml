@@ -1,0 +1,26 @@
+{%- macro make_config(projects) %}
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+
+params:
+  - REPOS_STRING: "{{ projects|join(' ', attribute='name') }}"
+
+inputs:
+  - name: current-dev-release
+  {%- for project in projects %}
+  - name: {{ project.name }}-source
+  {%- endfor %}
+
+outputs:
+  {%- for project in projects %}
+  - name: tagged-{{ project.name }}-source
+  {%- endfor %}
+
+run:
+  path: busywork/ci/master/bin/tag-dev.sh
+{%- endmacro %}
