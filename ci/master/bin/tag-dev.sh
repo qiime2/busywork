@@ -67,12 +67,11 @@ do
   if [ "$observed_release" != "$expected_release" ]
   then
     version="${expected_release}.0.dev0"
-
     git commit --allow-empty -m "VER: ${version}"
-
-    echo -n "${version}" > tag
-    echo -n "${repo} ${version}" > annotate
   fi
+
+  echo -n "${version}" > tag
+  echo -n "${repo} ${version}" > annotate
 
   cd ..
 done
