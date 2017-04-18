@@ -59,22 +59,19 @@ do
 
   observed_release=$(_get_release)
 
-  if [ "$observed_release" == "$expected_release" ]
-  then
-    echo "Repo $repo and busywork/current-dev-release both declare release $observed_release"
-    exit 1
-  fi
-
   cd ..
   git clone ${repo}-source tagged-${repo}-source
   cd tagged-${repo}-source
 
-  version="${expected_release}.0.dev0"
+  if [ "$observed_release" != "$expected_release" ]
+  then
+    version="${expected_release}.0.dev0"
 
-  git commit --allow-empty -m "VER: ${version}"
+    git commit --allow-empty -m "VER: ${version}"
 
-  echo -n "${version}" > tag
-  echo -n "${repo} ${version}" > annotate
+    echo -n "${version}" > tag
+    echo -n "${repo} ${version}" > annotate
+  fi
 
   cd ..
 done
