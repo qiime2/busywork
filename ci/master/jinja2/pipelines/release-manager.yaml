@@ -8,6 +8,7 @@
 groups:
   - name: tag-release
     jobs:
+      - shipit
       {%- for project in projects %}
       - tag-{{ project.name }}-release
       {%- endfor %}
@@ -47,10 +48,16 @@ resources:
   {%- endfor %}
 
 jobs:
+  - name: shipit
+    plan:
+      - get: busywork
+
   {%- for project in projects %}
   - name: tag-{{ project.name }}-release
     plan:
       - get: busywork
+        trigger: true
+        passed: [shipit]
       - get: {{ project.name }}-source
       - task: tag-release
         config:
