@@ -51,14 +51,19 @@ do
   echo $repo
   cd ${repo}-source
 
-  # TODO: is this guard necessary
-  # if [ "$(_is_dev)" != "False" ]
-  # then
-  #   echo "Repo $repo HEAD is a development version: $(_get_version)"
-  #   exit 1
-  # fi
+  if [ "$(_is_dev)" != "False" ]
+  then
+    echo "Repo $repo HEAD is a development version: $(_get_version)"
+    exit 1
+  fi
 
   observed_release=$(_get_release)
+
+  if [ "$observed_release" == "$expected_release" ]
+  then
+    echo "Repo $repo and busywork/current-dev-release both declare release $observed_release"
+    exit 1
+  fi
 
   cd ..
   git clone ${repo}-source tagged-${repo}-source
@@ -66,10 +71,7 @@ do
 
   version="${expected_release}.0.dev0"
 
-  if [ "$observed_release" != "$expected_release" ]
-  then
-    git commit --allow-empty -m "VER: ${version}"
-  fi
+  git commit --allow-empty -m "VER: ${version}"
 
   echo -n "${version}" > tag
   echo -n "${repo} ${version}" > annotate
