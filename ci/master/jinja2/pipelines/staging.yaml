@@ -145,16 +145,15 @@ jobs:
   {%- for project in projects %}
   - name: build-{{ project.name }}
     plan:
-      - aggregate:
-        - get: busywork
-        - get: {{ project.name }}-source
-          trigger: true
-        {%- for dep in project.deps %}
-        - get: {{ dep.name }}-channel
-          {%- if dep.testable %}
-          passed: [unit-test-{{ dep.name }}]
-          {%- endif %}
-        {%- endfor %}
+      - get: busywork
+      - get: {{ project.name }}-source
+        trigger: true
+      {%- for dep in project.deps %}
+      - get: {{ dep.name }}-channel
+        {%- if dep.testable %}
+        passed: [unit-test-{{ dep.name }}]
+        {%- endif %}
+      {%- endfor %}
       - aggregate:
         - task: build-linux
           config:
@@ -173,18 +172,17 @@ jobs:
 
   - name: unit-test-{{ project.name }}
     plan:
-      - aggregate:
-        - get: busywork
-        - get: {{ project.name }}-channel
-          trigger: true
-          passed: [build-{{ project.name }}]
-        {%- for dep in project.deps %}
-        - get: {{ dep.name }}-channel
-          trigger: true
-          {%- if dep.testable %}
-          passed: [unit-test-{{ dep.name }}]
-          {%- endif %}
-        {%- endfor %}
+      - get: busywork
+      - get: {{ project.name }}-channel
+        trigger: true
+        passed: [build-{{ project.name }}]
+      {%- for dep in project.deps %}
+      - get: {{ dep.name }}-channel
+        trigger: true
+        {%- if dep.testable %}
+        passed: [unit-test-{{ dep.name }}]
+        {%- endif %}
+      {%- endfor %}
       - aggregate:
         - task: test-linux
           config:
@@ -219,27 +217,30 @@ jobs:
         trigger: true
       {%- for project in projects %}
       - get: {{ project.name }}-channel
-        {%- if project.testable %}
-        passed: [unit-test-{{ project.name }}]
-        {%- endif %}
+        {% if project.rev_deps or project.testable %}passed:{% endif %}
+          {%- if project.testable %}
+          - unit-test-{{ project.name }}
+          {%- endif %}
+          {%- for rev_dep in project.rev_deps %}
+          - unit-test-{{ rev_dep.name }}
+          {%- endfor %}
       {%- endfor %}
 
   - name: integration
     max_in_flight: 1
     plan:
-      - aggregate:
-        - get: busywork
-        - get: nightly
-          trigger: true
-        - get: docs-source
-          trigger: true
-        {%- for project in projects %}
-        - get: {{ project.name }}-channel
-          trigger: true
-          {%- if project.testable %}
-          passed: [batch-builds-together]
-          {%- endif %}
-        {%- endfor %}
+      - get: busywork
+      - get: nightly
+        trigger: true
+      - get: docs-source
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-channel
+        trigger: true
+        {%- if project.testable %}
+        passed: [batch-builds-together]
+        {%- endif %}
+      {%- endfor %}
       - aggregate:
         - task: integration-linux
           config:
@@ -263,14 +264,13 @@ jobs:
   - name: create-staging-env-files
     max_in_flight: 1
     plan:
-      - aggregate:
-        - get: busywork
-        - get: environment-files
-        {%- for project in projects %}
-        - get: {{ project.name }}-anaconda
-          trigger: true
-          passed: [batch-uploads-together]
-        {%- endfor %}
+      - get: busywork
+      - get: environment-files
+      {%- for project in projects %}
+      - get: {{ project.name }}-anaconda
+        trigger: true
+        passed: [batch-uploads-together]
+      {%- endfor %}
       - aggregate:
         - task: staging-env-file-linux
           config:
@@ -288,14 +288,13 @@ jobs:
   - name: create-release-env-files
     max_in_flight: 1
     plan:
-      - aggregate:
-        - get: busywork
-        - get: environment-files
-        {%- for project in projects %}
-        - get: {{ project.name }}-anaconda-release
-          trigger: true
-          passed: [release-{{ project.name }}]
-        {%- endfor %}
+      - get: busywork
+      - get: environment-files
+      {%- for project in projects %}
+      - get: {{ project.name }}-anaconda-release
+        trigger: true
+        passed: [release-{{ project.name }}]
+      {%- endfor %}
       - aggregate:
         - task: staging-env-file-linux
           config:

@@ -15,6 +15,10 @@ def fill_in_defaults(variables):
         lookup[updated['name']] = updated
 
     for project in variables['projects']:
+        project['rev_deps'] = [rd for rd in variables['projects']
+                               if project['name'] in rd['deps']]
+
+    for project in variables['projects']:
         project['deps'][:] = [lookup[p] for p in project['deps']]
 
     return variables
