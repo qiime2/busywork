@@ -10,7 +10,7 @@ echo "source activate ./conda-env"
 source activate ./conda-env
 set -v
 
-PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-anaconda.*' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
+PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
 conda install -q -y \
   -c $STAGING_CHANNEL \
   -c https://conda.anaconda.org/qiime2 \

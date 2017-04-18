@@ -14,9 +14,9 @@ params:
   {%- endfor %}
 inputs:
   - name: busywork
-  - name: {{ project.name }}-channel
+  - name: {{ project.name }}-test-channel
   {%- for dep in project.deps %}
-  - name: {{ dep.name }}-channel
+  - name: {{ dep.name }}-test-channel
   {%- endfor %}
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
@@ -36,9 +36,9 @@ params:
   {%- endfor %}
 inputs:
   - name: busywork
-  - name: {{ project.name }}-channel
+  - name: {{ project.name }}-test-channel
   {%- for dep in project.deps %}
-  - name: {{ dep.name }}-channel
+  - name: {{ dep.name }}-test-channel
   {%- endfor %}
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh

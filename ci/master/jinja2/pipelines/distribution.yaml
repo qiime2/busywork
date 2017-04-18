@@ -69,6 +69,7 @@ resources:
 
   - name: docs-source
     type: git
+    check_every: 2m
     source:
       uri: https://github.com/{{ defaults.github_org }}/docs
       branch: {{ defaults.release_branch }}
@@ -78,6 +79,7 @@ resources:
 
   - name: environment-files
     type: git
+    check_every: 24h
     source:
       uri: https://github.com/qiime2/environment-files
       branch: master
@@ -89,6 +91,7 @@ resources:
   {%- for project in projects %}
   - name: {{ project.name }}-source
     type: git
+    check_every: 2m
     source:
       uri: https://github.com/{{ project.github_org }}/{{ project.name }}
       branch: {{ project.release_branch }}
@@ -96,8 +99,9 @@ resources:
       tag: {{ project.tag }}
       {%- endif %}
 
-  - name: {{ project.name }}-channel
+  - name: {{ project.name }}-test-channel
     type: conda-channel
+    check_every: 24h
     source:
       pkg_name: {{ project.name }}
       channel: {{ project.test_channel }}
@@ -107,20 +111,9 @@ resources:
       pass: {{ftp_pass}}
       {%- endraw %}
 
-  - name: {{ project.name }}-channel-release
+  - name: {{ project.name }}-staging-channel
     type: conda-channel
-    source:
-      pkg_name: {{ project.name }}
-      channel: {{ project.test_channel }}
-      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
-      {%- raw %}
-      uri: {{ftp_uri}}
-      user: {{ftp_user}}
-      pass: {{ftp_pass}}
-      {%- endraw %}
-
-  - name: {{ project.name }}-anaconda
-    type: conda-channel
+    check_every: 24h
     source:
       pkg_name: {{ project.name }}
       uri: https://conda.anaconda.org
@@ -130,8 +123,22 @@ resources:
       pass: {{anaconda_pass}}
       {%- endraw %}
 
-  - name: {{ project.name }}-anaconda-release
+  - name: {{ project.name }}-release-staging-channel
     type: conda-channel
+    check_every: 5m
+    source:
+      pkg_name: {{ project.name }}
+      uri: https://conda.anaconda.org
+      channel: {{ project.staging_channel }}
+      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
+      {%- raw %}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
+      {%- endraw %}
+
+  - name: {{ project.name }}-release-channel
+    type: conda-channel
+    check_every: 24h
     source:
       pkg_name: {{ project.name }}
       uri: https://conda.anaconda.org
@@ -149,7 +156,7 @@ jobs:
       - get: {{ project.name }}-source
         trigger: true
       {%- for dep in project.deps %}
-      - get: {{ dep.name }}-channel
+      - get: {{ dep.name }}-test-channel
         {%- if dep.testable %}
         passed: [unit-test-{{ dep.name }}]
         {%- endif %}
@@ -165,7 +172,7 @@ jobs:
       - task: merge-channels
         config:
           {{- merge.make_config(defaults)|indent(10) }}
-      - put: {{ project.name }}-channel
+      - put: {{ project.name }}-test-channel
         params:
           from: builds
   {%- if project.testable %}
@@ -173,11 +180,11 @@ jobs:
   - name: unit-test-{{ project.name }}
     plan:
       - get: busywork
-      - get: {{ project.name }}-channel
+      - get: {{ project.name }}-test-channel
         trigger: true
         passed: [build-{{ project.name }}]
       {%- for dep in project.deps %}
-      - get: {{ dep.name }}-channel
+      - get: {{ dep.name }}-test-channel
         trigger: true
         {%- if dep.testable %}
         passed: [unit-test-{{ dep.name }}]
@@ -195,21 +202,20 @@ jobs:
 
   - name: stage-{{ project.name }}
     plan:
-      - get: {{ project.name }}-channel
+      - get: {{ project.name }}-test-channel
         trigger: true
         passed: [integration]
-      - put: {{ project.name }}-anaconda
+      - put: {{ project.name }}-staging-channel
         params:
-          from: {{ project.name }}-channel
+          from: {{ project.name }}-test-channel
 
   - name: release-{{ project.name }}
     plan:
-      - get: {{ project.name }}-channel-release
+      - get: {{ project.name }}-release-staging-channel
         trigger: true
-        passed: [integration]
-      - put: {{ project.name }}-anaconda-release
+      - put: {{ project.name }}-release-channel
         params:
-          from: {{ project.name }}-channel-release
+          from: {{ project.name }}-release-staging-channel
   {% endfor %}
   - name: batch-builds-together
     build_logs_to_retain: 50
@@ -217,7 +223,7 @@ jobs:
       - get: throttle-timer
         trigger: true
       {%- for project in projects %}
-      - get: {{ project.name }}-channel
+      - get: {{ project.name }}-test-channel
         {% if project.rev_deps or project.testable %}passed:{% endif %}
           {%- if project.testable %}
           - unit-test-{{ project.name }}
@@ -236,7 +242,7 @@ jobs:
       - get: docs-source
         trigger: true
       {%- for project in projects %}
-      - get: {{ project.name }}-channel
+      - get: {{ project.name }}-test-channel
         trigger: true
         {%- if project.testable %}
         passed: [batch-builds-together]
@@ -256,7 +262,7 @@ jobs:
       - get: throttle-timer
         trigger: true
       {%- for project in projects %}
-      - get: {{ project.name }}-anaconda
+      - get: {{ project.name }}-staging-channel
         {%- if project.testable %}
         passed: [stage-{{ project.name }}]
         {%- endif %}
@@ -268,7 +274,7 @@ jobs:
       - get: busywork
       - get: environment-files
       {%- for project in projects %}
-      - get: {{ project.name }}-anaconda
+      - get: {{ project.name }}-staging-channel
         trigger: true
         passed: [batch-uploads-together]
       {%- endfor %}
@@ -292,7 +298,7 @@ jobs:
       - get: busywork
       - get: environment-files
       {%- for project in projects %}
-      - get: {{ project.name }}-anaconda-release
+      - get: {{ project.name }}-release-channel
         trigger: true
         passed: [release-{{ project.name }}]
       {%- endfor %}
