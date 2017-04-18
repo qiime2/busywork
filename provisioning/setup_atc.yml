@@ -1,6 +1,0 @@
----
-
-- name: set up concourse main web service
-  hosts: atc
-  roles:
-    - setup_atc

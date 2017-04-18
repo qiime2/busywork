@@ -1,6 +1,0 @@
----
-
-- name: tear down darwin workers
-  hosts: darwin_workers
-  roles:
-    - teardown_darwin_worker

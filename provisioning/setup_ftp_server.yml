@@ -1,6 +1,0 @@
----
-
-- name: set up ftp_server
-  hosts: toast
-  roles:
-    - setup_ftp_server

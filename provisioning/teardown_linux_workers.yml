@@ -1,6 +1,0 @@
----
-
-- name: tear down linux workers
-  hosts: linux_workers
-  roles:
-    - teardown_linux_worker

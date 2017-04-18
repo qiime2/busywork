@@ -1,6 +1,0 @@
----
-
-- name: set up darwin workers
-  hosts: darwin_workers
-  roles:
-    - setup_darwin_worker

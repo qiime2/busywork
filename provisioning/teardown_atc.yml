@@ -1,6 +1,0 @@
----
-
-- name: tear down concourse main web service
-  hosts: atc
-  roles:
-    - teardown_atc

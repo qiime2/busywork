@@ -1,6 +1,0 @@
----
-
-- name: set up linux workers
-  hosts: linux_workers
-  roles:
-    - setup_linux_worker
