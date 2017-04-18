@@ -58,10 +58,9 @@ resources:
   - name: nightly
     type: time
     source:
-      interval: 1m
-#     start: 12:00 AM
-#     stop: 1:00 AM
-#     location: America/Phoenix
+      start: 12:00 AM
+      stop: 1:00 AM
+      location: America/Phoenix
 
   - name: throttle-timer
     type: time
