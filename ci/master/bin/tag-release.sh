@@ -17,9 +17,6 @@ apt-get install -y git
 git config --global user.name q2d2
 git config --global user.email "q2d2.noreply@gmail.com"
 
-# Convert a space-separated string to an array.
-REPOS_ARRAY=(${REPOS_STRING[*]})
-
 # Check if project version is `dev`
 _is_dev() {
   python -c 'import versioneer; print("dev" in versioneer.get_version())'
@@ -46,37 +43,33 @@ trim() {
 
 expected_release="$(trim $(cat busywork/current-dev-release))"
 
-for repo in "${REPOS_ARRAY[@]}"
-do
-  echo $repo
-  cd ${repo}-source
+cd ${REPO}-source
 
-  # NOTE:
-  # This is commented out for dev purposes, and should not be deleted.
-  # if [ "$(_is_dev)" != "True" ]
-  # then
-  #   echo "Repo $repo HEAD is not a development version: $(_get_version)"
-  #   exit 1
-  # fi
+if [ "$(_is_dev)" != "True" ]
+then
+  echo "Repo $REPO HEAD is not a development version: $(_get_version)"
+  # TODO:
+  # should this be a clean exit?
+  exit 1
+fi
 
-  observed_release=$(_get_release)
+observed_release=$(_get_release)
 
-  if [ "$observed_release" != "$expected_release" ]
-  then
-    echo "Repo $repo has current dev release $observed_release but busywork/current-dev-release declares $expected_release."
-    exit 1
-  fi
+if [ "$observed_release" != "$expected_release" ]
+then
+  echo "Repo $REPO has current dev release $observed_release but busywork/current-dev-release declares $expected_release."
+  # TODO:
+  # should this be a clean exit?
+  exit 1
+fi
 
-  cd ..
-  git clone ${repo}-source tagged-${repo}-source
-  cd tagged-${repo}-source
+cd ..
+git clone ${REPO}-source tagged-${REPO}-source
+cd tagged-${REPO}-source
 
-  version="${observed_release}.0"
+version="${observed_release}.0"
 
-  git commit --allow-empty -m "REL: ${version}"
+git commit --allow-empty -m "REL: ${version}"
 
-  echo -n "${version}" > tag
-  echo -n "${repo} ${version}" > annotate
-
-  cd ..
-done
+echo -n "${version}" > tag
+echo -n "${REPO} ${version}" > annotate

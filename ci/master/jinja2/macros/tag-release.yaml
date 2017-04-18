@@ -1,4 +1,4 @@
-{%- macro make_config(projects) %}
+{%- macro make_config(project) %}
 platform: linux
 
 image_resource:
@@ -8,18 +8,14 @@ image_resource:
     version: latest
 
 params:
-  - REPOS_STRING: "{{ projects|join(' ', attribute='name') }}"
+  - REPO: "{{ project.name }}"
 
 inputs:
   - name: busywork
-  {%- for project in projects %}
   - name: {{ project.name }}-source
-  {%- endfor %}
 
 outputs:
-  {%- for project in projects %}
   - name: tagged-{{ project.name }}-source
-  {%- endfor %}
 
 run:
   path: busywork/ci/master/bin/tag-release.sh

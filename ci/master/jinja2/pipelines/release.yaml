@@ -34,38 +34,33 @@ resources:
   {%- endfor %}
 
 jobs:
-  - name: tag-release
+  {%- for project in projects %}
+  - name: tag-{{ project.name }}-release
     plan:
       - get: busywork
-      {%- for project in projects %}
       - get: {{ project.name }}-source
-      {%- endfor %}
       - task: tag-release
         config:
-          {{- tag_release.make_config(projects)|indent(10) }}
-      {%- for project in projects %}
+          {{- tag_release.make_config(project)|indent(10) }}
       - put: {{ project.name }}-source
         params:
           repository: tagged-{{ project.name }}-source
           # TODO: is this really necessary?!
           tag: tagged-{{ project.name }}-source/tag
           annotate: annotate
-      {%- endfor %}
-  - name: tag-dev
+
+  - name: tag-{{ project.name }}-dev
     plan:
       - get: current-dev-release
         trigger: true
-      {%- for project in projects %}
       - get: {{ project.name }}-source
-      {%- endfor %}
       - task: tag-dev
         config:
-          {{- tag_dev.make_config(projects)|indent(10) }}
-      {%- for project in projects %}
+          {{- tag_dev.make_config(project)|indent(10) }}
       - put: {{ project.name }}-source
         params:
           repository: tagged-{{ project.name }}-source
           # TODO: is this really necessary?!
           tag: tagged-{{ project.name }}-source/tag
           annotate: annotate
-      {%- endfor %}
+  {%- endfor %}
