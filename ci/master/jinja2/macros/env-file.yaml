@@ -1,5 +1,5 @@
 # Linux
-{%- macro make_linux_config(projects, defaults) %}
+{%- macro make_linux_config(projects, defaults, channel_suffix) %}
 platform: linux
 image_resource:
   type: docker-image
@@ -13,7 +13,7 @@ params:
 inputs:
   - name: busywork
   {%- for project in projects %}
-  - name: {{ project.name }}-staging-channel
+  - name: {{ project.name }}-{{ channel_suffix }}
   {%- endfor %}
 outputs:
   - name: linux-environment-files
@@ -22,7 +22,7 @@ run:
 {%- endmacro %}
 
 # Darwin
-{%- macro make_darwin_config(projects, defaults) %}
+{%- macro make_darwin_config(projects, defaults, channel_suffix) %}
 platform: darwin
 params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -33,7 +33,7 @@ params:
 inputs:
   - name: busywork
   {%- for project in projects %}
-  - name: {{ project.name }}-staging-channel
+  - name: {{ project.name }}-{{ channel_suffix }}
   {%- endfor %}
 outputs:
   - name: darwin-environment-files
