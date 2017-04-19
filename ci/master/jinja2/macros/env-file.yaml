@@ -13,7 +13,7 @@ params:
 inputs:
   - name: busywork
   {%- for project in projects %}
-  - name: {{ project.name }}-{{ channel_suffix }}
+  - name: {{ project.name }}-{{ project.release }}-{{ channel_suffix }}
   {%- endfor %}
 outputs:
   - name: linux-environment-files
@@ -33,7 +33,7 @@ params:
 inputs:
   - name: busywork
   {%- for project in projects %}
-  - name: {{ project.name }}-{{ channel_suffix }}
+  - name: {{ project.name }}-{{ project.release }}-{{ channel_suffix }}
   {%- endfor %}
 outputs:
   - name: darwin-environment-files
