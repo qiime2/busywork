@@ -41,7 +41,7 @@ trim() {
   echo -n "$var"
 }
 
-expected_release="$(trim $(cat current-dev-release/current-dev-release))"
+expected_release="$(trim $(grep 'release:' current-dev-release/ci/master/variables.yaml | sed 's/release: //g'))"
 
 cd ${REPO}-source
 
