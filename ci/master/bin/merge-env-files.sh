@@ -16,4 +16,4 @@ cp ../linux-environment-files/* $RELPATH
 cp ../darwin-environment-files/* $RELPATH
 
 git add $RELPATH
-git commit -m "Updated $RELEASE $BUILD_TYPE environment file."
+git diff-index --quiet HEAD || git commit -m "Updated $RELEASE $BUILD_TYPE environment file."
