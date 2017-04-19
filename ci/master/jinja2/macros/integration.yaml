@@ -13,7 +13,7 @@ inputs:
   - name: busywork
   - name: docs-source
   {%- for project in projects %}
-  - name: {{ project.name }}-test-channel
+  - name: {{ project.name }}-{{ project.release }}-test-channel
   {%- endfor %}
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
@@ -32,7 +32,7 @@ inputs:
   - name: busywork
   - name: docs-source
   {%- for project in projects %}
-  - name: {{ project.name }}-test-channel
+  - name: {{ project.name }}-{{ project.release }}-test-channel
   {%- endfor %}
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh

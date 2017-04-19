@@ -11,12 +11,12 @@ params:
   - REPO: "{{ project.name }}"
 
 inputs:
-  - name: current-dev-release
+  - name: busywork
   - name: {{ project.name }}-source
 
 outputs:
   - name: tagged-{{ project.name }}-source
 
 run:
-  path: current-dev-release/ci/master/bin/tag-dev.sh
+  path: busywork/ci/master/bin/tag-dev.sh
 {%- endmacro %}

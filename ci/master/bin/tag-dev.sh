@@ -41,7 +41,7 @@ trim() {
   echo -n "$var"
 }
 
-expected_release="$(trim $(grep 'release:' current-dev-release/ci/master/variables.yaml | sed 's/release: //g'))"
+expected_release="$(trim $(grep 'release:' busywork/ci/master/variables.yaml | sed 's/release: //g'))"
 
 cd ${REPO}-source
 
@@ -57,7 +57,7 @@ observed_release=$(_get_release)
 
 if [ "$observed_release" == "$expected_release" ]
 then
-  echo "Repo $REPO and busywork/current-dev-release both declare release $observed_release"
+  echo "Repo $REPO and busywork/ci/master/variables.yaml both declare release $observed_release"
   # TODO:
   # should this be a clean exit?
   exit 1

@@ -13,7 +13,7 @@ inputs:
   - name: {{ project.name }}-source
     path: source
   {%- for dep in project.deps %}
-  - name: {{ dep.name }}-test-channel
+  - name: {{ dep.name }}-{{ dep.release }}-test-channel
   {%- endfor %}
 outputs:
   - name: build-linux
@@ -33,7 +33,7 @@ inputs:
   - name: {{ project.name }}-source
     path: source
   {%- for dep in project.deps %}
-  - name: {{ dep.name }}-test-channel
+  - name: {{ dep.name }}-{{ dep.release }}-test-channel
   {%- endfor %}
 outputs:
   - name: build-darwin

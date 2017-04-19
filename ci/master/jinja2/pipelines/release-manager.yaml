@@ -14,6 +14,7 @@ groups:
       {%- endfor %}
   - name: tag-dev
     jobs:
+      - devit
       {%- for project in projects %}
       - tag-{{ project.name }}-dev
       {%- endfor %}
@@ -24,15 +25,6 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
-
-  # TODO: serial_groups?
-  - name: current-dev-release
-    type: git
-    source:
-      uri: https://github.com/qiime2/busywork
-      branch: madmin
-      paths:
-        - ci/{{ defaults.release_branch }}/variables.yaml
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
@@ -48,6 +40,10 @@ resources:
 
 jobs:
   - name: shipit
+    plan:
+      - get: busywork
+
+  - name: devit
     plan:
       - get: busywork
 
@@ -70,8 +66,9 @@ jobs:
 
   - name: tag-{{ project.name }}-dev
     plan:
-      - get: current-dev-release
+      - get: busywork
         trigger: true
+        passed: [devit]
       - get: {{ project.name }}-source
       - task: tag-dev
         config:

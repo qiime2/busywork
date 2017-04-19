@@ -57,7 +57,7 @@ observed_release=$(_get_release)
 
 if [ "$observed_release" != "$expected_release" ]
 then
-  echo "Repo $REPO has current dev release $observed_release but busywork/current-dev-release declares $expected_release."
+  echo "Repo $REPO has current dev release $observed_release but busywork/ci/master/variables.yaml declares $expected_release."
   # TODO:
   # should this be a clean exit?
   exit 1

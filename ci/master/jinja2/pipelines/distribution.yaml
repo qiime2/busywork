@@ -99,7 +99,7 @@ resources:
       tag: {{ project.tag }}
       {%- endif %}
 
-  - name: {{ project.name }}-test-channel
+  - name: {{ project.name }}-{{ project.release }}-test-channel
     type: conda-channel
     check_every: 24h
     source:
@@ -111,7 +111,7 @@ resources:
       pass: {{ftp_pass}}
       {%- endraw %}
 
-  - name: {{ project.name }}-staging-channel
+  - name: {{ project.name }}-{{ project.release }}-staging-channel
     type: conda-channel
     check_every: 24h
     source:
@@ -123,7 +123,7 @@ resources:
       pass: {{anaconda_pass}}
       {%- endraw %}
 
-  - name: {{ project.name }}-release-staging-channel
+  - name: {{ project.name }}-{{ project.release }}-release-staging-channel
     type: conda-channel
     check_every: 5m
     source:
@@ -136,7 +136,7 @@ resources:
       pass: {{anaconda_pass}}
       {%- endraw %}
 
-  - name: {{ project.name }}-release-channel
+  - name: {{ project.name }}-{{ project.release }}-release-channel
     type: conda-channel
     check_every: 24h
     source:
@@ -156,7 +156,7 @@ jobs:
       - get: {{ project.name }}-source
         trigger: true
       {%- for dep in project.deps %}
-      - get: {{ dep.name }}-test-channel
+      - get: {{ dep.name }}-{{ dep.release }}-test-channel
         {%- if dep.testable %}
         passed: [unit-test-{{ dep.name }}]
         {%- endif %}
@@ -172,7 +172,7 @@ jobs:
       - task: merge-channels
         config:
           {{- merge.make_config(defaults)|indent(10) }}
-      - put: {{ project.name }}-test-channel
+      - put: {{ project.name }}-{{ project.release }}-test-channel
         params:
           from: builds
   {%- if project.testable %}
@@ -180,11 +180,11 @@ jobs:
   - name: unit-test-{{ project.name }}
     plan:
       - get: busywork
-      - get: {{ project.name }}-test-channel
+      - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
         passed: [build-{{ project.name }}]
       {%- for dep in project.deps %}
-      - get: {{ dep.name }}-test-channel
+      - get: {{ dep.name }}-{{ dep.release }}-test-channel
         trigger: true
         {%- if dep.testable %}
         passed: [unit-test-{{ dep.name }}]
@@ -202,20 +202,20 @@ jobs:
 
   - name: stage-{{ project.name }}
     plan:
-      - get: {{ project.name }}-test-channel
+      - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
         passed: [integration]
-      - put: {{ project.name }}-staging-channel
+      - put: {{ project.name }}-{{ project.release }}-staging-channel
         params:
-          from: {{ project.name }}-test-channel
+          from: {{ project.name }}-{{ project.release }}-test-channel
 
   - name: release-{{ project.name }}
     plan:
-      - get: {{ project.name }}-release-staging-channel
+      - get: {{ project.name }}-{{ project.release }}-release-staging-channel
         trigger: true
-      - put: {{ project.name }}-release-channel
+      - put: {{ project.name }}-{{ project.release }}-release-channel
         params:
-          from: {{ project.name }}-release-staging-channel
+          from: {{ project.name }}-{{ project.release }}-release-staging-channel
   {% endfor %}
   - name: batch-builds-together
     build_logs_to_retain: 50
@@ -223,7 +223,7 @@ jobs:
       - get: throttle-timer
         trigger: true
       {%- for project in projects %}
-      - get: {{ project.name }}-test-channel
+      - get: {{ project.name }}-{{ project.release }}-test-channel
         {% if project.rev_deps or project.testable %}passed:{% endif %}
           {%- if project.testable %}
           - unit-test-{{ project.name }}
@@ -242,7 +242,7 @@ jobs:
       - get: docs-source
         trigger: true
       {%- for project in projects %}
-      - get: {{ project.name }}-test-channel
+      - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
         {%- if project.testable %}
         passed: [batch-builds-together]
@@ -262,7 +262,7 @@ jobs:
       - get: throttle-timer
         trigger: true
       {%- for project in projects %}
-      - get: {{ project.name }}-staging-channel
+      - get: {{ project.name }}-{{ project.release }}-staging-channel
         {%- if project.testable %}
         passed: [stage-{{ project.name }}]
         {%- endif %}
@@ -274,7 +274,7 @@ jobs:
       - get: busywork
       - get: environment-files
       {%- for project in projects %}
-      - get: {{ project.name }}-staging-channel
+      - get: {{ project.name }}-{{ project.release }}-staging-channel
         trigger: true
         passed: [batch-uploads-together]
       {%- endfor %}
@@ -298,7 +298,7 @@ jobs:
       - get: busywork
       - get: environment-files
       {%- for project in projects %}
-      - get: {{ project.name }}-release-channel
+      - get: {{ project.name }}-{{ project.release }}-release-channel
         trigger: true
         passed: [release-{{ project.name }}]
       {%- endfor %}
