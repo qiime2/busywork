@@ -31,9 +31,8 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: madmin
-      # TODO: uncomment and updated tag-dev.sh when ready to go to prod
-      # paths:
-      #   - ci/master/variables.yaml
+      paths:
+        - ci/master/variables.yaml
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
