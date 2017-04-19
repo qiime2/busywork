@@ -6,17 +6,17 @@
 #   - Make rendered yaml pretty! It's all over the place right now.
 #   - Can we use pyyaml instead of jinja2 to generate these configs?
 groups:
-  - name: tag-release
-    jobs:
-      - shipit
-      {%- for project in projects %}
-      - tag-{{ project.name }}-release
-      {%- endfor %}
   - name: tag-dev
     jobs:
       - devit
       {%- for project in projects %}
       - tag-{{ project.name }}-dev
+      {%- endfor %}
+  - name: tag-release
+    jobs:
+      - shipit
+      {%- for project in projects %}
+      - tag-{{ project.name }}-release
       {%- endfor %}
 
 resources:
