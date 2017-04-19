@@ -32,7 +32,7 @@ resources:
       uri: https://github.com/qiime2/busywork
       branch: madmin
       paths:
-        - ci/master/variables.yaml
+        - ci/{{ defaults.release_branch }}/variables.yaml
 
   {%- for project in projects %}
   - name: {{ project.name }}-source
