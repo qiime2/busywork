@@ -38,5 +38,4 @@ do
       --var "anaconda_user=$ANACONDA_USER" \
       --var "anaconda_pass=$ANACONDA_PASS"
   ./fly -t qiime2 expose-pipeline -p $pipeline_name
-  ./fly -t qiime2 unpause-pipeline -p $pipeline_name
 done
