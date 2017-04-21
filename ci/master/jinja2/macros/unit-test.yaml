@@ -1,0 +1,45 @@
+# Linux
+{%- macro make_linux_config(project, defaults) %}
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+params:
+  - MPLBACKEND: Agg
+  - TEST_RUNNER_CMD: {{ project.test_runner }}
+  {%- for key, value in project.extra_params.items() %}
+  - {{ key }}: {{ value }}
+  {%- endfor %}
+inputs:
+  - name: busywork
+  - name: {{ project.name }}-{{ project.release }}-test-channel
+  {%- for dep in project.deps %}
+  - name: {{ dep.name }}-{{ dep.release }}-test-channel
+  {%- endfor %}
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
+{%- endmacro %}
+
+# Darwin
+{%- macro make_darwin_config(project, defaults) %}
+platform: darwin
+params:
+  - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  - LC_ALL: en_US.UTF-8
+  - LANG: en_US.UTF-8
+  - MPLBACKEND: Agg
+  - TEST_RUNNER_CMD: {{ project.test_runner }}
+  {%- for key, value in project.extra_params.items() %}
+  - {{ key }}: {{ value }}
+  {%- endfor %}
+inputs:
+  - name: busywork
+  - name: {{ project.name }}-{{ project.release }}-test-channel
+  {%- for dep in project.deps %}
+  - name: {{ dep.name }}-{{ dep.release }}-test-channel
+  {%- endfor %}
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
+{%- endmacro %}

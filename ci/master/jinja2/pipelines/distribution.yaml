@@ -1,0 +1,318 @@
+{%- import 'macros/build.yaml' as build %}
+{%- import 'macros/merge.yaml' as merge %}
+{%- import 'macros/unit-test.yaml' as unit_test %}
+{%- import 'macros/integration.yaml' as integration %}
+{%- import 'macros/env-file.yaml' as env_file %}
+{%- import 'macros/merge-env-files.yaml' as merge_env_files %}
+groups:
+  - name: build
+    jobs:
+      {%- for project in projects %}
+      - build-{{ project.name }}
+      {%- endfor %}
+  - name: test
+    jobs:
+      {%- for project in projects %}
+      {%- if project.testable %}
+      - unit-test-{{ project.name }}
+      {%- endif %}
+      {%- endfor %}
+      - batch-builds-together
+      - integration
+  - name: stage
+    jobs:
+      {%- for project in projects %}
+      - stage-{{ project.name }}
+      {%- endfor %}
+      - batch-uploads-together
+      - create-staging-env-files
+  - name: release
+    jobs:
+      {%- for project in projects %}
+      - release-{{ project.name }}
+      {%- endfor %}
+      - create-release-env-files
+  - name: all
+    jobs:
+      {%- for project in projects %}
+      - build-{{ project.name }}
+      {%- if project.testable %}
+      - unit-test-{{ project.name }}
+      {%- endif %}
+      - stage-{{ project.name }}
+      - release-{{ project.name }}
+      {%- endfor %}
+      - batch-builds-together
+      - integration
+      - batch-uploads-together
+      - create-staging-env-files
+      - create-release-env-files
+
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: master
+
+  - name: throttle-timer
+    type: time
+    source:
+      interval: 10m
+
+  - name: docs-source
+    type: git
+    check_every: 2m
+    source:
+      uri: https://github.com/{{ defaults.github_org }}/docs
+      branch: {{ defaults.release_branch }}
+
+  - name: environment-files
+    type: git
+    check_every: 24h
+    source:
+      uri: https://github.com/qiime2/environment-files
+      branch: master
+      {%- raw %}
+      username: {{github_user}}
+      password: {{github_pass}}
+      {%- endraw %}
+
+  {%- for project in projects %}
+  - name: {{ project.name }}-source
+    type: git
+    check_every: 2m
+    source:
+      uri: https://github.com/{{ project.github_org }}/{{ project.name }}
+      branch: {{ project.release_branch }}
+
+  - name: {{ project.name }}-{{ project.release }}-test-channel
+    type: conda-channel
+    check_every: 24h
+    source:
+      pkg_name: {{ project.name }}
+      channel: {{ project.test_channel }}
+      {%- raw %}
+      uri: {{ftp_uri}}
+      user: {{ftp_user}}
+      pass: {{ftp_pass}}
+      {%- endraw %}
+
+  - name: {{ project.name }}-{{ project.release }}-staging-channel
+    type: conda-channel
+    check_every: 24h
+    source:
+      pkg_name: {{ project.name }}
+      uri: https://conda.anaconda.org
+      channel: {{ project.staging_channel }}
+      {%- raw %}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
+      {%- endraw %}
+
+  - name: {{ project.name }}-{{ project.release }}-release-staging-channel
+    type: conda-channel
+    check_every: 5m
+    source:
+      pkg_name: {{ project.name }}
+      uri: https://conda.anaconda.org
+      channel: {{ project.staging_channel }}
+      # Emrakool approves
+      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
+      {%- raw %}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
+      {%- endraw %}
+
+  - name: {{ project.name }}-{{ project.release }}-release-channel
+    type: conda-channel
+    check_every: 24h
+    source:
+      pkg_name: {{ project.name }}
+      uri: https://conda.anaconda.org
+      channel: {{ project.release_channel }}
+      {%- raw %}
+      user: {{anaconda_user}}
+      pass: {{anaconda_pass}}
+      {%- endraw %}
+  {% endfor %}
+jobs:
+  {%- for project in projects %}
+  - name: build-{{ project.name }}
+    public: true
+    plan:
+      - get: busywork
+      - get: {{ project.name }}-source
+        trigger: true
+      {%- for dep in project.deps %}
+      - get: {{ dep.name }}-{{ dep.release }}-test-channel
+        {%- if dep.testable %}
+        passed: [unit-test-{{ dep.name }}]
+        {%- endif %}
+      {%- endfor %}
+      - aggregate:
+        - task: build-linux
+          config:
+            {{- build.make_linux_config(project, defaults)|indent(12) }}
+        - task: build-darwin
+          attempts: 2
+          config:
+            {{- build.make_darwin_config(project, defaults)|indent(12) }}
+      - task: merge-channels
+        config:
+          {{- merge.make_config(defaults)|indent(10) }}
+      - put: {{ project.name }}-{{ project.release }}-test-channel
+        params:
+          from: builds
+  {%- if project.testable %}
+
+  - name: unit-test-{{ project.name }}
+    public: true
+    plan:
+      - get: busywork
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        trigger: true
+        passed: [build-{{ project.name }}]
+      {%- for dep in project.deps %}
+      - get: {{ dep.name }}-{{ dep.release }}-test-channel
+        trigger: true
+        {%- if dep.testable %}
+        passed: [unit-test-{{ dep.name }}]
+        {%- endif %}
+      {%- endfor %}
+      - aggregate:
+        - task: test-linux
+          config:
+            {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
+        - task: test-darwin
+          attempts: 2
+          config:
+            {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
+  {%- endif %}
+
+  - name: stage-{{ project.name }}
+    public: true
+    plan:
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        trigger: true
+        passed: [integration]
+      - put: {{ project.name }}-{{ project.release }}-staging-channel
+        params:
+          from: {{ project.name }}-{{ project.release }}-test-channel
+
+  - name: release-{{ project.name }}
+    public: true
+    plan:
+      - get: {{ project.name }}-{{ project.release }}-release-staging-channel
+        trigger: true
+      - put: {{ project.name }}-{{ project.release }}-release-channel
+        params:
+          from: {{ project.name }}-{{ project.release }}-release-staging-channel
+  {% endfor %}
+  - name: batch-builds-together
+    public: true
+    build_logs_to_retain: 50
+    plan:
+      - get: throttle-timer
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        {% if project.rev_deps or project.testable %}passed:{% endif %}
+          {%- if project.testable %}
+          - unit-test-{{ project.name }}
+          {%- endif %}
+          {%- for rev_dep in project.rev_deps %}
+          - unit-test-{{ rev_dep.name }}
+          {%- endfor %}
+      {%- endfor %}
+
+  - name: integration
+    public: true
+    max_in_flight: 1
+    plan:
+      - get: busywork
+      - get: docs-source
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        trigger: true
+        {%- if project.testable %}
+        passed: [batch-builds-together]
+        {%- endif %}
+      {%- endfor %}
+      - aggregate:
+        - task: integration-linux
+          config:
+            {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+        - task: integration-darwin
+          config:
+            {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+
+  - name: batch-uploads-together
+    public: true
+    build_logs_to_retain: 50
+    plan:
+      - get: throttle-timer
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-staging-channel
+        {%- if project.testable %}
+        passed: [stage-{{ project.name }}]
+        {%- endif %}
+      {%- endfor %}
+
+  - name: create-staging-env-files
+    serial_groups: [create-env-files]
+    public: true
+    plan:
+      - get: busywork
+      - get: environment-files
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-staging-channel
+        trigger: true
+        passed: [batch-uploads-together]
+      {%- endfor %}
+      - aggregate:
+        - task: staging-env-file-linux
+          config:
+            {{- env_file.make_linux_config(projects, defaults, "staging-channel")|indent(12) }}
+        - task: staging-env-file-darwin
+          config:
+            {{- env_file.make_darwin_config(projects, defaults, "staging-channel")|indent(12) }}
+      - task: merge-and-commit-env-files
+        config:
+          {{- merge_env_files.make_config("staging", defaults)|indent(10) }}
+      - put: environment-files
+        params:
+          repository: updated-environment-files
+
+  - name: create-release-env-files
+    serial_groups: [create-env-files]
+    public: true
+    plan:
+      - get: busywork
+      - get: environment-files
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-release-channel
+        trigger: true
+        passed: [release-{{ project.name }}]
+      {%- endfor %}
+      - aggregate:
+        - task: staging-env-file-linux
+          config:
+            {{- env_file.make_linux_config(projects, defaults, "release-channel")|indent(12) }}
+        - task: staging-env-file-darwin
+          config:
+            {{- env_file.make_darwin_config(projects, defaults, "release-channel")|indent(12) }}
+      - task: merge-and-commit-env-files
+        config:
+          {{- merge_env_files.make_config("release", defaults)|indent(10) }}
+      - put: environment-files
+        params:
+          repository: updated-environment-files
+
+resource_types:
+  - name: conda-channel
+    type: docker-image
+    source:
+      repository: qiime2/conda-channel-resource

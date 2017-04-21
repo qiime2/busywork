@@ -1,0 +1,30 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+
+params:
+  CONCOURSE_USER:
+  CONCOURSE_PASS:
+  CONCOURSE_HOST:
+  GITHUB_USER:
+  GITHUB_PASS:
+  GITHUB_TOKEN:
+  FTP_URI:
+  FTP_USER:
+  FTP_PASS:
+  ANACONDA_USER:
+  ANACONDA_PASS:
+
+inputs:
+  - name: busywork
+
+outputs:
+  - name: pipelines
+
+run:
+  path: busywork/bootstrap/tasks/fly-deploy.sh

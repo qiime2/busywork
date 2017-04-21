@@ -1,0 +1,26 @@
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: master
+
+jobs:
+  - name: deploy
+    plan:
+      - get: busywork
+        trigger: true
+      - task: fly-deploy
+        file: busywork/bootstrap/tasks/fly-deploy.yaml
+        params:
+          CONCOURSE_USER: {{concourse_user}}
+          CONCOURSE_PASS: {{concourse_pass}}
+          CONCOURSE_HOST: {{concourse_host}}
+          GITHUB_USER: {{github_user}}
+          GITHUB_PASS: {{github_pass}}
+          GITHUB_TOKEN: {{github_token}}
+          FTP_URI: {{ftp_uri}}
+          FTP_USER: {{ftp_user}}
+          FTP_PASS: {{ftp_pass}}
+          ANACONDA_USER: {{anaconda_user}}
+          ANACONDA_PASS: {{anaconda_pass}}

@@ -1,0 +1,22 @@
+{%- macro make_config(project) %}
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: continuumio/miniconda3
+    version: latest
+
+params:
+  - REPO: "{{ project.name }}"
+
+inputs:
+  - name: busywork
+  - name: {{ project.name }}-source
+
+outputs:
+  - name: tagged-{{ project.name }}-source
+
+run:
+  path: busywork/ci/master/bin/tag-release.sh
+{%- endmacro %}
