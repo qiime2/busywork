@@ -298,10 +298,10 @@ jobs:
         passed: [release-{{ project.name }}]
       {%- endfor %}
       - aggregate:
-        - task: staging-env-file-linux
+        - task: release-env-file-linux
           config:
             {{- env_file.make_linux_config(projects, defaults, "release-channel")|indent(12) }}
-        - task: staging-env-file-darwin
+        - task: release-env-file-darwin
           config:
             {{- env_file.make_darwin_config(projects, defaults, "release-channel")|indent(12) }}
       - task: merge-and-commit-env-files
