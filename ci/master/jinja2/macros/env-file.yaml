@@ -9,7 +9,7 @@ image_resource:
 params:
   - PATH: /opt/conda/bin:/opt/rh/devtoolset-2/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
   - ENV_FILE_PATH: linux-environment-files/qiime2-{{ defaults.release }}-conda-linux-64.txt
-  - STAGING_CHANNEL: {{ defaults.staging_channel }}
+  - STAGING_CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
 inputs:
   - name: busywork
   {%- for project in projects %}
@@ -29,7 +29,7 @@ params:
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
   - ENV_FILE_PATH: darwin-environment-files/qiime2-{{ defaults.release }}-conda-osx-64.txt
-  - STAGING_CHANNEL: {{ defaults.staging_channel }}
+  - STAGING_CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
 inputs:
   - name: busywork
   {%- for project in projects %}
