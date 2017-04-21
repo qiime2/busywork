@@ -38,4 +38,4 @@ pip install -q -r requirements.txt
 make clean
 make dummy
 make preview
-#make html
+make html
