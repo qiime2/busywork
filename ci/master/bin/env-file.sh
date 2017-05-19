@@ -10,6 +10,8 @@ echo "source activate ./conda-env"
 source activate ./conda-env
 set -v
 
+conda clean --index-cache
+
 PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
 conda install -q -y \
   -c $STAGING_CHANNEL \
