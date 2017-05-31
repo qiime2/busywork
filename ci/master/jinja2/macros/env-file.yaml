@@ -4,10 +4,10 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: continuumio/miniconda3
+    repository: qiime2/linux-worker
     version: latest
 params:
-  - PATH: /opt/conda/bin:/opt/rh/devtoolset-2/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+  - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   - ENV_FILE_PATH: linux-environment-files/qiime2-{{ defaults.release }}-conda-linux-64.txt
   - STAGING_CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
 inputs:

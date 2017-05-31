@@ -4,10 +4,10 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: continuumio/miniconda3
+    repository: qiime2/linux-worker
     version: latest
 params:
-  - PATH: /opt/conda/bin:/opt/rh/devtoolset-2/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+  - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   - RELEASE: {{ defaults.release }}
   - BUILD_TYPE: {{ build_type }}
 inputs:
