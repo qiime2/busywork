@@ -7,6 +7,7 @@ image_resource:
     repository: continuumio/miniconda3
     version: latest
 params:
+  - TMPDIR: .
   - MPLBACKEND: Agg
   - TEST_RUNNER_CMD: {{ project.test_runner }}
   {%- for key, value in project.extra_params.items() %}
@@ -26,6 +27,7 @@ run:
 {%- macro make_darwin_config(project, defaults) %}
 platform: darwin
 params:
+  - TMPDIR: .
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
