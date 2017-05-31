@@ -4,21 +4,21 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: continuumio/miniconda3
+    repository: qiime2/linux-worker
     version: latest
-
 params:
-  CONCOURSE_USER:
-  CONCOURSE_PASS:
-  CONCOURSE_HOST:
-  GITHUB_USER:
-  GITHUB_PASS:
-  GITHUB_TOKEN:
-  FTP_URI:
-  FTP_USER:
-  FTP_PASS:
-  ANACONDA_USER:
-  ANACONDA_PASS:
+  - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  - CONCOURSE_USER:
+  - CONCOURSE_PASS:
+  - CONCOURSE_HOST:
+  - GITHUB_USER:
+  - GITHUB_PASS:
+  - GITHUB_TOKEN:
+  - FTP_URI:
+  - FTP_USER:
+  - FTP_PASS:
+  - ANACONDA_USER:
+  - ANACONDA_PASS:
 
 inputs:
   - name: busywork
