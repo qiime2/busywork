@@ -10,7 +10,6 @@ echo "source activate ./test-env"
 source activate ./test-env
 set -v
 
-export TMPDIR=$(pwd)
 PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 conda install -q -y $CHANNELS \
