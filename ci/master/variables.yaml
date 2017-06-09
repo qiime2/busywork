@@ -66,6 +66,10 @@ projects:
     deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_feature_classifier
 
+  - name: q2-metadata
+    deps: [qiime2, q2templates]
+    test_runner: py.test --pyargs q2_metadata
+
   - name: q2-phylogeny
     deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_phylogeny
