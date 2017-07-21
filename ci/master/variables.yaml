@@ -38,10 +38,6 @@ projects:
     deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_alignment
 
-  - name: q2-composition
-    deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_composition
-
   - name: q2-dada2
     deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_dada2
@@ -83,5 +79,5 @@ projects:
     test_runner: py.test --pyargs q2_taxa
 
   - name: q2-gneiss
-    deps: [qiime2, q2-types, q2-composition]
+    deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_gneiss
