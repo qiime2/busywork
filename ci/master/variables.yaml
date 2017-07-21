@@ -81,3 +81,7 @@ projects:
   - name: q2-taxa
     deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_taxa
+
+  - name: q2-gneiss
+    deps: [qiime2, q2-types, q2-composition]
+    test_runner: py.test --pyargs q2_gneiss
