@@ -13,7 +13,6 @@ params:
   - CONCOURSE_HOST:
   - GITHUB_USER:
   - GITHUB_PASS:
-  - GITHUB_TOKEN:
   - FTP_URI:
   - FTP_USER:
   - FTP_PASS:

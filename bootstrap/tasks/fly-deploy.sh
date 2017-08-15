@@ -23,7 +23,6 @@ do
   ./fly -t qiime2 set-pipeline -n -p $pipeline_name -c $pipeline_path \
       --var "github_user=$GITHUB_USER" \
       --var "github_pass=$GITHUB_PASS" \
-      --var "github_token=$GITHUB_TOKEN" \
       --var "ftp_uri=$FTP_URI" \
       --var "ftp_user=$FTP_USER" \
       --var "ftp_pass=$FTP_PASS" \
