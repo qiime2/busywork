@@ -87,5 +87,5 @@ projects:
     test_runner: py.test --pyargs q2_gneiss
 
   - name: q2-sample-classifier
-    deps: [qiime2, q2-types]
+    deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_sample_classifier
