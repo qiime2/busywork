@@ -39,7 +39,7 @@ projects:
     test_runner: py.test --pyargs q2_alignment
 
   - name: q2-composition
-    deps: [qiime2, q2-types]
+    deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_composition
 
   - name: q2-dada2
