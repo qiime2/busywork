@@ -14,8 +14,8 @@ PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 conda install -q -y $CHANNELS \
   -c https://conda.anaconda.org/qiime2 \
-  -c defaults \
   -c https://conda.anaconda.org/conda-forge \
+  -c defaults \
   -c https://conda.anaconda.org/bioconda \
   -c https://conda.anaconda.org/biocore \
   --override-channels \
