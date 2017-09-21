@@ -96,4 +96,4 @@ projects:
 
   - name: q2-vsearch
     deps: [qiime2, q2-types]
-    test_runner: make test
+    test_runner: py.test --pyargs q2_vsearch
