@@ -8,7 +8,6 @@ image_resource:
     version: latest
 params:
   - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-  - MPLBACKEND: Agg
   - SPHINXOPTS: "-q"
 inputs:
   - name: busywork
@@ -27,7 +26,6 @@ params:
   - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
-  - MPLBACKEND: Agg
   - SPHINXOPTS: "-q"
 inputs:
   - name: busywork
