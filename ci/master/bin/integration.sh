@@ -5,14 +5,9 @@ set -e -v
 conda update -q -y conda
 conda create -q -y -p ./test-env
 
-set +v
-echo "source activate ./test-env"
-source activate ./test-env
-set -v
-
 PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
-conda install -q -y $CHANNELS \
+conda install -p ./test-env -q -y $CHANNELS \
   -c https://conda.anaconda.org/qiime2 \
   -c https://conda.anaconda.org/conda-forge \
   -c defaults \
@@ -20,6 +15,11 @@ conda install -q -y $CHANNELS \
   -c https://conda.anaconda.org/biocore \
   --override-channels \
   $PKG_NAMES
+
+set +v
+echo "source activate ./test-env"
+source activate ./test-env
+set -v
 
 cd docs-source
 pip install -q -r requirements.txt
