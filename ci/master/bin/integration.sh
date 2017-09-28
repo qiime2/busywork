@@ -27,8 +27,12 @@ pip install -q -r requirements.txt
 make clean
 make dummy
 make preview
-make html
+if [ "$(uname)" == "Darwin" ]; then
+  rm -r /Users/caporasolab/Desktop/latest_docs/*
+  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
+fi
 
+make html
 if [ "$(uname)" == "Darwin" ]; then
   rm -r /Users/caporasolab/Desktop/latest_docs/*
   cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
