@@ -29,7 +29,7 @@ make dummy
 make preview
 if [ "$(uname)" == "Darwin" ]; then
   rm -r /Users/caporasolab/Desktop/latest_docs/*
-  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
+  cp -r build/preview/* /Users/caporasolab/Desktop/latest_preview/
 fi
 
 make html
