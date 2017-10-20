@@ -97,3 +97,7 @@ projects:
   - name: q2-vsearch
     deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_vsearch
+
+  - name: q2-quality-control
+    deps: [qiime2, q2templates, q2-types]
+    test_runner: py.test --pyargs q2_quality_control
