@@ -55,7 +55,7 @@ projects:
     test_runner: py.test --pyargs q2_demux
 
   - name: q2-diversity
-    deps: [qiime2, q2templates, q2-types, q2-feature-table]
+    deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-emperor]
     test_runner: py.test --pyargs q2_diversity
 
   - name: q2-emperor
