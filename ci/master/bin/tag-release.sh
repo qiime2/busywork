@@ -34,7 +34,7 @@ trim() {
   echo -n "$var"
 }
 
-expected_release="$(trim $(grep 'release:' busywork/ci/master/variables.yaml | sed 's/release: //g'))"
+expected_release="$(trim $(grep 'release:' busywork/ci/master/variables.yaml | sed 's/release: //g') | sed 's/["'\'']//g')"
 
 cd ${REPO}-source
 
