@@ -95,7 +95,7 @@ projects:
     test_runner: py.test --pyargs q2_longitudinal
 
   - name: q2-vsearch
-    deps: [qiime2, q2-types, q2-feature-table]
+    deps: [qiime2, q2templates, q2-types, q2-feature-table]
     test_runner: py.test --pyargs q2_vsearch
 
   - name: q2-quality-control
