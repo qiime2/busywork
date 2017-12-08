@@ -103,5 +103,5 @@ projects:
     test_runner: py.test --pyargs q2_quality_control
 
   - name: q2-cutadapt
-    deps: [qiime2, q2-types, q2-metadata]
+    deps: [qiime2, q2templates, q2-types, q2-metadata]
     test_runner: py.test --pyargs q2_cutadapt
