@@ -231,6 +231,7 @@ jobs:
     max_in_flight: 1
     plan:
       - get: busywork
+      - get: environment-files
       - get: docs-source
         trigger: true
       {%- for project in projects %}
