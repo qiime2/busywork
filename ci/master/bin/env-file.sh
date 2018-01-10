@@ -24,4 +24,4 @@ yq ". | {channels: [\
 > $ENV_FILE_FP
 
 conda clean --index-cache
-conda env create -q -y -p "./$RELEASE" --file $ENV_FILE_FP
+conda env create -q -p "./$RELEASE" --file $ENV_FILE_FP
