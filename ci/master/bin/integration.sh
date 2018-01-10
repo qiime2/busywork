@@ -34,8 +34,8 @@ if [ "$(uname)" == "Darwin" ]; then
   cp -r build/preview/* /Users/caporasolab/Desktop/latest_preview/
 fi
 
-#make html
-#if [ "$(uname)" == "Darwin" ]; then
-#  rm -rf /Users/caporasolab/Desktop/latest_docs/*
-#  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
-#fi
+make html
+if [ "$(uname)" == "Darwin" ]; then
+  rm -rf /Users/caporasolab/Desktop/latest_docs/*
+  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
+fi
