@@ -21,7 +21,7 @@ echo "source activate ./test-env"
 source activate ./test-env
 set -v
 
-conda env export --no-builds --ignore-channels --name test-env > $ENV_FILE_FP
+conda env export --no-builds --ignore-channels -p ./test-env > $ENV_FILE_FP
 
 cd docs-source
 pip install -q -r requirements.txt
