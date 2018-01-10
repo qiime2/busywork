@@ -247,6 +247,13 @@ jobs:
         - task: integration-darwin
           config:
             {{- integration.make_darwin_config(projects, defaults)|indent(12) }}
+        - task: merge-and-commit-env-yaml
+          config:
+            {{- merge_env_files.make_config("unprocessed", defaults)|indent(12) }}
+        - put: environment-files
+          params:
+            repository: updated-environment-files
+            rebase: true
 
   - name: batch-uploads-together
     public: true
@@ -285,6 +292,7 @@ jobs:
       - put: environment-files
         params:
           repository: updated-environment-files
+          rebase: true
 
   - name: create-release-env-files
     serial_groups: [create-env-files]
@@ -310,6 +318,7 @@ jobs:
       - put: environment-files
         params:
           repository: updated-environment-files
+          rebase: true
 
 resource_types:
   - name: conda-channel

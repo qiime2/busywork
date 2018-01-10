@@ -10,17 +10,17 @@ echo "source activate ./conda-env"
 source activate ./conda-env
 set -v
 
+pip install yq
+
+yq ". | {channels: [\
+\"$CHANNEL\", \
+\"qiime2\", \
+\"conda-forge\", \
+\"defaults\", \
+\"bioconda\", \
+\"biocore\"\
+], dependencies: .dependencies}" environment-files/$RELEASE/unprocessed/qiime2-$RELEASE-py35-$PLATFORM-conda.yml --yaml-output \
+> $ENV_FILE_FP
+
 conda clean --index-cache
-
-PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
-conda install -q -y \
-  -c $STAGING_CHANNEL \
-  -c https://conda.anaconda.org/qiime2 \
-  -c https://conda.anaconda.org/conda-forge \
-  -c defaults \
-  -c https://conda.anaconda.org/bioconda \
-  -c https://conda.anaconda.org/biocore \
-  --override-channels \
-  $PKG_NAMES
-
-conda list --explicit --export > $ENV_FILE_PATH
+conda env create -q -y -p "./$RELEASE" --file $ENV_FILE_FP

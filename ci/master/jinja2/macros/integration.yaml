@@ -9,12 +9,15 @@ image_resource:
 params:
   - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   - SPHINXOPTS: "-q"
+  - ENV_FILE_FP: linux-environment-files/qiime2-{{ project.release }}-py35-linux-conda.yml
 inputs:
   - name: busywork
   - name: docs-source
   {%- for project in projects %}
   - name: {{ project.name }}-{{ project.release }}-test-channel
   {%- endfor %}
+outputs:
+  - name: linux-environment-files
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}
@@ -27,12 +30,15 @@ params:
   - LC_ALL: en_US.UTF-8
   - LANG: en_US.UTF-8
   - SPHINXOPTS: "-q"
+  - ENV_FILE_FP: darwin-environment-files/qiime2-{{ project.release }}-py35-osx-conda.yml
 inputs:
   - name: busywork
   - name: docs-source
   {%- for project in projects %}
   - name: {{ project.name }}-{{ project.release }}-test-channel
   {%- endfor %}
+outputs:
+  - name: darwin-environment-files
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}
