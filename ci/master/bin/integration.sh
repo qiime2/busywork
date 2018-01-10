@@ -21,7 +21,7 @@ echo "source activate ./test-env"
 source activate ./test-env
 set -v
 
-conda env export --no-builds --ignore-channels > $ENV_FILE_FP
+conda env export --no-builds --ignore-channels --name test-env > $ENV_FILE_FP
 
 cd docs-source
 pip install -q -r requirements.txt
@@ -34,8 +34,8 @@ if [ "$(uname)" == "Darwin" ]; then
   cp -r build/preview/* /Users/caporasolab/Desktop/latest_preview/
 fi
 
-make html
-if [ "$(uname)" == "Darwin" ]; then
-  rm -rf /Users/caporasolab/Desktop/latest_docs/*
-  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
-fi
+#make html
+#if [ "$(uname)" == "Darwin" ]; then
+#  rm -rf /Users/caporasolab/Desktop/latest_docs/*
+#  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
+#fi
