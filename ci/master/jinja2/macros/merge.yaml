@@ -7,7 +7,7 @@ image_resource:
     repository: qiime2/linux-worker
     version: latest
 params:
-  - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 inputs:
   - name: busywork
   - name: build-linux

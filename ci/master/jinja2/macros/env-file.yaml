@@ -7,11 +7,11 @@ image_resource:
     repository: qiime2/linux-worker
     version: latest
 params:
-  - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-  - RELEASE: "{{ defaults.release }}"
-  - PLATFORM: linux
-  - CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
-  - ENV_FILE_FP: linux-environment-files/qiime2-{{ defaults.release }}-py35-linux-conda.yml
+  PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  RELEASE: "{{ defaults.release }}"
+  PLATFORM: linux
+  CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
+  ENV_FILE_FP: linux-environment-files/qiime2-{{ defaults.release }}-py35-linux-conda.yml
 inputs:
   - name: busywork
   - name: environment-files
@@ -25,13 +25,13 @@ run:
 {%- macro make_darwin_config(projects, defaults, channel_suffix) %}
 platform: darwin
 params:
-  - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-  - LC_ALL: en_US.UTF-8
-  - LANG: en_US.UTF-8
-  - RELEASE: "{{ defaults.release }}"
-  - PLATFORM: osx
-  - CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
-  - ENV_FILE_FP: darwin-environment-files/qiime2-{{ defaults.release }}-py35-osx-conda.yml
+  PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+  RELEASE: "{{ defaults.release }}"
+  PLATFORM: osx
+  CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
+  ENV_FILE_FP: darwin-environment-files/qiime2-{{ defaults.release }}-py35-osx-conda.yml
 inputs:
   - name: busywork
   - name: environment-files
