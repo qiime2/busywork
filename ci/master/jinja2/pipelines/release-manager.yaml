@@ -32,10 +32,8 @@ resources:
     source:
       uri: https://github.com/{{ project.github_org }}/{{ project.name }}
       branch: {{ project.release_branch }}
-      {%- raw %}
-      username: {{github_user}}
-      password: {{github_pass}}
-      {%- endraw %}
+      username: ((github_user))
+      password: ((github_pass))
   {%- endfor %}
 
 jobs:

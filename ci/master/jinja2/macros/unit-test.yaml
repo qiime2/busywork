@@ -7,10 +7,10 @@ image_resource:
     repository: qiime2/linux-worker
     version: latest
 params:
-  - PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-  - TEST_RUNNER_CMD: {{ project.test_runner }}
+  PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  TEST_RUNNER_CMD: {{ project.test_runner }}
   {%- for key, value in project.extra_params.items() %}
-  - {{ key }}: {{ value }}
+  {{ key }}: {{ value }}
   {%- endfor %}
 inputs:
   - name: busywork
@@ -26,12 +26,12 @@ run:
 {%- macro make_darwin_config(project, defaults) %}
 platform: darwin
 params:
-  - PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-  - LC_ALL: en_US.UTF-8
-  - LANG: en_US.UTF-8
-  - TEST_RUNNER_CMD: {{ project.test_runner }}
+  PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+  TEST_RUNNER_CMD: {{ project.test_runner }}
   {%- for key, value in project.extra_params.items() %}
-  - {{ key }}: {{ value }}
+  {{ key }}: {{ value }}
   {%- endfor %}
 inputs:
   - name: busywork
