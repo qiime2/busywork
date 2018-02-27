@@ -58,9 +58,8 @@ jobs:
       - put: {{ project.name }}-source
         params:
           repository: tagged-{{ project.name }}-source
-          # TODO: is this really necessary?!
           tag: tagged-{{ project.name }}-source/tag
-          annotate: annotate
+          annotate: tagged-{{ project.name }}-source/annotate
 
   - name: tag-{{ project.name }}-dev
     plan:
@@ -74,7 +73,6 @@ jobs:
       - put: {{ project.name }}-source
         params:
           repository: tagged-{{ project.name }}-source
-          # TODO: is this really necessary?!
           tag: tagged-{{ project.name }}-source/tag
-          annotate: annotate
+          annotate: tagged-{{ project.name }}-source/annotate
   {%- endfor %}
