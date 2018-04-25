@@ -3,7 +3,7 @@
 set -e -v
 
 conda update -q -y -c defaults --override-channels conda
-conda update -q -y -c defaults --override-channels conda-build
+conda update -q -y -c defaults --override-channels conda-build=3.8.1
 
 BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
