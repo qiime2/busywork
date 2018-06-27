@@ -1,12 +1,12 @@
 defaults:
   # NOTE: when changing the following line, edit the lines below, too :)))
-  release: '2018.8'
+  release: '2018.6'
   release_branch: master
   github_org: qiime2
   # TODO: template the `release` into these values
-  test_channel: builds/2018.8
-  staging_channel: qiime2-staging/label/r2018.8
-  release_channel: qiime2/label/r2018.8
+  test_channel: builds/2018.6
+  staging_channel: qiime2-staging/label/r2018.6
+  release_channel: qiime2/label/r2018.6
   testable: true
   deps: []
   extra_params: {}
