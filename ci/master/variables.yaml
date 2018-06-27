@@ -19,7 +19,6 @@ projects:
 
   - name: q2cli
     deps: [qiime2]
-    release_branch: 2018.6
     test_runner: nosetests q2cli
     extra_params:
       QIIMETEST: true
