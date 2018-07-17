@@ -2,7 +2,8 @@
 
 set -e -x
 
-git clone $REPO $REPO-updated
+DEST=$(readlink -f $REPO-updated)
+git clone $REPO $DEST
 
 cd ./template-repo/github_templates
-./update_templates.sh $(readlink -f $REPO-updated)
+./update_templates.sh $DEST
