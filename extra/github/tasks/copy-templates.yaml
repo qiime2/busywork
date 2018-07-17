@@ -6,10 +6,3 @@ image_resource:
   source:
     repository: qiime2/linux-worker
     version: latest
-params:
-  GITHUB_USER:
-  GITHUB_PASS:
-  REPOS:
-inputs:
-  - name: busywork
-  - name: template-repo

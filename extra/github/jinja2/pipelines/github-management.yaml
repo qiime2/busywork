@@ -57,9 +57,9 @@ jobs:
       {%- for repo in repos %}
       - get: {{ repo }}-source
       {%- endfor %}
-      - task: busywork/extra/tasks/copy-templates.yaml
-      {%- for repo in repos %}
-      - put: {{ repo }}-source
-        params:
-          rebase: true
-      {%- endfor %}
+      #- task: busywork/extra/tasks/copy-templates.yaml
+      #{%- for repo in repos %}
+      #- put: {{ repo }}-source
+      #  params:
+      #    rebase: true
+      #{%- endfor %}
