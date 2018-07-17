@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -v
+set -e -x
 
 cd ./template-repo/labels
 
