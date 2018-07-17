@@ -32,6 +32,8 @@ resources:
     source:
       uri: https://github.com/qiime2/{{ repo }}
       branch: master
+      username: ((github_user))
+      password: ((github_pass))
   {%- endfor %}
 
 jobs:
