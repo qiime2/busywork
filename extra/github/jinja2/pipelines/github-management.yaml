@@ -23,7 +23,7 @@ resources:
       uri: https://github.com/qiime2/template-repo
       branch: master
       paths:
-        - github_templates/templates/*
+        - github_templates/*
 
   {%- for repo in repos %}
   - name: {{ repo }}-source
