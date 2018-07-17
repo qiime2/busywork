@@ -1,0 +1,19 @@
+# Linux
+{%- macro make_linux_config(project) %}
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: qiime2/linux-worker
+    version: latest
+params:
+  REPO: {{ project }}-source
+inputs:
+  - name: busywork
+  - name: template-repo
+  - name: {{ project }}-source
+outputs:
+  - name: {{ project }}-source-updated
+run:
+  path: busywork/extra/github/bin/copy-templates.sh
+{%- endmacro %}

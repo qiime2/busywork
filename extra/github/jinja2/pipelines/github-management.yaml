@@ -1,3 +1,5 @@
+{%- import 'macros/copy-templates.yaml' as copy %}
+
 resources:
   - name: busywork
     type: git
@@ -46,20 +48,20 @@ jobs:
           GITHUB_USER: ((github_user))
           GITHUB_PASS: ((github_pass))
           REPOS: {{ ' '.join(repos) }}  # space is in $IFS for looping
-
-  - name: sync-templates
+  {%- for repo in repos %}
+  - name: sync-{{ repo }}-templates
     public: true
     plan:
       - get: busywork
       - get: template-repo
         resource: template-repo-templates
         trigger: true
-      {%- for repo in repos %}
       - get: {{ repo }}-source
-      {%- endfor %}
-      #- task: busywork/extra/github/tasks/copy-templates.yaml
-      #{%- for repo in repos %}
-      #- put: {{ repo }}-source
-      #  params:
-      #    rebase: true
-      #{%- endfor %}
+      - task: sync-templates
+        config:
+          {{- copy.make_linux_config(repo)|indent(10) }}
+      - put: {{ repo }}-source
+        params:
+          repository: {{ repo }}-source-updated
+          rebase: true
+  {%- endfor %}
