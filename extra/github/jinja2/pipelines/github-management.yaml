@@ -41,7 +41,7 @@ jobs:
         resource: template-repo-labels
         trigger: true
       - task: sync-labels
-        file: busywork/extra/tasks/copy-labels.yaml
+        file: busywork/extra/github/tasks/copy-labels.yaml
         params:
           GITHUB_USER: ((github_user))
           GITHUB_PASS: ((github_pass))
@@ -57,7 +57,7 @@ jobs:
       {%- for repo in repos %}
       - get: {{ repo }}-source
       {%- endfor %}
-      #- task: busywork/extra/tasks/copy-templates.yaml
+      #- task: busywork/extra/github/tasks/copy-templates.yaml
       #{%- for repo in repos %}
       #- put: {{ repo }}-source
       #  params:
