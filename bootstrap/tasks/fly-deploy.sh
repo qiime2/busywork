@@ -15,6 +15,11 @@ do
   $product_path/template.py ./pipelines
 done
 
+for pipeline in busywork/extra/*
+do
+  $pipeline/template.py ./pipelines
+done
+
 # Deploy pipelines with secrets
 for pipeline_path in ./pipelines/*.yaml
 do

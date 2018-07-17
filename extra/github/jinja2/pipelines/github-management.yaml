@@ -1,0 +1,66 @@
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: master
+
+  - name: template-repo-labels
+    type: git
+    check_every: 2m
+    source:
+      uri: https://github.com/qiime2/template-repo
+      branch: master
+      paths:
+        - labels/labels.yaml
+
+  - name: template-repo-templates
+    type: git
+    check_every: 2m
+    source:
+      uri: https://github.com/qiime2/template-repo
+      branch: master
+      paths:
+        - github_templates/templates/*
+
+  {%- for repo in repos %}
+  - name: {{ repo }}-source
+    type: git
+    check_every: 24h
+    source:
+      uri: https://github.com/qiime2/{{ repo }}
+      branch: master
+  {%- endfor %}
+
+jobs:
+  - name: sync-labels
+    public: true
+    plan:
+      - get: busywork
+      - get: template-repo
+        resource: template-repo-labels
+        trigger: true
+      - task: sync-labels
+        file: busywork/extra/tasks/copy-labels.yaml
+        params:
+          GITHUB_USER: ((github_user))
+          GITHUB_PASS: ((github_pass))
+          REPOS: {{ ' '.join(repos) }}  # space is in $IFS for looping
+
+  - name: sync-templates
+    public: true
+    plan:
+      - get: busywork
+      - get: template-repo
+        resouce: template-repo-templates
+        trigger: true
+      {%- for repo in repos %}
+      - get: {{ repo }}-source
+      {%- endfor %}
+      - task: busywork/extra/tasks/copy-templates.yaml
+      {%- for repo in repos %}
+      - put: {{ repo }}-source
+        params:
+          rebase: true
+      {%- endfor %}
+
