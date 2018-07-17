@@ -12,7 +12,7 @@ resources:
       uri: https://github.com/qiime2/template-repo
       branch: master
       paths:
-        - labels/labels.yaml
+        - labels/*
 
   - name: template-repo-templates
     type: git
