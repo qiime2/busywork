@@ -1,5 +1,4 @@
 repos:
-  - template-repo
   - busywork
   - conda-channel-resource
   - conda-recipes
