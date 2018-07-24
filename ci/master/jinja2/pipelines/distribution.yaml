@@ -83,6 +83,7 @@ resources:
     source:
       uri: https://github.com/{{ project.github_org }}/{{ project.name }}
       branch: {{ project.release_branch }}
+      ignore_paths: .github/*
 
   - name: {{ project.name }}-{{ project.release }}-test-channel
     type: conda-channel
