@@ -8,6 +8,7 @@ repos:
   - docs
   - environment-files
   - Keemei
+  - library
   - linux-worker-docker
   - logos
   - q2-alignment
