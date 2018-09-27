@@ -10,11 +10,6 @@ set -e -v
 git config --global user.name q2d2
 git config --global user.email "q2d2.noreply@gmail.com"
 
-# Check if project version is `dev`
-_is_dev() {
-  python -c 'import versioneer; print("dev" in versioneer.get_version())'
-}
-
 _get_version() {
   python -c 'import versioneer; print(versioneer.get_version())'
 }
@@ -37,12 +32,6 @@ trim() {
 expected_release="$(trim $(grep 'release:' busywork/ci/master/variables.yaml | sed 's/release: //g') | sed 's/["'\'']//g')"
 
 cd ${REPO}-source
-
-if [ "$(_is_dev)" != "False" ]
-then
-  echo "Repo $REPO HEAD is a development version: $(_get_version)"
-  exit 1
-fi
 
 observed_release=$(_get_release)
 
