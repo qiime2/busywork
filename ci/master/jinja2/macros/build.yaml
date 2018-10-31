@@ -5,7 +5,7 @@ image_resource:
   type: docker-image
   source:
     repository: condaforge/linux-anvil
-    version: latest
+    version: latest@sha256:820a45af1a74ce9f69f9d1789523d7acabd1a4cbbbe95dc91c188b733896153d
 params:
   PATH: /opt/conda/bin:/opt/rh/devtoolset-2/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 inputs:
