@@ -105,3 +105,7 @@ projects:
   - name: q2-cutadapt
     deps: [qiime2, q2-types]
     test_runner: py.test --pyargs q2_cutadapt
+
+  - name: q2-fragment-insertion
+    deps: [qiime2, q2-types, q2-feature-table]
+    test_runner: nosetests q2_fragment_insertion
