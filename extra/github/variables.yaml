@@ -21,6 +21,7 @@ repos:
   - q2-emperor
   - q2-feature-classifier
   - q2-feature-table
+  - q2-fragment-insertion
   - q2-gneiss
   - q2-longitudinal
   - q2-metadata
@@ -28,6 +29,7 @@ repos:
   - q2-quality-control
   - q2-quality-filter
   - q2-sample-classifier
+  - q2-shogun
   - q2-taxa
   - q2-types
   - q2-vsearch
