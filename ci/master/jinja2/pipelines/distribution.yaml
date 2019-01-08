@@ -174,10 +174,20 @@ jobs:
         - task: test-linux
           config:
             {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
+          on_failure:
+            task: debug-environment
+            config:
+              run:
+                path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
         - task: test-darwin
           attempts: 2
           config:
             {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
+          on_failure:
+            task: debug-environment
+            config:
+              run:
+                path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
   {%- endif %}
 
   - name: stage-{{ project.name }}
@@ -235,9 +245,19 @@ jobs:
         - task: integration-linux
           config:
             {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+          on_failure:
+              task: debug-environment
+              config:
+                run:
+                  path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
         - task: integration-darwin
           config:
             {{- integration.make_darwin_config(projects, defaults)|indent(12) }}
+          on_failure:
+              task: debug-environment
+              config:
+                run:
+                  path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
       - task: merge-and-commit-env-yaml
         config:
           {{- merge_env_files.make_config("unprocessed", defaults)|indent(10) }}
