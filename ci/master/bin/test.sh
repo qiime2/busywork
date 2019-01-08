@@ -20,4 +20,7 @@ echo "source activate ./test-env"
 source activate ./test-env
 set -v
 
+# debug-env.yml for when this task fails, allows us to recreate the working env.
+conda list --explicit --export > debug-env.yml
+
 $TEST_RUNNER_CMD
