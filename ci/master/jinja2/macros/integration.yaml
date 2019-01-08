@@ -18,6 +18,7 @@ inputs:
   {%- endfor %}
 outputs:
   - name: linux-environment-files
+  - name: debug-env
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}
@@ -39,6 +40,7 @@ inputs:
   {%- endfor %}
 outputs:
   - name: darwin-environment-files
+  - name: debug-env
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}
