@@ -4,6 +4,7 @@
 {%- import 'macros/integration.yaml' as integration %}
 {%- import 'macros/env-file.yaml' as env_file %}
 {%- import 'macros/merge-env-files.yaml' as merge_env_files %}
+{%- import 'macros/debug-env.yaml' as debug_env %}
 groups:
   - name: build
     jobs:
@@ -174,16 +175,18 @@ jobs:
         - task: test-linux
           config:
             {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
+          on_failure:
+            task: debug-environment
+            config:
+              {{- debug_env.make_linux_config(defaults)|indent(14) }}
         - task: test-darwin
           attempts: 2
           config:
             {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
-    on_failure:
-      task: debug-environment
-      config:
-        run:
-          path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
-
+          on_failure:
+            task: debug-environment
+            config:
+              {{- debug_env.make_darwin_config(defaults)|indent(14) }}
   {%- endif %}
 
   - name: stage-{{ project.name }}
@@ -241,9 +244,17 @@ jobs:
         - task: integration-linux
           config:
             {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+          on_failure:
+              task: debug-environment
+              config:
+                {{- debug_env.make_linux_config(defaults)|indent(14) }}
         - task: integration-darwin
           config:
             {{- integration.make_darwin_config(projects, defaults)|indent(12) }}
+          on_failure:
+              task: debug-environment
+              config:
+                {{- debug_env.make_darwin_config(defaults)|indent(14) }}
       - task: merge-and-commit-env-yaml
         config:
           {{- merge_env_files.make_config("unprocessed", defaults)|indent(10) }}
@@ -251,11 +262,6 @@ jobs:
         params:
           repository: updated-environment-files
           rebase: true
-    on_failure:
-        task: debug-environment
-        config:
-          run:
-            path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
 
   - name: batch-uploads-together
     public: true

@@ -1,0 +1,13 @@
+# Linux
+{%- macro make_linux_config(defaults) %}
+platform: linux
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
+{%- endmacro %}
+
+# Darwin
+{%- macro make_darwin_config(defaults) %}
+platform: linux
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
+{%- endmacro %}
