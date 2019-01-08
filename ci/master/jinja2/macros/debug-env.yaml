@@ -1,6 +1,8 @@
 # Linux
 {%- macro make_linux_config(defaults) %}
 platform: linux
+inputs:
+  - name: debug-env
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
 {%- endmacro %}
@@ -8,6 +10,8 @@ run:
 # Darwin
 {%- macro make_darwin_config(defaults) %}
 platform: linux
+inputs:
+  - name: debug-env
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/debug-env.sh
 {%- endmacro %}

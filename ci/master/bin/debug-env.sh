@@ -2,4 +2,4 @@
 
 set -e -v
 
-cat debug-env.yml
+cat debug-env/debug-env.yml

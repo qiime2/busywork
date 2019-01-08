@@ -18,6 +18,8 @@ inputs:
   {%- for dep in project.deps %}
   - name: {{ dep.name }}-{{ dep.release }}-test-channel
   {%- endfor %}
+outputs:
+  - name: debug-env
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
 {%- endmacro %}
@@ -39,6 +41,8 @@ inputs:
   {%- for dep in project.deps %}
   - name: {{ dep.name }}-{{ dep.release }}-test-channel
   {%- endfor %}
+outputs:
+  - name: debug-env
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
 {%- endmacro %}
