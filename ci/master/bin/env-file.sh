@@ -15,7 +15,6 @@ pip install yq
 
 yq ". | {channels: [\
 \"$CHANNEL\", \
-\"qiime2\", \
 \"conda-forge\", \
 \"defaults\", \
 \"bioconda\", \
