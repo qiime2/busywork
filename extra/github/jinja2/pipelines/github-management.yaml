@@ -57,7 +57,7 @@ jobs:
       - get: busywork
       - get: template-repo
         resource: template-repo-templates
-        trigger: false
+        trigger: true
       - get: {{ repo }}-source
       - task: sync-templates
         config:
