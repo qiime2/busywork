@@ -10,7 +10,7 @@ CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 cd ./source
 git fetch --tags
 conda build -q $CHANNELS \
-  -c https://conda.anaconda.org/bioconda \
   -c https://conda.anaconda.org/conda-forge \
+  -c https://conda.anaconda.org/bioconda \
   -c defaults \
   --override-channels --output-folder $BUILD_DIR ci/recipe

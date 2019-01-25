@@ -15,8 +15,8 @@ pip install yq
 
 yq ". | {channels: [\
 \"$CHANNEL\", \
-\"bioconda\", \
 \"conda-forge\", \
+\"bioconda\", \
 \"defaults\"\
 ], dependencies: .dependencies}" environment-files/$RELEASE/unprocessed/qiime2-$RELEASE-py36-$PLATFORM-conda.yml --yaml-output \
 > $ENV_FILE_FP

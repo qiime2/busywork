@@ -8,8 +8,8 @@ conda create -q -y -p ./test-env
 PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 conda install -p ./test-env -q -y $CHANNELS \
-  -c https://conda.anaconda.org/bioconda \
   -c https://conda.anaconda.org/conda-forge \
+  -c https://conda.anaconda.org/bioconda \
   -c defaults \
   --override-channels $PKG_NAMES pytest nose
 
