@@ -1,7 +1,6 @@
 repos:
   - busywork
   - conda-channel-resource
-  - conda-recipes
   - data.qiime2.org
   - dev-docs
   - discourse-unhandled-tagger
