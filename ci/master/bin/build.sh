@@ -2,6 +2,7 @@
 
 set -e -v
 
+conda info
 conda update -q -y -c defaults --override-channels conda
 conda install -q -y -c defaults --override-channels conda-build conda-verify
 
