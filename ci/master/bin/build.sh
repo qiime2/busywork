@@ -2,7 +2,10 @@
 
 set -e -v
 
-conda install -q -y -c defaults --override-channels conda=4.6
+# tell conda to "relax" (https://github.com/conda/conda/issues/7788#issuecomment-446051125)
+echo "allow_conda_downgrades: true" >> ~/.condarc
+
+conda upgrade -q -y -c defaults --override-channels conda
 conda install -q -y -c defaults --override-channels conda-build conda-verify
 
 BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
