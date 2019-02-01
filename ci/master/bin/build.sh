@@ -2,7 +2,7 @@
 
 set -e -v
 
-conda install -q -y -c defaults --override-channels conda=4.5
+conda install -q -y -c defaults --override-channels conda=4.6
 conda install -q -y -c defaults --override-channels conda-build conda-verify
 
 BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
