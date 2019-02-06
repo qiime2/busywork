@@ -58,6 +58,10 @@ projects:
     deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-emperor, q2-metadata]
     test_runner: py.test --pyargs q2_diversity
 
+  - name: q2-diversity-lib
+    deps: [qiime2, q2-types]
+    test_runner: py.test --pyargs q2_diversity_lib
+
   - name: q2-emperor
     deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_emperor
