@@ -3,7 +3,13 @@
 set -e -v
 
 conda install -q -y -c defaults --override-channels conda=4.5 conda-build conda-verify
-conda install -y git pip --file https://raw.githubusercontent.com/bioconda/bioconda-utils/master/bioconda_utils/bioconda_utils-requirements.txt
+conda install -y
+    -c conda-forge \
+    -c bioconda \
+    -c defaults \
+    --override-channels \
+    git pip \
+    --file https://raw.githubusercontent.com/bioconda/bioconda-utils/master/bioconda_utils/bioconda_utils-requirements.txt
 
 BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
