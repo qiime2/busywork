@@ -9,7 +9,7 @@ BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 cd ./source
 git fetch --tags
-conda build -q $CHANNELS \
+conda build $CHANNELS \
   -c https://conda.anaconda.org/conda-forge \
   -c https://conda.anaconda.org/bioconda \
   -c defaults \
