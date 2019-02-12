@@ -2,7 +2,7 @@
 
 set -e -v
 
-conda update -q -y conda
+conda install -q -y conda=4.5
 conda create -q -y -p ./test-env
 
 PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)

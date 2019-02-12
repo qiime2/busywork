@@ -2,7 +2,7 @@
 
 set -e -v
 
-conda update -q -y conda
+conda install -q -y conda=4.5
 conda create -q -y -p ./conda-env
 
 set +v
