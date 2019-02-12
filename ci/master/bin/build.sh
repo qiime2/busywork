@@ -3,7 +3,7 @@
 set -e -v
 
 conda install -q -y -c defaults --override-channels conda=4.5 conda-build conda-verify
-conda install -y
+conda install -y \
     -c conda-forge \
     -c bioconda \
     -c defaults \
