@@ -17,6 +17,7 @@ repos:
   - q2-deblur
   - q2-demux
   - q2-diversity
+  - q2-diversity-lib
   - q2-emperor
   - q2-feature-classifier
   - q2-feature-table
