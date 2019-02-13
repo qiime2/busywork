@@ -2,7 +2,7 @@
 
 set -e -v
 
-if [ -v ACTIVATE_BASE_ENV ]; then
+if [ -n "${ACTIVATE_BASE_ENV+set}" ]; then
     # Activate the base env on darwin hosts
     conda activate
 fi
