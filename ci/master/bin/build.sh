@@ -2,6 +2,11 @@
 
 set -e -v
 
+if [ -v ACTIVATE_BASE_ENV ]; then
+    # Activate the base env on darwin hosts
+    conda activate
+fi
+
 conda install -q -y -c defaults --override-channels conda=4.5 conda-build conda-verify
 conda install -y \
     -c conda-forge \
