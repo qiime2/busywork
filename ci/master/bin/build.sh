@@ -4,6 +4,7 @@ set -e -v
 
 if [ -n "${ACTIVATE_BASE_ENV+set}" ]; then
     # Activate the base env on darwin hosts
+    source $ACTIVATE_BASE_ENV
     conda activate
 fi
 
