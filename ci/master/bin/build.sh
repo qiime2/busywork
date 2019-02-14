@@ -2,20 +2,8 @@
 
 set -e -v
 
-if [ -n "${ACTIVATE_BASE_ENV+set}" ]; then
-    # Activate the base env on darwin hosts
-    source $ACTIVATE_BASE_ENV
-    conda activate
-fi
-
-conda install -q -y -c defaults --override-channels conda=4.5 conda-build conda-verify
-conda install -y \
-    -c conda-forge \
-    -c bioconda \
-    -c defaults \
-    --override-channels \
-    git pip \
-    --file https://raw.githubusercontent.com/bioconda/bioconda-utils/master/bioconda_utils/bioconda_utils-requirements.txt
+conda upgrade -n base -q -y -c defaults --override-channels conda
+conda install -n base -q -y -c defaults --override-channels conda-build conda-verify
 
 BUILD_DIR=$(ls -d -1 $(pwd)/build-*)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
