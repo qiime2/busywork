@@ -12,6 +12,7 @@ conda install -p ./test-env -q -y $CHANNELS \
   -c https://conda.anaconda.org/bioconda \
   -c defaults \
   --override-channels \
+  numpy=1.15.4 \
   $PKG_NAMES
 
 set +v
