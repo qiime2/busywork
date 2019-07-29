@@ -67,7 +67,7 @@ projects:
     test_runner: py.test --pyargs q2_emperor
 
   - name: q2-feature-classifier
-    deps: [qiime2, q2-types, q2-feature-table, q2-taxa, q2-quality-control, q2templates]
+    deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-taxa, q2-quality-control]
     test_runner: py.test --pyargs q2_feature_classifier
 
   - name: q2-metadata
