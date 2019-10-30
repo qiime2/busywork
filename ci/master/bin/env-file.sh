@@ -10,8 +10,7 @@ echo "source activate ./conda-env"
 source activate ./conda-env
 set -v
 
-conda install -q -y -c conda-forge jq
-pip install yq
+conda install -q -y -c conda-forge jq yq
 
 yq ". | {channels: [\
 \"$CHANNEL\", \
