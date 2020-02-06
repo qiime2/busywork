@@ -24,7 +24,7 @@ projects:
       QIIMETEST: true
 
   - name: q2templates
-    testable: false
+    test_runner: py.test --pyargs q2templates
 
   - name: q2-types
     deps: [qiime2]
