@@ -7,6 +7,8 @@ conda create -q -y -p ./test-env
 
 PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-spec.txt/" | xargs) | xargs)
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
+# TODO: set to 2 and re-run integration prior to removing the following line
+conda config --set unsatisfiable_hints_check_depth 3
 conda install -p ./test-env -q -y $CHANNELS \
   -c https://conda.anaconda.org/conda-forge \
   -c https://conda.anaconda.org/bioconda \
