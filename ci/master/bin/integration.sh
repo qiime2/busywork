@@ -12,6 +12,7 @@ conda install -p ./test-env -q -y $CHANNELS \
   -c https://conda.anaconda.org/bioconda \
   -c defaults \
   --override-channels \
+  --strict-channel-priority \
   $PKG_NAMES
 
 set +v
