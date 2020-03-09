@@ -9,14 +9,13 @@ PKG_NAMES=$(cat $(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/$/\/version-
 CHANNELS=$(ls -1 -d $(pwd)/* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
 conda config --show
 conda --version
-# TODO: remove this line after BW runs integration with this
-conda config --set unsatisfiable_hints_check_depth 2
 conda install -p ./test-env -q -y $CHANNELS \
   -c https://conda.anaconda.org/conda-forge \
   -c https://conda.anaconda.org/bioconda \
   -c defaults \
   --override-channels \
   --strict-channel-priority \
+  -vvv \
   $PKG_NAMES
 
 set +v
