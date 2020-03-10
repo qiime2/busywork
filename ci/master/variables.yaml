@@ -42,9 +42,10 @@ projects:
     deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_composition
 
-  - name: q2-dada2
-    deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_dada2
+# Testing out a theory...
+#   - name: q2-dada2
+#     deps: [qiime2, q2-types]
+#     test_runner: py.test --pyargs q2_dada2
 
   - name: q2-deblur
     deps: [qiime2, q2templates, q2-types]
@@ -54,9 +55,10 @@ projects:
     deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_demux
 
-  - name: q2-diversity
-    deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-emperor, q2-metadata]
-    test_runner: py.test --pyargs q2_diversity
+# Testing out a theory...
+#   - name: q2-diversity
+#     deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-emperor, q2-metadata]
+#     test_runner: py.test --pyargs q2_diversity
 
   - name: q2-emperor
     deps: [qiime2, q2templates, q2-types]
