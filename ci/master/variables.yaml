@@ -72,9 +72,9 @@ projects:
     deps: [qiime2, q2templates, q2-types]
     test_runner: py.test --pyargs q2_metadata
 
-  - name: q2-phylogeny
-    deps: [qiime2, q2-types, q2-alignment]
-    test_runner: py.test --pyargs q2_phylogeny
+#   - name: q2-phylogeny
+#     deps: [qiime2, q2-types, q2-alignment]
+#     test_runner: py.test --pyargs q2_phylogeny
 
   - name: q2-quality-filter
     deps: [qiime2, q2templates, q2-types]
