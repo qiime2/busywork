@@ -15,7 +15,6 @@ conda install -p ./test-env -q -y $CHANNELS \
   -c defaults \
   --override-channels \
   --strict-channel-priority \
-  -vvv \
   $PKG_NAMES
 
 set +v
