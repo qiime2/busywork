@@ -14,8 +14,6 @@ conda install -q -y -c conda-forge jq yq
 
 yq ". | {channels: [\
 \"$CHANNEL\", \
-\"https://99276-42372094-gh.circle-artifacts.com/0/tmp/artifacts/packages\", \
-\"https://99275-42372094-gh.circle-artifacts.com/0/tmp/artifacts/packages\", \
 \"conda-forge\", \
 \"bioconda\", \
 \"defaults\"\
