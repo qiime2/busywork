@@ -1,4 +1,5 @@
 repos:
+  - action-library-packaging
   - busywork
   - conda-channel-resource
   - data.qiime2.org
