@@ -19,7 +19,7 @@ projects:
 
   - name: q2cli
     deps: [qiime2]
-    test_runner: nosetests q2cli
+    test_runner: py.test q2cli
     extra_params:
       QIIMETEST: true
 
