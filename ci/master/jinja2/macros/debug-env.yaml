@@ -4,7 +4,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: qiime2/linux-worker
+    repository: quay.io/qiime2/linux-worker
     version: latest
 inputs:
   - name: busywork
@@ -19,7 +19,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: qiime2/linux-worker
+    repository: quay.io/qiime2/linux-worker
     version: latest
 inputs:
   - name: busywork
