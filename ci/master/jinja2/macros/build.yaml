@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: bioconda/bioconda-utils-build-env
-    tag: 2019-02-01
+    repository: quay.io/condaforge/linux-anvil-comp7
+    tag: latest
 params:
   PATH: /opt/conda/bin:/opt/rh/devtoolset-2/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
 inputs:
