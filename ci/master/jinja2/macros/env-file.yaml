@@ -10,7 +10,11 @@ params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
-  CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
+  {% if channel_suffix == 'release' }}
+  CHANNEL: {{ defaults.release_channel }}
+  {% else %}
+  CHANNEL: ((staging_uri))/{{ defaults.staging_channel }}
+  {% endif %}
   ENV_FILE_FP: linux-environment-files/qiime2-{{ defaults.release }}-py36-linux-conda.yml
 inputs:
   - name: busywork
@@ -30,7 +34,11 @@ params:
   LANG: en_US.UTF-8
   RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
-  CHANNEL: {{ defaults.release_channel if channel_suffix == 'release-channel' else defaults.staging_channel }}
+  {% if channel_suffix == 'release' }}
+  CHANNEL: {{ defaults.release_channel }}
+  {% else %}
+  CHANNEL: ((staging_uri))/{{ defaults.staging_channel }}
+  {% endif %}
   ENV_FILE_FP: darwin-environment-files/qiime2-{{ defaults.release }}-py36-osx-conda.yml
 inputs:
   - name: busywork
