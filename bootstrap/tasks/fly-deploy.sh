@@ -32,6 +32,9 @@ do
       --var "ftp_user=$FTP_USER" \
       --var "ftp_pass=$FTP_PASS" \
       --var "anaconda_user=$ANACONDA_USER" \
-      --var "anaconda_pass=$ANACONDA_PASS"
+      --var "anaconda_pass=$ANACONDA_PASS" \
+      --var "staging_uri=$STAGING_URI" \
+      --var "staging_user=$STAGING_USER" \
+      --var "staging_pass=$STAGING_PASS"
   ./fly -t qiime2 expose-pipeline -p $pipeline_name
 done

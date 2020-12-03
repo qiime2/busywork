@@ -18,6 +18,9 @@ params:
   FTP_PASS:
   ANACONDA_USER:
   ANACONDA_PASS:
+  STAGING_URI:
+  STAGING_USER:
+  STAGING_PASS:
 
 inputs:
   - name: busywork
