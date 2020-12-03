@@ -110,12 +110,12 @@ resources:
     check_every: 5m
     source:
       pkg_name: {{ project.name }}
-      uri: https://conda.anaconda.org
+      uri: ((staging_channel))
       channel: {{ project.staging_channel }}
       # Emrakool approves
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
-      user: ((anaconda_user))
-      pass: ((anaconda_pass))
+      user: ((staging_user))
+      pass: ((staging_pass))
 
   - name: {{ project.name }}-{{ project.release }}-release-channel
     type: conda-channel
