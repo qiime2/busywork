@@ -34,6 +34,7 @@ do
       --var "anaconda_user=$ANACONDA_USER" \
       --var "anaconda_pass=$ANACONDA_PASS" \
       --var "staging_uri=$STAGING_URI" \
+      --var "staging_channel=$STAGING_CHANNEL" \
       --var "staging_user=$STAGING_USER" \
       --var "staging_pass=$STAGING_PASS"
   ./fly -t qiime2 expose-pipeline -p $pipeline_name

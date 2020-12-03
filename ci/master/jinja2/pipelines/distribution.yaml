@@ -100,7 +100,7 @@ resources:
     check_every: 24h
     source:
       pkg_name: {{ project.name }}
-      uri: ftps://((staging_uri))
+      uri: ((staging_uri))
       channel: {{ project.staging_channel }}
       user: ((staging_user))
       pass: ((staging_pass))
