@@ -114,8 +114,6 @@ resources:
       channel: {{ project.staging_channel }}
       # Emrakool approves
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
-      user: ((staging_user))
-      pass: ((staging_pass))
 
   - name: {{ project.name }}-{{ project.release }}-release-channel
     type: conda-channel
