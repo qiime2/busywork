@@ -23,3 +23,6 @@ jobs:
           FTP_PASS: {{ftp_pass}}
           ANACONDA_USER: {{anaconda_user}}
           ANACONDA_PASS: {{anaconda_pass}}
+          STAGING_URL: {{staging_uri}}
+          STAGING_USER: {{staging_user}}
+          STAGING_PASS: {{staging_pass}}

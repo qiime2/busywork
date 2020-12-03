@@ -56,7 +56,8 @@ cd ..
 git clone ${REPO}-source tagged-${REPO}-source
 cd tagged-${REPO}-source
 
-version="${observed_release}.0"
+# TODO: revert to .0
+version="${observed_release}.1"
 
 git commit --allow-empty -m "REL: ${version}"
 

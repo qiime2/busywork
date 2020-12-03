@@ -5,7 +5,7 @@ defaults:
   github_org: qiime2
   # TODO: template the `release` into these values
   test_channel: builds/2020.11
-  staging_channel: qiime2-staging/label/r2020.11
+  staging_channel: '2020.11'
   release_channel: qiime2/label/r2020.11
   testable: true
   deps: []
