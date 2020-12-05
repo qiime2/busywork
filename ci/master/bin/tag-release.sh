@@ -46,19 +46,17 @@ fi
 
 observed_release=$(_get_release)
 
-# TODO: revert
-# if [ "$observed_release" != "$expected_release" ]
-# then
-#   echo "Repo $REPO has current dev release $observed_release but busywork/ci/master/variables.yaml declares $expected_release."
-#   exit 1
-# fi
+if [ "$observed_release" != "$expected_release" ]
+then
+  echo "Repo $REPO has current dev release $observed_release but busywork/ci/master/variables.yaml declares $expected_release."
+  exit 1
+fi
 
 cd ..
 git clone ${REPO}-source tagged-${REPO}-source
 cd tagged-${REPO}-source
 
-# TODO: revert to .0
-version="${observed_release}.1"
+version="${observed_release}.0"
 
 git commit --allow-empty -m "REL: ${version}"
 
