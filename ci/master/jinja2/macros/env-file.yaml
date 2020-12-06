@@ -10,7 +10,7 @@ params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
-  {% if channel_suffix == 'release' %}
+  {% if channel_suffix == 'release-channel' %}
   CHANNEL: {{ defaults.release_channel }}
   {% else %}
   CHANNEL: ((staging_channel))/{{ defaults.staging_channel }}
@@ -34,7 +34,7 @@ params:
   LANG: en_US.UTF-8
   RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
-  {% if channel_suffix == 'release' %}
+  {% if channel_suffix == 'release-channel' %}
   CHANNEL: {{ defaults.release_channel }}
   {% else %}
   CHANNEL: ((staging_channel))/{{ defaults.staging_channel }}
