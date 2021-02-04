@@ -15,5 +15,6 @@ inputs:
 outputs:
   - name: {{ project }}-source-updated
 run:
-  path: busywork/extra/github/bin/update-copyright.sh
+  path: /bin/bash
+  args: ["busywork/extra/github/bin/update-copyright.sh"]
 {%- endmacro %}
