@@ -34,6 +34,7 @@ resources:
       branch: master
       paths:
         - copyright/*
+        - common/*
 
   {%- for repo in repos %}
   - name: {{ repo }}-source
