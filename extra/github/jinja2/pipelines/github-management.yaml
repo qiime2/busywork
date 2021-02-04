@@ -1,4 +1,5 @@
 {%- import 'macros/copy-templates.yaml' as copy %}
+{%- import 'macros/update-copyright.yaml' as copyright %}
 
 resources:
   - name: busywork
@@ -25,6 +26,15 @@ resources:
       paths:
         - github_templates/*
 
+  - name: template-repo-copyright
+    type: git
+    check_every: 2m
+    source:
+      uri: https://github.com/qiime2/template-repo
+      branch: master
+      paths:
+        - copyright/*
+
   {%- for repo in repos %}
   - name: {{ repo }}-source
     type: git
@@ -37,6 +47,10 @@ resources:
   {%- endfor %}
 
 jobs:
+  - name: copyrightit
+    plan:
+      - get: busywork
+
   - name: sync-labels
     public: true
     plan:
@@ -50,6 +64,7 @@ jobs:
           GITHUB_USER: ((github_user))
           GITHUB_PASS: ((github_pass))
           REPOS: {{ ' '.join(repos) }}  # space is in $IFS for looping
+
   {%- for repo in repos %}
   - name: sync-{{ repo }}-templates
     public: true
@@ -66,4 +81,23 @@ jobs:
         params:
           repository: {{ repo }}-source-updated
           rebase: true
+
+  - name: update-{{ repo }}-copyright
+    public: true
+    plan:
+      - get: busywork
+        trigger: true
+        passed: [copyrightit]
+      - get: template-repo
+        resource: template-repo-copyright
+        trigger: false
+      - get: {{ repo }}-source
+      - task: update-copyright
+        config:
+          {{- copyright.make_linux_config(repo)|indent(10) }}
+      # TODO: uncomment this once convinced I didn't mess up
+      # - put: {{ repo }}-source
+      #   params:
+      #     repository: {{ repo }}-source-updated
+      #     rebase: true
   {%- endfor %}
