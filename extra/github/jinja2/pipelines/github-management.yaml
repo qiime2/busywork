@@ -96,9 +96,8 @@ jobs:
       - task: update-copyright
         config:
           {{- copyright.make_linux_config(repo)|indent(10) }}
-      # TODO: uncomment this once convinced I didn't mess up
-      # - put: {{ repo }}-source
-      #   params:
-      #     repository: {{ repo }}-source-updated
-      #     rebase: true
+      - put: {{ repo }}-source
+        params:
+          repository: {{ repo }}-source-updated
+          rebase: true
   {%- endfor %}
