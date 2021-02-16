@@ -7,13 +7,17 @@ image_resource:
     repository: quay.io/qiime2/linux-worker
     version: latest
 params:
-  REPO: {{ project }}-source
+  REPO: {{ project.name }}-source
+  {% if 'action_library_packaging_tests' in project.keys() %}
+  PACKAGE_NAME: {{ project.name }}
+  ADDITIONAL_TESTS: {{ project.action_library_packaging_tests }}
+  {% endif %}
 inputs:
   - name: busywork
   - name: template-repo
-  - name: {{ project }}-source
+  - name: {{ project.name }}-source
 outputs:
-  - name: {{ project }}-source-updated
+  - name: {{ project.name }}-source-updated
 run:
   path: busywork/extra/github/bin/copy-templates.sh
 {%- endmacro %}
