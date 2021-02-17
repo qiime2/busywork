@@ -8,6 +8,9 @@ image_resource:
     version: latest
 params:
   REPO: {{ project }}-source
+  {%- if project.branch is defined %}
+  BRANCH: {{ project.branch }}
+  {%- endif %}
 inputs:
   - name: busywork
   - name: template-repo
