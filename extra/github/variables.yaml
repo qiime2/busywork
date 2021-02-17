@@ -26,78 +26,78 @@ repos:
   - name: paper2
 
   - name: q2-alignment
-    action_library_packaging_tests: py.test --pyargs q2_alignment --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_alignment
 
   - name: q2-composition
-    action_library_packaging_tests: py.test --pyargs q2_composition --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_composition
 
   - name: q2-cutadapt
-    action_library_packaging_tests: py.test --pyargs q2_cutadapt --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_cutadapt
 
   - name: q2-dada2
-    action_library_packaging_tests: py.test --pyargs q2_dada2 --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_dada2
 
   - name: q2-deblur
-    action_library_packaging_tests: py.test --pyargs q2_deblur --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_deblur
 
   - name: q2-demux
-    action_library_packaging_tests: py.test --pyargs q2_demux --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_demux
 
   - name: q2-diversity
-    action_library_packaging_tests: py.test --pyargs q2_diversity --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_diversity
 
   - name: q2-diversity-lib
-    action_library_packaging_tests: py.test --pyargs q2_diversity_lib --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_diversity_lib
 
   - name: q2-emperor
-    action_library_packaging_tests: py.test --pyargs q2_emperor --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_emperor
 
   - name: q2-feature-classifier
-    action_library_packaging_tests: py.test --pyargs q2_feature_classifier --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_feature_classifier
 
   - name: q2-feature-table
-    action_library_packaging_tests: py.test --pyargs q2_feature_table --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_feature_table
 
   - name: q2-fragment-insertion
-    action_library_packaging_tests: py.test --pyargs q2_fragment_insertion --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_fragment_insertion
 
   - name: q2-gneiss
-    action_library_packaging_tests: py.test --pyargs q2_gneiss --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_gneiss
 
   - name: q2-longitudinal
-    action_library_packaging_tests: py.test --pyargs q2_longitudinal --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_longitudinal
 
   - name: q2-metadata
-    action_library_packaging_tests: py.test --pyargs q2_metadata --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_metadata
 
   - name: q2-mystery-stew
-    action_library_packaging_tests: py.test --pyargs q2_mystery_stew --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_mystery_stew
 
   - name: q2-phylogeny
-    action_library_packaging_tests: py.test --pyargs q2_phylogeny --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_phylogeny
 
   - name: q2-quality-control
-    action_library_packaging_tests: py.test --pyargs q2_quality_control --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_quality_control
 
   - name: q2-quality-filter
-    action_library_packaging_tests: py.test --pyargs q2_quality_filter --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_quality_filter
 
   - name: q2-sample-classifier
-    action_library_packaging_tests: py.test --pyargs q2_sample_classifier --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_sample_classifier
 
   - name: q2-shogun
 
   - name: q2-taxa
-    action_library_packaging_tests: py.test --pyargs q2_taxa --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_taxa
 
   - name: q2-types
-    action_library_packaging_tests: py.test --pyargs q2_types --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_types
 
   - name: q2-vsearch
-    action_library_packaging_tests: py.test --pyargs q2_vsearch --capture=tee-sys
+    action_library_packaging_tests: py.test --pyargs q2_vsearch
 
   - name: q2cli
-    action_library_packaging_tests: QIIMETEST= py.test --pyargs q2cli --capture=tee-sys
+    action_library_packaging_tests: QIIMETEST= py.test --pyargs q2cli
 
   - name: q2cwl
 
@@ -112,7 +112,7 @@ repos:
   - name: q2view
 
   - name: qiime2
-    action_library_packaging_tests: QIIMETEST= py.test --pyargs qiime2 --capture=tee-sys
+    action_library_packaging_tests: QIIMETEST= py.test --pyargs qiime2
 
   - name: qiime2.github.io
 
