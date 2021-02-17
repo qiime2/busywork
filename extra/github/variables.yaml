@@ -1,49 +1,108 @@
 repos:
-  - action-library-packaging
-  - busywork
-  - conda-channel-resource
-  - data.qiime2.org
-  - dev-docs
-  - discourse-unhandled-tagger
-  - docs
-  - environment-files
-  - Keemei
-  - library
-  - linux-worker-docker
-  - logos
-  - q2-alignment
-  - q2-composition
-  - q2-cutadapt
-  - q2-dada2
-  - q2-deblur
-  - q2-demux
-  - q2-diversity
-  - q2-diversity-lib
-  - q2-emperor
-  - q2-feature-classifier
-  - q2-feature-table
-  - q2-fragment-insertion
-  - q2-gneiss
-  - q2-longitudinal
-  - q2-metadata
-  - q2-phylogeny
-  - q2-quality-control
-  - q2-quality-filter
-  - q2-sample-classifier
-  - q2-shogun
-  - q2-taxa
-  - q2-types
-  - q2-vsearch
-  - q2cli
-  - q2cwl
-  - q2galaxy
-  - q2lint
-  - q2studio
-  - q2templates
-  - q2view
-  - qiime2.github.io
-  - qiime2
-  - template-repo
-  - vm-playbooks
-  - workshop-playbooks
-  - workshops.qiime2.org
+  - name: Keemei
+  - name: action-library-packaging
+  - name: busywork
+  - name: conda-channel-resource
+  - name: data302
+  - name: dev-docs
+  - name: docs
+  - name: environment-files
+  - name: library
+  - name: linux-worker-docker
+  - name: logos
+  - name: paper1
+  - name: paper2
+
+  - name: q2-alignment
+    action_library_packaging_tests: py.test --pyargs q2_alignment
+
+  - name: q2-composition
+    action_library_packaging_tests: py.test --pyargs q2_composition
+
+  - name: q2-cutadapt
+    action_library_packaging_tests: py.test --pyargs q2_cutadapt
+
+  - name: q2-dada2
+    action_library_packaging_tests: py.test --pyargs q2_dada2
+
+  - name: q2-deblur
+    action_library_packaging_tests: py.test --pyargs q2_deblur
+
+  - name: q2-demux
+    action_library_packaging_tests: py.test --pyargs q2_demux
+
+  - name: q2-diversity
+    action_library_packaging_tests: py.test --pyargs q2_diversity
+
+  - name: q2-diversity-lib
+    action_library_packaging_tests: py.test --pyargs q2_diversity_lib
+
+  - name: q2-emperor
+    action_library_packaging_tests: py.test --pyargs q2_emperor
+
+  - name: q2-feature-classifier
+    action_library_packaging_tests: py.test --pyargs q2_feature_classifier
+
+  - name: q2-feature-table
+    action_library_packaging_tests: py.test --pyargs q2_feature_table
+
+  - name: q2-fragment-insertion
+    action_library_packaging_tests: py.test --pyargs q2_fragment_insertion
+
+  - name: q2-gneiss
+    action_library_packaging_tests: py.test --pyargs q2_gneiss
+
+  - name: q2-longitudinal
+    action_library_packaging_tests: py.test --pyargs q2_longitudinal
+
+  - name: q2-metadata
+    action_library_packaging_tests: py.test --pyargs q2_metadata
+
+  - name: q2-mystery-stew
+    action_library_packaging_tests: py.test --pyargs q2_mystery_stew
+
+  - name: q2-phylogeny
+    action_library_packaging_tests: py.test --pyargs q2_phylogeny
+
+  - name: q2-quality-control
+    action_library_packaging_tests: py.test --pyargs q2_quality_control
+
+  - name: q2-quality-filter
+    action_library_packaging_tests: py.test --pyargs q2_quality_filter
+
+  - name: q2-sample-classifier
+    action_library_packaging_tests: py.test --pyargs q2_sample_classifier
+
+  - name: q2-shogun
+    action_library_packaging_tests: py.test --pyargs q2_shogun
+
+  - name: q2-taxa
+    action_library_packaging_tests: py.test --pyargs q2_taxa
+
+  - name: q2-types
+    action_library_packaging_tests: py.test --pyargs q2_types
+
+  - name: q2-vsearch
+    action_library_packaging_tests: py.test --pyargs q2_vsearch
+
+  - name: q2cli
+    action_library_packaging_tests: QIIMETEST= py.test --pyargs q2cli
+
+  - name: q2cwl
+  - name: q2galaxy
+  - name: q2lint
+  - name: q2studio
+  - name: q2templates
+  - name: q2view
+
+  - name: qiime2
+    action_library_packaging_tests: QIIMETEST= py.test --pyargs qiime2
+
+  - name: qiime2.github.io
+  - name: sphinx-ext-qiime2
+  - name: sphinx-qiime2-theme
+  - name: static-site-infrastructure
+  - name: template-repo
+  - name: vm-playbooks
+  - name: workshop-playbooks
+  - name: workshops

@@ -37,11 +37,11 @@ resources:
         - common/*
 
   {%- for repo in repos %}
-  - name: {{ repo }}-source
+  - name: {{ repo.name }}-source
     type: git
     check_every: 24h
     source:
-      uri: https://github.com/qiime2/{{ repo }}
+      uri: https://github.com/qiime2/{{ repo.name }}
       branch: master
       username: ((github_user))
       password: ((github_pass))
@@ -67,23 +67,23 @@ jobs:
           REPOS: {{ ' '.join(repos) }}  # space is in $IFS for looping
 
   {%- for repo in repos %}
-  - name: sync-{{ repo }}-templates
+  - name: sync-{{ repo.name }}-templates
     public: true
     plan:
       - get: busywork
       - get: template-repo
         resource: template-repo-templates
         trigger: true
-      - get: {{ repo }}-source
+      - get: {{ repo.name }}-source
       - task: sync-templates
         config:
           {{- copy.make_linux_config(repo)|indent(10) }}
-      - put: {{ repo }}-source
+      - put: {{ repo.name }}-source
         params:
-          repository: {{ repo }}-source-updated
+          repository: {{ repo.name }}-source-updated
           rebase: true
 
-  - name: update-{{ repo }}-copyright
+  - name: update-{{ repo.name }}-copyright
     public: true
     plan:
       - get: busywork
@@ -92,12 +92,12 @@ jobs:
       - get: template-repo
         resource: template-repo-copyright
         trigger: false
-      - get: {{ repo }}-source
+      - get: {{ repo.name }}-source
       - task: update-copyright
         config:
-          {{- copyright.make_linux_config(repo)|indent(10) }}
-      - put: {{ repo }}-source
+          {{- copyright.make_linux_config(repo.name)|indent(10) }}
+      - put: {{ repo.name }}-source
         params:
-          repository: {{ repo }}-source-updated
+          repository: {{ repo.name }}-source-updated
           rebase: true
   {%- endfor %}
