@@ -64,7 +64,7 @@ jobs:
         params:
           GITHUB_USER: ((github_user))
           GITHUB_PASS: ((github_pass))
-          REPOS: {{ ' '.join(repos) }}  # space is in $IFS for looping
+          REPOS: {{ repos|selectattr('name')|join(' ') }}
 
   {%- for repo in repos %}
   - name: sync-{{ repo.name }}-templates
