@@ -8,7 +8,7 @@ image_resource:
     version: latest
 params:
   REPO: {{ project.name }}-source
-  {% if 'action_library_packaging_tests' in project.keys() %}
+  {% if project.action_library_packaging_tests is defined %}
   PACKAGE_NAME: {{ project.name }}
   ADDITIONAL_TESTS: {{ project.action_library_packaging_tests }}
   {% endif %}
