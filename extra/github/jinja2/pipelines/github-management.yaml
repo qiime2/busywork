@@ -64,7 +64,7 @@ jobs:
         params:
           GITHUB_USER: ((github_user))
           GITHUB_PASS: ((github_pass))
-          REPOS: {{ repos|selectattr('name')|join(' ') }}
+          REPOS: {{ repos|map(attribute='name')|join(' ') }}
 
   {%- for repo in repos %}
   - name: sync-{{ repo.name }}-templates
