@@ -1,16 +1,28 @@
 repos:
   - name: Keemei
+
   - name: action-library-packaging
+
   - name: busywork
+
   - name: conda-channel-resource
+
   - name: data302
+
   - name: dev-docs
+
   - name: docs
+
   - name: environment-files
+
   - name: library
+
   - name: linux-worker-docker
+
   - name: logos
+
   - name: paper1
+
   - name: paper2
 
   - name: q2-alignment
@@ -89,20 +101,33 @@ repos:
     action_library_packaging_tests: QIIMETEST= py.test --pyargs q2cli
 
   - name: q2cwl
+
   - name: q2galaxy
+
   - name: q2lint
+
   - name: q2studio
+
   - name: q2templates
+
   - name: q2view
 
   - name: qiime2
     action_library_packaging_tests: QIIMETEST= py.test --pyargs qiime2
 
   - name: qiime2.github.io
+
   - name: sphinx-ext-qiime2
+
   - name: sphinx-qiime2-theme
+
   - name: static-site-infrastructure
+    branch: main
+
   - name: template-repo
+
   - name: vm-playbooks
+
   - name: workshop-playbooks
+
   - name: workshops

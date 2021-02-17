@@ -42,7 +42,7 @@ resources:
     check_every: 24h
     source:
       uri: https://github.com/qiime2/{{ repo.name }}
-      branch: master
+      branch: {{ repo.branch|default('master') }}
       username: ((github_user))
       password: ((github_pass))
   {%- endfor %}
