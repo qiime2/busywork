@@ -108,6 +108,7 @@ repos:
   - name: q2studio
 
   - name: q2templates
+    action_library_packaging_tests: py.test --pyargs q2templates
 
   - name: q2view
 
