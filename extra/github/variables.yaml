@@ -71,7 +71,8 @@ repos:
     action_library_packaging_tests: py.test --pyargs q2_metadata
 
   - name: q2-mystery-stew
-    action_library_packaging_tests: py.test --pyargs q2_mystery_stew
+    # Someday we may turn this back on...
+    # action_library_packaging_tests: py.test --pyargs q2_mystery_stew
 
   - name: q2-phylogeny
     action_library_packaging_tests: py.test --pyargs q2_phylogeny
