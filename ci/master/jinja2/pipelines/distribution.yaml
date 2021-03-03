@@ -241,14 +241,14 @@ jobs:
       - aggregate:
         - task: integration-linux
           config:
-            {{- integration.make_linux_config(projects, defaults)|indent(12) }}
+            {{- integration.make_linux_config(projects, sorted_projects, defaults)|indent(12) }}
           on_failure:
             task: debug-environment
             config:
               {{- debug_env.make_linux_config(defaults)|indent(14) }}
         - task: integration-darwin
           config:
-            {{- integration.make_darwin_config(projects, defaults)|indent(12) }}
+            {{- integration.make_darwin_config(projects, sorted_projects, defaults)|indent(12) }}
           on_failure:
             task: debug-environment
             config:
