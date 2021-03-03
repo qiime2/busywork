@@ -2,7 +2,7 @@
 
 set -e -v
 
-conda install -q -y jinja2 pyyaml
+conda install -q -y jinja2 pyyaml networkx
 
 # Set up fly
 wget -q -O fly "$CONCOURSE_HOST/api/v1/cli?arch=amd64&platform=linux"
