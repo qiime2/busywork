@@ -4,112 +4,82 @@ defaults:
   release_branch: master
   github_org: qiime2
   # TODO: template the `release` into these values
-  test_channel: builds/2021.4
+  test_channel: '2021.4/tested'
   staging_channel: '2021.4/staged'
   release_channel: qiime2/label/r2021.4
-  testable: true
   deps: []
   extra_params: {}
 
 projects:
   - name: qiime2
-    test_runner: nosetests qiime2
-    extra_params:
-      QIIMETEST: true
 
   - name: q2cli
     deps: [qiime2]
-    test_runner: py.test --pyargs q2cli
-    extra_params:
-      QIIMETEST: true
 
   - name: q2templates
-    test_runner: py.test --pyargs q2templates
 
   - name: q2-types
     deps: [qiime2]
-    test_runner: py.test --pyargs q2_types
 
   - name: q2-feature-table
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_feature_table
 
   - name: q2-alignment
     deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_alignment
 
   - name: q2-composition
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_composition
 
   - name: q2-dada2
     deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_dada2
 
   - name: q2-deblur
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_deblur
 
   - name: q2-demux
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_demux
 
   - name: q2-diversity
     deps: [qiime2, q2templates, q2-types, q2-diversity-lib, q2-feature-table, q2-emperor, q2-metadata]
-    test_runner: py.test --pyargs q2_diversity
 
   - name: q2-diversity-lib
     deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_diversity_lib
 
   - name: q2-emperor
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_emperor
 
   - name: q2-feature-classifier
     deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-taxa, q2-quality-control]
-    test_runner: py.test --pyargs q2_feature_classifier
 
   - name: q2-metadata
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_metadata
 
   - name: q2-phylogeny
     deps: [qiime2, q2-types, q2-alignment]
-    test_runner: py.test --pyargs q2_phylogeny
 
   - name: q2-quality-filter
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_quality_filter
 
   - name: q2-taxa
     deps: [qiime2, q2templates, q2-types]
-    test_runner: py.test --pyargs q2_taxa
 
   - name: q2-gneiss
     deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_gneiss
 
   - name: q2-sample-classifier
     deps: [qiime2, q2templates, q2-types, q2-feature-table]
-    test_runner: py.test --pyargs q2_sample_classifier
 
   - name: q2-longitudinal
     deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-sample-classifier]
-    test_runner: py.test --pyargs q2_longitudinal
 
   - name: q2-vsearch
     deps: [qiime2, q2templates, q2-types, q2-feature-table]
-    test_runner: py.test --pyargs q2_vsearch
 
   - name: q2-quality-control
     deps: [qiime2, q2templates, q2-types, q2-taxa]
-    test_runner: py.test --pyargs q2_quality_control
 
   - name: q2-cutadapt
     deps: [qiime2, q2-types]
-    test_runner: py.test --pyargs q2_cutadapt
 
   - name: q2-fragment-insertion
     deps: [qiime2, q2-types]
-    test_runner: nosetests q2_fragment_insertion
