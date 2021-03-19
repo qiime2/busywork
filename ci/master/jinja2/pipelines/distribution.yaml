@@ -1,23 +1,11 @@
-{%- import 'macros/build.yaml' as build %}
 {%- import 'macros/merge.yaml' as merge %}
-{%- import 'macros/unit-test.yaml' as unit_test %}
 {%- import 'macros/integration.yaml' as integration %}
 {%- import 'macros/env-file.yaml' as env_file %}
 {%- import 'macros/merge-env-files.yaml' as merge_env_files %}
 {%- import 'macros/debug-env.yaml' as debug_env %}
 groups:
-  - name: build
-    jobs:
-      {%- for project in projects %}
-      - build-{{ project.name }}
-      {%- endfor %}
   - name: test
     jobs:
-      {%- for project in projects %}
-      {%- if project.testable %}
-      - unit-test-{{ project.name }}
-      {%- endif %}
-      {%- endfor %}
       - batch-builds-together
       - integration
   - name: stage
@@ -36,10 +24,6 @@ groups:
   - name: all
     jobs:
       {%- for project in projects %}
-      - build-{{ project.name }}
-      {%- if project.testable %}
-      - unit-test-{{ project.name }}
-      {%- endif %}
       - stage-{{ project.name }}
       - release-{{ project.name }}
       {%- endfor %}
@@ -78,22 +62,13 @@ resources:
       password: ((github_pass))
 
   {%- for project in projects %}
-  - name: {{ project.name }}-source
-    type: git
-    check_every: 2m
-    source:
-      uri: https://github.com/{{ project.github_org }}/{{ project.name }}
-      branch: {{ project.release_branch }}
-
   - name: {{ project.name }}-{{ project.release }}-test-channel
     type: conda-channel
-    check_every: 24h
+    check_every: 10m
     source:
       pkg_name: {{ project.name }}
+      uri: https://packages.qiime2.org/qiime2
       channel: {{ project.test_channel }}
-      uri: ((ftp_uri))
-      user: ((ftp_user))
-      pass: ((ftp_pass))
 
   - name: {{ project.name }}-{{ project.release }}-staging-channel
     type: conda-channel
@@ -110,7 +85,7 @@ resources:
     check_every: 5m
     source:
       pkg_name: {{ project.name }}
-      uri: ((staging_channel))
+      uri: https://packages.qiime2.org/qiime2
       channel: {{ project.staging_channel }}
       # Emrakool approves
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
@@ -127,66 +102,6 @@ resources:
   {% endfor %}
 jobs:
   {%- for project in projects %}
-  - name: build-{{ project.name }}
-    public: true
-    plan:
-      - get: busywork
-      - get: {{ project.name }}-source
-        trigger: true
-      {%- for dep in project.deps %}
-      - get: {{ dep.name }}-{{ dep.release }}-test-channel
-        {%- if dep.testable %}
-        passed: [unit-test-{{ dep.name }}]
-        {%- endif %}
-      {%- endfor %}
-      - aggregate:
-        - task: build-linux
-          config:
-            {{- build.make_linux_config(project, defaults)|indent(12) }}
-        - task: build-darwin
-          attempts: 2
-          config:
-            {{- build.make_darwin_config(project, defaults)|indent(12) }}
-      - task: merge-channels
-        config:
-          {{- merge.make_config(defaults)|indent(10) }}
-      - put: {{ project.name }}-{{ project.release }}-test-channel
-        params:
-          from: builds
-  {%- if project.testable %}
-
-  - name: unit-test-{{ project.name }}
-    public: true
-    plan:
-      - get: busywork
-      - get: {{ project.name }}-{{ project.release }}-test-channel
-        trigger: true
-        passed: [build-{{ project.name }}]
-      {%- for dep in project.deps %}
-      - get: {{ dep.name }}-{{ dep.release }}-test-channel
-        trigger: true
-        {%- if dep.testable %}
-        passed: [unit-test-{{ dep.name }}]
-        {%- endif %}
-      {%- endfor %}
-      - aggregate:
-        - task: test-linux
-          config:
-            {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
-          on_failure:
-            task: debug-environment
-            config:
-              {{- debug_env.make_linux_config(defaults)|indent(14) }}
-        - task: test-darwin
-          attempts: 2
-          config:
-            {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
-          on_failure:
-            task: debug-environment
-            config:
-              {{- debug_env.make_darwin_config(defaults)|indent(14) }}
-  {%- endif %}
-
   - name: stage-{{ project.name }}
     public: true
     plan:
@@ -214,13 +129,6 @@ jobs:
         trigger: true
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-test-channel
-        {% if project.rev_deps or project.testable %}passed:{% endif %}
-          {%- if project.testable %}
-          - unit-test-{{ project.name }}
-          {%- endif %}
-          {%- for rev_dep in project.rev_deps %}
-          - unit-test-{{ rev_dep.name }}
-          {%- endfor %}
       {%- endfor %}
 
   - name: integration
@@ -234,9 +142,7 @@ jobs:
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
-        {%- if project.testable %}
         passed: [batch-builds-together]
-        {%- endif %}
       {%- endfor %}
       - aggregate:
         - task: integration-linux
@@ -269,9 +175,7 @@ jobs:
         trigger: true
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-staging-channel
-        {%- if project.testable %}
         passed: [stage-{{ project.name }}]
-        {%- endif %}
       {%- endfor %}
 
   - name: create-staging-env-files
