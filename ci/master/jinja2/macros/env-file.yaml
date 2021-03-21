@@ -13,7 +13,7 @@ params:
   {% if channel_suffix == 'release-channel' %}
   CHANNEL: {{ defaults.release_channel }}
   {% else %}
-  CHANNEL: ((staging_channel))/{{ defaults.staging_channel }}
+  CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.staging_channel }}
   {% endif %}
   ENV_FILE_FP: linux-environment-files/qiime2-{{ defaults.release }}-py36-linux-conda.yml
 inputs:
@@ -37,7 +37,7 @@ params:
   {% if channel_suffix == 'release-channel' %}
   CHANNEL: {{ defaults.release_channel }}
   {% else %}
-  CHANNEL: ((staging_channel))/{{ defaults.staging_channel }}
+  CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.staging_channel }}
   {% endif %}
   ENV_FILE_FP: darwin-environment-files/qiime2-{{ defaults.release }}-py36-osx-conda.yml
 inputs:
