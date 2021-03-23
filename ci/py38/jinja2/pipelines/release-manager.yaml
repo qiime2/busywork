@@ -1,0 +1,49 @@
+---
+{%- import 'macros/tag-dev.yaml' as tag_dev %}
+
+groups:
+  - name: tag-dev
+    jobs:
+      - devit
+      {%- for project in projects %}
+      - tag-{{ project.name }}-dev
+      {%- endfor %}
+
+resources:
+  - name: busywork
+    type: git
+    source:
+      uri: https://github.com/qiime2/busywork
+      branch: master
+
+  {%- for project in projects %}
+  - name: {{ project.name }}-source
+    type: git
+    source:
+      uri: https://github.com/{{ project.github_org }}/{{ project.name }}
+      branch: {{ project.release_branch }}
+      username: ((github_user))
+      password: ((github_pass))
+  {%- endfor %}
+
+jobs:
+  - name: devit
+    plan:
+      - get: busywork
+
+  {%- for project in projects %}
+  - name: tag-{{ project.name }}-dev
+    plan:
+      - get: busywork
+        trigger: true
+        passed: [devit]
+      - get: {{ project.name }}-source
+      - task: tag-dev
+        config:
+          {{- tag_dev.make_config(project)|indent(10) }}
+      - put: {{ project.name }}-source
+        params:
+          repository: tagged-{{ project.name }}-source
+          tag: tagged-{{ project.name }}-source/tag
+          annotate: tagged-{{ project.name }}-source/annotate
+  {%- endfor %}
