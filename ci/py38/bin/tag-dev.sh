@@ -31,12 +31,6 @@ cd ${REPO}-source
 
 observed_release=$(_get_release)
 
-if [ "$observed_release" == "$expected_release" ]
-then
-  echo "Repo $REPO and busywork/ci/py38/variables.yaml both declare release $observed_release"
-  exit 1
-fi
-
 cd ..
 git clone ${REPO}-source tagged-${REPO}-source
 cd tagged-${REPO}-source
