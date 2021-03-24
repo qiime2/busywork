@@ -69,7 +69,7 @@ resources:
       pkg_name: {{ project.name }}
       uri: https://packages.qiime2.org/qiime2
       channel: {{ project.test_channel }}
-      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+$
+      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+
 
   - name: {{ project.name }}-{{ project.release }}-staging-channel
     type: conda-channel
@@ -80,7 +80,7 @@ resources:
       channel: {{ project.staging_channel }}
       user: ((staging_user))
       pass: ((staging_pass))
-      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+$
+      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+
 
   - name: {{ project.name }}-{{ project.release }}-release-staging-channel
     type: conda-channel
