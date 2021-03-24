@@ -1,0 +1,23 @@
+{%- macro make_config(project) %}
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: quay.io/qiime2/linux-worker
+    version: latest
+
+params:
+  PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  REPO: "{{ project.name }}"
+
+inputs:
+  - name: busywork
+  - name: {{ project.name }}-source
+
+outputs:
+  - name: tagged-{{ project.name }}-source
+
+run:
+  path: busywork/ci/py38/bin/tag-dev.sh
+{%- endmacro %}

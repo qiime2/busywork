@@ -1,0 +1,19 @@
+# Linux
+{%- macro make_config(defaults) %}
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: quay.io/qiime2/linux-worker
+    version: latest
+params:
+  PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+inputs:
+  - name: busywork
+  - name: build-linux
+  - name: build-darwin
+outputs:
+  - name: builds
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/merge.sh
+{%- endmacro %}

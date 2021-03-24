@@ -1,0 +1,85 @@
+defaults:
+  # NOTE: when changing the following line, edit the lines below, too :)))
+  release: '2021.4'
+  release_branch: py38
+  github_org: qiime2
+  # TODO: template the `release` into these values
+  test_channel: '2021.4/tested'
+  staging_channel: '2021.4/staged'
+  release_channel: qiime2/label/r2021.4
+  deps: []
+  extra_params: {}
+
+projects:
+  - name: qiime2
+
+  - name: q2cli
+    deps: [qiime2]
+
+  - name: q2templates
+
+  - name: q2-types
+    deps: [qiime2]
+
+  - name: q2-feature-table
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-alignment
+    deps: [qiime2, q2-types]
+
+  - name: q2-composition
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-dada2
+    deps: [qiime2, q2-types]
+
+  - name: q2-deblur
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-demux
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-diversity
+    deps: [qiime2, q2templates, q2-types, q2-diversity-lib, q2-feature-table, q2-emperor, q2-metadata]
+
+  - name: q2-diversity-lib
+    deps: [qiime2, q2-types]
+
+  - name: q2-emperor
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-feature-classifier
+    deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-taxa, q2-quality-control]
+
+  - name: q2-metadata
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-phylogeny
+    deps: [qiime2, q2-types, q2-alignment]
+
+  - name: q2-quality-filter
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-taxa
+    deps: [qiime2, q2templates, q2-types]
+
+  - name: q2-gneiss
+    deps: [qiime2, q2-types]
+
+  - name: q2-sample-classifier
+    deps: [qiime2, q2templates, q2-types, q2-feature-table]
+
+  - name: q2-longitudinal
+    deps: [qiime2, q2templates, q2-types, q2-feature-table, q2-sample-classifier]
+
+  - name: q2-vsearch
+    deps: [qiime2, q2templates, q2-types, q2-feature-table]
+
+  - name: q2-quality-control
+    deps: [qiime2, q2templates, q2-types, q2-taxa]
+
+  - name: q2-cutadapt
+    deps: [qiime2, q2-types]
+
+  - name: q2-fragment-insertion
+    deps: [qiime2, q2-types]
