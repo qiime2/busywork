@@ -15,23 +15,15 @@ groups:
       {%- endfor %}
       - batch-uploads-together
       - create-staging-env-files
-  - name: release
-    jobs:
-      {%- for project in projects %}
-      - release-{{ project.name }}
-      {%- endfor %}
-      - create-release-env-files
   - name: all
     jobs:
       {%- for project in projects %}
       - stage-{{ project.name }}
-      - release-{{ project.name }}
       {%- endfor %}
       - batch-builds-together
       - integration
       - batch-uploads-together
       - create-staging-env-files
-      - create-release-env-files
 
 resources:
   - name: busywork
@@ -91,16 +83,6 @@ resources:
       channel: {{ project.staging_channel }}
       # Emrakool approves
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
-
-  - name: {{ project.name }}-{{ project.release }}-release-channel
-    type: conda-channel
-    check_every: 24h
-    source:
-      pkg_name: {{ project.name }}
-      uri: https://conda.anaconda.org
-      channel: {{ project.release_channel }}
-      user: ((anaconda_user))
-      pass: ((anaconda_pass))
   {% endfor %}
 jobs:
   {%- for project in projects %}
@@ -113,15 +95,6 @@ jobs:
       - put: {{ project.name }}-{{ project.release }}-staging-channel
         params:
           from: {{ project.name }}-{{ project.release }}-test-channel
-
-  - name: release-{{ project.name }}
-    public: true
-    plan:
-      - get: {{ project.name }}-{{ project.release }}-release-staging-channel
-        trigger: true
-      - put: {{ project.name }}-{{ project.release }}-release-channel
-        params:
-          from: {{ project.name }}-{{ project.release }}-release-staging-channel
   {% endfor %}
   - name: batch-builds-together
     public: true
@@ -201,32 +174,6 @@ jobs:
       - task: merge-and-commit-env-files
         config:
           {{- merge_env_files.make_config("staging", defaults)|indent(10) }}
-      - put: environment-files
-        params:
-          repository: updated-environment-files
-          rebase: true
-
-  - name: create-release-env-files
-    serial_groups: [create-env-files]
-    public: true
-    plan:
-      - get: busywork
-      - get: environment-files
-      {%- for project in projects %}
-      - get: {{ project.name }}-{{ project.release }}-release-channel
-        trigger: true
-        passed: [release-{{ project.name }}]
-      {%- endfor %}
-      - aggregate:
-        - task: release-env-file-linux
-          config:
-            {{- env_file.make_linux_config(projects, defaults, "release-channel")|indent(12) }}
-        - task: release-env-file-darwin
-          config:
-            {{- env_file.make_darwin_config(projects, defaults, "release-channel")|indent(12) }}
-      - task: merge-and-commit-env-files
-        config:
-          {{- merge_env_files.make_config("release", defaults)|indent(10) }}
       - put: environment-files
         params:
           repository: updated-environment-files
