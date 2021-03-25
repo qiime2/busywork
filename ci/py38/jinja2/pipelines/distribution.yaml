@@ -54,7 +54,7 @@ resources:
 
   - name: environment-files
     type: git
-    check_every: 24h
+    check_every: 10m
     source:
       uri: https://github.com/qiime2/environment-files
       branch: py38
