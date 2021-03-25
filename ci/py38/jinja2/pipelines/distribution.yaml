@@ -73,16 +73,6 @@ resources:
       user: ((staging_user))
       pass: ((staging_pass))
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev1+
-
-  - name: {{ project.name }}-{{ project.release }}-release-staging-channel
-    type: conda-channel
-    check_every: 5m
-    source:
-      pkg_name: {{ project.name }}
-      uri: https://packages.qiime2.org/qiime2
-      channel: {{ project.staging_channel }}
-      # Emrakool approves
-      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
   {% endfor %}
 jobs:
   {%- for project in projects %}
