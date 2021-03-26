@@ -10,7 +10,6 @@ for project in $PROJECTS; do
   echo $PKG_NAME
 
   CHANNEL=$(ls -1 -d $(pwd)/$project-* | grep '^.\+-channel$' | sed "s/^/ -c /" | xargs)
-  echo $CHANNEL
 
   conda install -p ./test-env -q -y $CHANNEL \
     -c https://conda.anaconda.org/conda-forge \
@@ -41,8 +40,8 @@ if [ "$(uname)" == "Darwin" ]; then
   cp -r build/preview/* /Users/caporasolab/Desktop/latest_preview/
 fi
 
-make html
-if [ "$(uname)" == "Darwin" ]; then
-  rm -rf /Users/caporasolab/Desktop/latest_docs/*
-  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
-fi
+# make html
+# if [ "$(uname)" == "Darwin" ]; then
+#   rm -rf /Users/caporasolab/Desktop/latest_docs/*
+#   cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
+# fi
