@@ -66,7 +66,7 @@ resources:
 
   - name: {{ project.name }}-{{ project.release }}-staging-channel
     type: conda-channel
-    check_every: 24h
+    check_every: 10m
     source:
       pkg_name: {{ project.name }}
       uri: ((staging_uri))
