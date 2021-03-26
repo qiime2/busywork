@@ -70,6 +70,7 @@ resources:
       uri: https://packages.qiime2.org/qiime2
       channel: {{ project.test_channel }}
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+
+      matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-staging-channel
     type: conda-channel
@@ -81,6 +82,7 @@ resources:
       user: ((staging_user))
       pass: ((staging_pass))
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+
+      matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-release-staging-channel
     type: conda-channel
@@ -91,6 +93,7 @@ resources:
       channel: {{ project.staging_channel }}
       # Emrakool approves
       regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]+$
+      matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-release-channel
     type: conda-channel
@@ -101,6 +104,7 @@ resources:
       channel: {{ project.release_channel }}
       user: ((anaconda_user))
       pass: ((anaconda_pass))
+      matched: [osx-64, linux-64]
   {% endfor %}
 jobs:
   {%- for project in projects %}
