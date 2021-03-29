@@ -36,12 +36,12 @@ make clean
 make dummy
 make preview
 if [ "$(uname)" == "Darwin" ]; then
-  rm -rf /Users/caporasolab/Desktop/latest_preview/*
-  cp -r build/preview/* /Users/caporasolab/Desktop/latest_preview/
+  rm -rf /Users/caporasolab/Desktop/latest_preview_py38/*
+  cp -r build/preview/* /Users/caporasolab/Desktop/latest_preview_py38/
 fi
 
-# make html
-# if [ "$(uname)" == "Darwin" ]; then
-#   rm -rf /Users/caporasolab/Desktop/latest_docs/*
-#   cp -r build/html/* /Users/caporasolab/Desktop/latest_docs/
-# fi
+make html
+if [ "$(uname)" == "Darwin" ]; then
+  rm -rf /Users/caporasolab/Desktop/latest_docs_py38/*
+  cp -r build/html/* /Users/caporasolab/Desktop/latest_docs_py38/
+fi
