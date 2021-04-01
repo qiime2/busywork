@@ -35,19 +35,17 @@ cd ${REPO}-source
 
 observed_release=$(_get_release)
 
-# TODO: revert this when changing back to .dev0 (see below)
-# if [ "$observed_release" == "$expected_release" ]
-# then
-#   echo "Repo $REPO and busywork/ci/master/variables.yaml both declare release $observed_release"
-#   exit 1
-# fi
+if [ "$observed_release" == "$expected_release" ]
+then
+  echo "Repo $REPO and busywork/ci/master/variables.yaml both declare release $observed_release"
+  exit 1
+fi
 
 cd ..
 git clone ${REPO}-source tagged-${REPO}-source
 cd tagged-${REPO}-source
 
-# TODO: revert to .dev0
-version="${expected_release}.0.dev2"
+version="${expected_release}.0.dev0"
 
 git commit --allow-empty -m "VER: ${version}"
 
