@@ -69,6 +69,8 @@ resources:
       pkg_name: {{ project.name }}
       uri: https://packages.qiime2.org/qiime2
       channel: {{ project.test_channel }}
+      # TODO: undo when reverting tag-dev.sh changes
+      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev2+
       matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-staging-channel
@@ -80,6 +82,8 @@ resources:
       channel: {{ project.staging_channel }}
       user: ((staging_user))
       pass: ((staging_pass))
+      # TODO: undo when reverting tag-dev.sh changes
+      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev2+
       matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-release-staging-channel
