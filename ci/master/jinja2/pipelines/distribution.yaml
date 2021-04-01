@@ -69,7 +69,6 @@ resources:
       pkg_name: {{ project.name }}
       uri: https://packages.qiime2.org/qiime2
       channel: {{ project.test_channel }}
-      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+
       matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-staging-channel
@@ -81,7 +80,6 @@ resources:
       channel: {{ project.staging_channel }}
       user: ((staging_user))
       pass: ((staging_pass))
-      regex: ^{{ project.release|replace('.', '\.') }}\.[0-9]\.dev0+
       matched: [osx-64, linux-64]
 
   - name: {{ project.name }}-{{ project.release }}-release-staging-channel
@@ -131,10 +129,9 @@ jobs:
     public: true
     build_logs_to_retain: 50
     plan:
-      - get: throttle-timer
-        trigger: true
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-test-channel
+        trigger: true
       {%- endfor %}
 
   - name: integration

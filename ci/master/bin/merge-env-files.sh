@@ -19,8 +19,8 @@ if [ "$BUILD_TYPE" == "staging" ]
 then
   # Latest Staging
   mkdir -p latest/staging
-  cp ../linux-environment-files/qiime2-$RELEASE-py36-linux-conda.yml latest/staging/qiime2-latest-py36-linux-conda.yml
-  cp ../darwin-environment-files/qiime2-$RELEASE-py36-osx-conda.yml latest/staging/qiime2-latest-py36-osx-conda.yml
+  cp ../linux-environment-files/qiime2-$RELEASE-py38-linux-conda.yml latest/staging/qiime2-latest-py38-linux-conda.yml
+  cp ../darwin-environment-files/qiime2-$RELEASE-py38-osx-conda.yml latest/staging/qiime2-latest-py38-osx-conda.yml
   git add latest/staging
 fi
 
