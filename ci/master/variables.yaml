@@ -86,3 +86,6 @@ projects:
 
   - name: q2-mystery-stew
     deps: [qiime2]
+
+  - name: q2galaxy
+    deps: [qiime2]
