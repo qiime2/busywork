@@ -159,7 +159,7 @@ jobs:
       - get: busywork
       - get: environment-files
       {%- for project in projects %}
-      - get: {{ project.name }}-{{ project.release }}-testing-channel
+      - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
         passed: [batch-builds-together]
       {%- endfor %}
