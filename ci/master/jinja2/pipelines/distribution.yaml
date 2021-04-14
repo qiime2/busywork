@@ -1,6 +1,6 @@
-{%- import 'macros/integration.yaml' as integration %}
 {%- import 'macros/de-novo-env.yaml' as de_novo_env %}
 {%- import 'macros/env-file.yaml' as env_file %}
+{%- import 'macros/integration.yaml' as integration %}
 {%- import 'macros/merge-env-files.yaml' as merge_env_files %}
 {%- import 'macros/unit-test.yaml' as unit_test %}
 groups:
@@ -30,6 +30,7 @@ groups:
       {%- for project in projects %}
       - stage-{{ project.name }}
       - release-{{ project.name }}
+      - unit-test-{{ project.name }}
       {%- endfor %}
       - batch-builds-together
       - integration
@@ -155,9 +156,7 @@ jobs:
       {%- for dep in project.deps %}
       - get: {{ dep.name }}-{{ dep.release }}-test-channel
         trigger: true
-        {%- if dep.testable %}
         passed: [unit-test-{{ dep.name }}]
-        {%- endif %}
       {%- endfor %}
       - aggregate:
         - task: test-linux

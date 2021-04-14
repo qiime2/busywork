@@ -10,6 +10,8 @@ image_resource:
 params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   TEST_CMD: {{ qiimetest }}py.test --pyargs {{ project.name|replace('-', '_') }}
+  RELEASE: "{{ defaults.release }}"
+  PLATFORM: linux
 inputs:
   - name: busywork
   - name: {{ project.name }}-{{ project.release }}-test-channel
@@ -29,6 +31,8 @@ params:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
   TEST_CMD: {{ qiimetest }}py.test --pyargs {{ project.name|replace('-', '_') }}
+  RELEASE: "{{ defaults.release }}"
+  PLATFORM: osx
 inputs:
   - name: busywork
   - name: {{ project.name }}-{{ project.release }}-test-channel
