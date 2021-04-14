@@ -1,0 +1,44 @@
+# Linux
+{%- macro make_linux_config(project, defaults) %}
+{% set qiimetest = 'QIIMETEST= ' if project.name in ('qiime2', 'q2cli') else '' %}
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: qiime2/linux-worker
+    version: latest
+params:
+  PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  TEST_CMD: {{ qiimetest }}py.test --pyargs {{ project.name|replace('-', '_') }}
+  RELEASE: "{{ defaults.release }}"
+  PLATFORM: linux
+inputs:
+  - name: busywork
+  - name: {{ project.name }}-{{ project.release }}-test-channel
+  {%- for dep in project.deps %}
+  - name: {{ dep.name }}-{{ dep.release }}-test-channel
+  {%- endfor %}
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/unit-test.sh
+{%- endmacro %}
+
+# Darwin
+{%- macro make_darwin_config(project, defaults) %}
+{% set qiimetest = 'QIIMETEST= ' if project.name in ('qiime2', 'q2cli') else '' %}
+platform: darwin
+params:
+  PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+  TEST_CMD: {{ qiimetest }}py.test --pyargs {{ project.name|replace('-', '_') }}
+  RELEASE: "{{ defaults.release }}"
+  PLATFORM: osx
+inputs:
+  - name: busywork
+  - name: {{ project.name }}-{{ project.release }}-test-channel
+  {%- for dep in project.deps %}
+  - name: {{ dep.name }}-{{ dep.release }}-test-channel
+  {%- endfor %}
+run:
+  path: busywork/ci/{{ defaults.release_branch }}/bin/unit-test.sh
+{%- endmacro %}

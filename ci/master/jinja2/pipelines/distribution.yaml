@@ -1,12 +1,16 @@
-{%- import 'macros/merge.yaml' as merge %}
-{%- import 'macros/integration.yaml' as integration %}
+{%- import 'macros/de-novo-env.yaml' as de_novo_env %}
 {%- import 'macros/env-file.yaml' as env_file %}
+{%- import 'macros/integration.yaml' as integration %}
 {%- import 'macros/merge-env-files.yaml' as merge_env_files %}
-{%- import 'macros/debug-env.yaml' as debug_env %}
+{%- import 'macros/unit-test.yaml' as unit_test %}
 groups:
   - name: test
     jobs:
       - batch-builds-together
+      - create-testing-env-files
+      {%- for project in projects %}
+      - unit-test-{{ project.name }}
+      {%- endfor %}
       - integration
   - name: stage
     jobs:
@@ -26,10 +30,12 @@ groups:
       {%- for project in projects %}
       - stage-{{ project.name }}
       - release-{{ project.name }}
+      - unit-test-{{ project.name }}
       {%- endfor %}
       - batch-builds-together
       - integration
       - batch-uploads-together
+      - create-testing-env-files
       - create-staging-env-files
       - create-release-env-files
 
@@ -60,6 +66,17 @@ resources:
       branch: master
       username: ((github_user))
       password: ((github_pass))
+
+  - name: test-environment-files
+    type: git
+    check_every: 10m
+    source:
+      uri: https://github.com/qiime2/environment-files
+      branch: master
+      username: ((github_user))
+      password: ((github_pass))
+      paths:
+        - {{ defaults.release }}/test/*
 
   {%- for project in projects %}
   - name: {{ project.name }}-{{ project.release }}-test-channel
@@ -128,15 +145,64 @@ jobs:
       - put: {{ project.name }}-{{ project.release }}-release-channel
         params:
           from: {{ project.name }}-{{ project.release }}-release-staging-channel
+
+  - name: unit-test-{{ project.name }}
+    public: true
+    plan:
+      - get: busywork
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        trigger: true
+        passed: [create-testing-env-files]
+      {%- for dep in project.deps %}
+      - get: {{ dep.name }}-{{ dep.release }}-test-channel
+        trigger: true
+        passed: [unit-test-{{ dep.name }}]
+      {%- endfor %}
+      - aggregate:
+        - task: test-linux
+          config:
+            {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
+        - task: test-darwin
+          attempts: 2
+          config:
+            {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
   {% endfor %}
   - name: batch-builds-together
     public: true
     build_logs_to_retain: 50
     plan:
+      - get: throttle-timer
+        trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+      {%- endfor %}
+
+  - name: create-testing-env-files
+    serial_groups: [create-env-files]
+    public: true
+    max_in_flight: 1
+    plan:
+      - get: busywork
+      - get: environment-files
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
+        passed: [batch-builds-together]
       {%- endfor %}
+      - aggregate:
+        - task: test-env-file-linux
+          config:
+            {{- de_novo_env.make_linux_config(projects, defaults)|indent(12) }}
+        - task: test-env-file-darwin
+          config:
+            {{- de_novo_env.make_darwin_config(projects, defaults)|indent(12) }}
+      - task: merge-and-commit-env-files
+        config:
+          {{- merge_env_files.make_config("test", defaults)|indent(10) }}
+      - put: environment-files
+        params:
+          repository: updated-environment-files
+          rebase: true
 
   - name: integration
     public: true
@@ -144,35 +210,21 @@ jobs:
     plan:
       - get: busywork
       - get: environment-files
+        trigger: true
+        resource: test-environment-files
       - get: docs-source
         trigger: true
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-test-channel
-        trigger: true
-        passed: [batch-builds-together]
+        passed: [unit-test-{{ project.name }}]
       {%- endfor %}
       - aggregate:
         - task: integration-linux
           config:
             {{- integration.make_linux_config(projects, sorted_projects, defaults)|indent(12) }}
-          on_failure:
-            task: debug-environment
-            config:
-              {{- debug_env.make_linux_config(defaults)|indent(14) }}
         - task: integration-darwin
           config:
             {{- integration.make_darwin_config(projects, sorted_projects, defaults)|indent(12) }}
-          on_failure:
-            task: debug-environment
-            config:
-              {{- debug_env.make_darwin_config(defaults)|indent(14) }}
-      - task: merge-and-commit-env-yaml
-        config:
-          {{- merge_env_files.make_config("unprocessed", defaults)|indent(10) }}
-      - put: environment-files
-        params:
-          repository: updated-environment-files
-          rebase: true
 
   - name: batch-uploads-together
     public: true
