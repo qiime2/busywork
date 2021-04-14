@@ -1,5 +1,5 @@
 # Linux
-{%- macro make_linux_config(projects, sorted_projects, defaults) %}
+{%- macro make_linux_config(projects, defaults) %}
 platform: linux
 image_resource:
   type: docker-image
@@ -9,7 +9,6 @@ image_resource:
 params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   SPHINXOPTS: "-q"
-  PROJECTS: {{ sorted_projects|join(' ') }}
   RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
 inputs:
@@ -24,14 +23,13 @@ run:
 {%- endmacro %}
 
 # Darwin
-{%- macro make_darwin_config(projects, sorted_projects, defaults) %}
+{%- macro make_darwin_config(projects, defaults) %}
 platform: darwin
 params:
   PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
   SPHINXOPTS: "-q"
-  PROJECTS: {{ sorted_projects|join(' ') }}
   RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
 inputs:

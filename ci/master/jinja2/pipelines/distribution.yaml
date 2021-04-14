@@ -192,10 +192,10 @@ jobs:
       - aggregate:
         - task: test-env-file-linux
           config:
-            {{- de_novo_env.make_linux_config(projects, defaults)|indent(12) }}
+            {{- de_novo_env.make_linux_config(projects, sorted_projects, defaults)|indent(12) }}
         - task: test-env-file-darwin
           config:
-            {{- de_novo_env.make_darwin_config(projects, defaults)|indent(12) }}
+            {{- de_novo_env.make_darwin_config(projects, sorted_projects, defaults)|indent(12) }}
       - task: merge-and-commit-env-files
         config:
           {{- merge_env_files.make_config("test", defaults)|indent(10) }}
@@ -221,10 +221,10 @@ jobs:
       - aggregate:
         - task: integration-linux
           config:
-            {{- integration.make_linux_config(projects, sorted_projects, defaults)|indent(12) }}
+            {{- integration.make_linux_config(projects, defaults)|indent(12) }}
         - task: integration-darwin
           config:
-            {{- integration.make_darwin_config(projects, sorted_projects, defaults)|indent(12) }}
+            {{- integration.make_darwin_config(projects, defaults)|indent(12) }}
 
   - name: batch-uploads-together
     public: true
