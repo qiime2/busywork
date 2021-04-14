@@ -17,7 +17,7 @@ inputs:
   - name: {{ dep.name }}-{{ dep.release }}-test-channel
   {%- endfor %}
 run:
-  path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
+  path: busywork/ci/{{ defaults.release_branch }}/bin/unit-test.sh
 {%- endmacro %}
 
 # Darwin
@@ -36,5 +36,5 @@ inputs:
   - name: {{ dep.name }}-{{ dep.release }}-test-channel
   {%- endfor %}
 run:
-  path: busywork/ci/{{ defaults.release_branch }}/bin/test.sh
+  path: busywork/ci/{{ defaults.release_branch }}/bin/unit-test.sh
 {%- endmacro %}

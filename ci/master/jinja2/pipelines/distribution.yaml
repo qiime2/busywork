@@ -8,6 +8,9 @@ groups:
     jobs:
       - batch-builds-together
       - create-testing-env-files
+      {%- for project in projects %}
+      - unit-test-{{ project.name }}
+      {%- endfor %}
       - integration
   - name: stage
     jobs:
@@ -142,14 +145,13 @@ jobs:
         params:
           from: {{ project.name }}-{{ project.release }}-release-staging-channel
 
-  {%- if project.testable %}
   - name: unit-test-{{ project.name }}
     public: true
     plan:
       - get: busywork
       - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
-        passed: [create-testing-env-file]
+        passed: [create-testing-env-files]
       {%- for dep in project.deps %}
       - get: {{ dep.name }}-{{ dep.release }}-test-channel
         trigger: true
@@ -165,7 +167,6 @@ jobs:
           attempts: 2
           config:
             {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
-  {%- endif %}
   {% endfor %}
   - name: batch-builds-together
     public: true
@@ -214,6 +215,10 @@ jobs:
         resource: test-environment-files
       - get: docs-source
         trigger: true
+      {%- for project in projects %}
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        passed: [unit-test-{{ project.name }}]
+      {%- endfor %}
       - aggregate:
         - task: integration-linux
           config:
