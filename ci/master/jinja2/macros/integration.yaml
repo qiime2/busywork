@@ -10,7 +10,7 @@ params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   SPHINXOPTS: "-q"
   PROJECTS: {{ sorted_projects|join(' ') }}
-  RELEASE: "{{ default.release }}"
+  RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
 inputs:
   - name: busywork
@@ -32,7 +32,7 @@ params:
   LANG: en_US.UTF-8
   SPHINXOPTS: "-q"
   PROJECTS: {{ sorted_projects|join(' ') }}
-  RELEASE: "{{ default.release }}"
+  RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
 inputs:
   - name: busywork

@@ -2,6 +2,7 @@
 {%- import 'macros/de-novo-env.yaml' as de_novo_env %}
 {%- import 'macros/env-file.yaml' as env_file %}
 {%- import 'macros/merge-env-files.yaml' as merge_env_files %}
+{%- import 'macros/unit-test.yaml' as unit_test %}
 groups:
   - name: test
     jobs:
@@ -140,6 +141,31 @@ jobs:
       - put: {{ project.name }}-{{ project.release }}-release-channel
         params:
           from: {{ project.name }}-{{ project.release }}-release-staging-channel
+
+  {%- if project.testable %}
+  - name: unit-test-{{ project.name }}
+    public: true
+    plan:
+      - get: busywork
+      - get: {{ project.name }}-{{ project.release }}-test-channel
+        trigger: true
+        passed: [create-testing-env-file]
+      {%- for dep in project.deps %}
+      - get: {{ dep.name }}-{{ dep.release }}-test-channel
+        trigger: true
+        {%- if dep.testable %}
+        passed: [unit-test-{{ dep.name }}]
+        {%- endif %}
+      {%- endfor %}
+      - aggregate:
+        - task: test-linux
+          config:
+            {{- unit_test.make_linux_config(project, defaults)|indent(12) }}
+        - task: test-darwin
+          attempts: 2
+          config:
+            {{- unit_test.make_darwin_config(project, defaults)|indent(12) }}
+  {%- endif %}
   {% endfor %}
   - name: batch-builds-together
     public: true
