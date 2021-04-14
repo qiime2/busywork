@@ -10,6 +10,7 @@ params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
+  TEST_CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.test_channel }}
   ENV_FILE_FP: linux-environment-files/qiime2-{{ defaults.release }}-py38-linux-conda.yml
 inputs:
   - name: busywork
@@ -29,6 +30,7 @@ params:
   LANG: en_US.UTF-8
   RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
+  TEST_CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.test_channel }}
   ENV_FILE_FP: darwin-environment-files/qiime2-{{ defaults.release }}-py38-osx-conda.yml
 inputs:
   - name: busywork

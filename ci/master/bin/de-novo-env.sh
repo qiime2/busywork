@@ -30,7 +30,7 @@ set -v
 conda install -q -y -c conda-forge jq yq
 
 yq ". | {channels: [\
-\"$CHANNEL\", \
+\"$TEST_CHANNEL\", \
 \"conda-forge\", \
 \"bioconda\", \
 \"defaults\"\
