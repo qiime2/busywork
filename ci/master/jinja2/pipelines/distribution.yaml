@@ -153,6 +153,8 @@ jobs:
       - get: {{ project.name }}-{{ project.release }}-test-channel
         trigger: true
         passed: [create-testing-env-files]
+      - get: environment-files
+        resource: test-environment-files
       {%- for dep in project.deps %}
       - get: {{ dep.name }}-{{ dep.release }}-test-channel
         trigger: true
@@ -210,13 +212,13 @@ jobs:
     plan:
       - get: busywork
       - get: environment-files
-        trigger: true
         resource: test-environment-files
       - get: docs-source
         trigger: true
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-test-channel
         passed: [unit-test-{{ project.name }}]
+        trigger: true
       {%- endfor %}
       - aggregate:
         - task: integration-linux
