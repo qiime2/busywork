@@ -17,7 +17,7 @@ yq ". | {channels: [\
 \"conda-forge\", \
 \"bioconda\", \
 \"defaults\"\
-], dependencies: .dependencies}" environment-files/$RELEASE/unprocessed/qiime2-$RELEASE-py38-$PLATFORM-conda.yml --yaml-output \
+], dependencies: .dependencies}" environment-files/$RELEASE/test/qiime2-$RELEASE-py38-$PLATFORM-conda.yml --yaml-output \
 > $ENV_FILE_FP
 
 conda clean --index-cache
