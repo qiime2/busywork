@@ -120,12 +120,11 @@ projects:
     deps: [qiime2, q2-mystery-stew]
     unit: >
       pip install planemo &&
-          q2galaxy template tests ./rendered/tests &&
+          mkdir -p ./rendered &&
+          q2galaxy template tests ./rendered &&
           planemo test --install_galaxy
             --galaxy_branch qiime2
             --galaxy_source https://github.com/ebolyen/galaxy.git
             --no_conda_auto_install
             --no_conda_auto_init
-            --test_output ./rendered/tests/tool_test_output.html
-            --test_output_json ./rendered/tests/tool_test_output.json
-            ./rendered/tests/suite_qiime2_mystery-stew/
+            ./rendered/suite_qiime2_mystery-stew/
