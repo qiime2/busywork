@@ -158,7 +158,7 @@ jobs:
       {%- for dep in project.deps %}
       - get: {{ dep.name }}-{{ dep.release }}-test-channel
         trigger: true
-        passed: [unit-test-{{ dep.name }}]
+        passed: [create-testing-env-files, unit-test-{{ dep.name }}]
       {%- endfor %}
       - aggregate:
         - task: test-linux
