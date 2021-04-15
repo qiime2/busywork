@@ -14,7 +14,6 @@ cd docs-source
 pip install -q -r requirements.txt
 
 make clean
-make dummy
 make preview
 if [ "$(uname)" == "Darwin" ]; then
   rm -rf /Users/caporasolab/Desktop/latest_preview/*

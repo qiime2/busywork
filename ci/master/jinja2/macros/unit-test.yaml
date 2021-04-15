@@ -14,6 +14,7 @@ params:
   PLATFORM: linux
 inputs:
   - name: busywork
+  - name: environment-files
   - name: {{ project.name }}-{{ project.release }}-test-channel
   {%- for dep in project.deps %}
   - name: {{ dep.name }}-{{ dep.release }}-test-channel
@@ -35,6 +36,7 @@ params:
   PLATFORM: osx
 inputs:
   - name: busywork
+  - name: environment-files
   - name: {{ project.name }}-{{ project.release }}-test-channel
   {%- for dep in project.deps %}
   - name: {{ dep.name }}-{{ dep.release }}-test-channel
