@@ -13,4 +13,4 @@ echo "running test cmd:"
 echo $TEST_CMD
 set -v
 
-$TEST_CMD
+eval $TEST_CMD
