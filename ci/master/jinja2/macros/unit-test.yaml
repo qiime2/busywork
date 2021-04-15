@@ -8,12 +8,12 @@ image_resource:
     version: latest
 params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-  TEST_CMD: py.test --pyargs {{ project.name|replace('-', '_') }}
+  TEST_CMD: {{ project.unit }}
   RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
-  {% if project.name in ('qiime2', 'q2cli') %}
-  QIIMETEST: true
-  {% endif %}
+  {%- for key, value in project.extra_params.items() %}
+  {{ key }}: {{ value }}
+  {%- endfor %}
 inputs:
   - name: busywork
   - name: environment-files
@@ -32,12 +32,12 @@ params:
   PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
-  TEST_CMD: py.test --pyargs {{ project.name|replace('-', '_') }}
+  TEST_CMD: {{ project.unit }}
   RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
-  {% if project.name in ('qiime2', 'q2cli') %}
-  QIIMETEST: true
-  {% endif %}
+  {%- for key, value in project.extra_params.items() %}
+  {{ key }}: {{ value }}
+  {%- endfor %}
 inputs:
   - name: busywork
   - name: environment-files
