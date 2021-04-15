@@ -1,6 +1,5 @@
 # Linux
 {%- macro make_linux_config(project, defaults) %}
-{% set qiimetest = 'QIIMETEST= ' if project.name in ('qiime2', 'q2cli') else '' %}
 platform: linux
 image_resource:
   type: docker-image
@@ -9,9 +8,12 @@ image_resource:
     version: latest
 params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-  TEST_CMD: {{ qiimetest }}py.test --pyargs {{ project.name|replace('-', '_') }}
+  TEST_CMD: py.test --pyargs {{ project.name|replace('-', '_') }}
   RELEASE: "{{ defaults.release }}"
   PLATFORM: linux
+  {% if project.name in ('qiime2', 'q2cli') %}
+  QIIMETEST: true
+  {% endif %}
 inputs:
   - name: busywork
   - name: environment-files
@@ -25,15 +27,17 @@ run:
 
 # Darwin
 {%- macro make_darwin_config(project, defaults) %}
-{% set qiimetest = 'QIIMETEST= ' if project.name in ('qiime2', 'q2cli') else '' %}
 platform: darwin
 params:
   PATH: /Users/caporasolab/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
-  TEST_CMD: {{ qiimetest }}py.test --pyargs {{ project.name|replace('-', '_') }}
+  TEST_CMD: py.test --pyargs {{ project.name|replace('-', '_') }}
   RELEASE: "{{ defaults.release }}"
   PLATFORM: osx
+  {% if project.name in ('qiime2', 'q2cli') %}
+  QIIMETEST: true
+  {% endif %}
 inputs:
   - name: busywork
   - name: environment-files
