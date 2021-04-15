@@ -117,7 +117,7 @@ projects:
     unit: py.test --pyargs q2_mystery_stew
 
   - name: q2galaxy
-    deps: [qiime2]
+    deps: [qiime2, q2-mystery-stew]
     unit: >
       pip install planemo &&
           q2galaxy template tests ./rendered/tests &&
