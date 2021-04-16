@@ -155,9 +155,10 @@ jobs:
         passed: [create-testing-env-files]
       - get: environment-files
         resource: test-environment-files
+        passed: [create-testing-env-files]
+        trigger: true
       {%- for dep in project.deps %}
       - get: {{ dep.name }}-{{ dep.release }}-test-channel
-        trigger: true
         passed: [create-testing-env-files, unit-test-{{ dep.name }}]
       {%- endfor %}
       - aggregate:
