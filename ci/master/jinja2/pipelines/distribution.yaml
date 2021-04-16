@@ -202,7 +202,7 @@ jobs:
       - task: merge-and-commit-env-files
         config:
           {{- merge_env_files.make_config("test", defaults)|indent(10) }}
-      - put: environment-files
+      - put: test-environment-files
         params:
           repository: updated-environment-files
           rebase: true
