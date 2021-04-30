@@ -6,13 +6,13 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 import sys
 import os
-import glob
 import jinja2
 import yaml
+
 
 def main(output_dir):
     root = os.path.dirname(__file__)
@@ -24,11 +24,12 @@ def main(output_dir):
 
     for pipeline in env.list_templates(
             filter_func=lambda x: x.startswith('pipelines/') and
-                                  (not os.path.basename(x).startswith('.'))):
+            (not os.path.basename(x).startswith('.'))):
         template = env.get_template(pipeline)
         pipeline_name = os.path.basename(pipeline)
         with open(os.path.join(output_dir, pipeline_name), 'w') as fh:
             fh.write(template.render(variables))
+
 
 if __name__ == '__main__':
     main(sys.argv[1])

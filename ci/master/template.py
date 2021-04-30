@@ -6,11 +6,10 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 import sys
 import os
-import glob
 import jinja2
 import networkx as nx
 import yaml
@@ -20,7 +19,7 @@ def fill_in_defaults(variables):
     variables = variables.copy()
     lookup = {}
     for idx, project in enumerate(variables['projects']):
-        updated = { **variables['defaults'], **project }
+        updated = {**variables['defaults'], **project}
         variables['projects'][idx] = updated
         lookup[updated['name']] = updated
 
@@ -64,7 +63,7 @@ def main(output_dir):
 
     for pipeline in env.list_templates(
             filter_func=lambda x: x.startswith('pipelines/') and
-                                  (not os.path.basename(x).startswith('.'))):
+            (not os.path.basename(x).startswith('.'))):
         template = env.get_template(pipeline)
         pipeline_name = '-'.join([variables['defaults']['release_branch'],
                                   os.path.basename(pipeline)])
