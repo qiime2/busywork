@@ -62,8 +62,7 @@ jobs:
       - task: sync-labels
         file: busywork/extra/github/tasks/copy-labels.yaml
         params:
-          GITHUB_USER: ((github_user))
-          GITHUB_PASS: ((github_pass))
+          GITHUB_LABEL_TOKEN: ((github_label_token))
           REPOS: {{ repos|map(attribute='name')|join(' ') }}
 
   {%- for repo in repos %}
