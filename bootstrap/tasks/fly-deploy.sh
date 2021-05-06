@@ -28,6 +28,7 @@ do
   ./fly -t qiime2 set-pipeline -n -p $pipeline_name -c $pipeline_path \
       --var "github_user=$GITHUB_USER" \
       --var "github_pass=$GITHUB_PASS" \
+      --var "github_label_token=$GITHUB_LABEL_TOKEN" \
       --var "anaconda_user=$ANACONDA_USER" \
       --var "anaconda_pass=$ANACONDA_PASS" \
       --var "staging_uri=$STAGING_URI" \
