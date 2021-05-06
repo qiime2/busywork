@@ -18,6 +18,7 @@ jobs:
           CONCOURSE_HOST: {{concourse_host}}
           GITHUB_USER: {{github_user}}
           GITHUB_PASS: {{github_pass}}
+          GITHUB_LABEL_TOKEN: {{github_label_token}}
           ANACONDA_USER: {{anaconda_user}}
           ANACONDA_PASS: {{anaconda_pass}}
           STAGING_URI: {{staging_uri}}
