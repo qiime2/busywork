@@ -10,6 +10,7 @@ params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   SPHINXOPTS: "-q"
   RELEASE: "{{ defaults.release }}"
+  Q2_CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.staging_channel }}
   PLATFORM: linux
 inputs:
   - name: busywork
@@ -31,6 +32,7 @@ params:
   LANG: en_US.UTF-8
   SPHINXOPTS: "-q"
   RELEASE: "{{ defaults.release }}"
+  Q2_CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.staging_channel }}
   PLATFORM: osx
 inputs:
   - name: busywork
