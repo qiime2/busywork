@@ -9,16 +9,11 @@ image_resource:
 params:
   PATH: /opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   SPHINXOPTS: "-q"
-  RELEASE: "{{ defaults.release }}"
   Q2_CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.staging_channel }}
-  PLATFORM: linux
 inputs:
   - name: busywork
   - name: docs-source
-  - name: environment-files
-  {%- for project in projects %}
-  - name: {{ project.name }}-{{ project.release }}-test-channel
-  {%- endfor %}
+  - name: metapackage-channel
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}
@@ -31,16 +26,11 @@ params:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
   SPHINXOPTS: "-q"
-  RELEASE: "{{ defaults.release }}"
   Q2_CHANNEL: https://packages.qiime2.org/qiime2/{{ defaults.staging_channel }}
-  PLATFORM: osx
 inputs:
   - name: busywork
   - name: docs-source
-  - name: environment-files
-  {%- for project in projects %}
-  - name: {{ project.name }}-{{ project.release }}-test-channel
-  {%- endfor %}
+  - name: metapackage-channel
 run:
   path: busywork/ci/{{ defaults.release_branch }}/bin/integration.sh
 {%- endmacro %}

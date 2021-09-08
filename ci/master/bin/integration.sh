@@ -3,8 +3,7 @@
 set -e -v
 
 conda upgrade -n base -q -y conda
-conda env create -p ./test-env --file environment-files/$RELEASE/test/qiime2-$RELEASE-py38-$PLATFORM-conda.yml
-conda create -q -p ./test-env -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults 
+conda create -q -p ./test-env -c ./metapackage-channel -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults qiime2-core
 set +v
 echo "source activate ./test-env"
 source activate ./test-env

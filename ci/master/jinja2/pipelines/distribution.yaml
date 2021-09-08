@@ -123,8 +123,8 @@ jobs:
     public: true
     plan:
       - get: busywork
-      - get: environment-files
-      - get: qiime2-core-{{ defaults.release }}-staging-channel
+      - get: metapackage-channel
+        resource: qiime2-core-{{ defaults.release }}-staging-channel
         trigger: true
         passed: [integration]
       - aggregate:
