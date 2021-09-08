@@ -3,22 +3,21 @@
 set -e -v
 
 conda upgrade -n base -q -y conda
-conda create -q -y -p ./conda-env
+conda create -q -p ./env-gen -c ./metapackage-channel -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults qiime2-core
 
 set +v
-echo "source activate ./conda-env"
-source activate ./conda-env
+echo "source activate ./env-gen"
+source activate ./env-gen
 set -v
 
 conda install -q -y -c conda-forge jq yq
 
-yq ". | {channels: [\
+conda env export --no-builds | yq -y "{channels: [\
 \"$CHANNEL\", \
 \"conda-forge\", \
 \"bioconda\", \
 \"defaults\"\
-], dependencies: .dependencies}" environment-files/$RELEASE/test/qiime2-$RELEASE-py38-$PLATFORM-conda.yml --yaml-output \
-> $ENV_FILE_FP
+], dependencies: .dependencies}" > $ENV_FILE_FP
 
 conda clean --index-cache
 conda env create -q -p "./$RELEASE" --file $ENV_FILE_FP
