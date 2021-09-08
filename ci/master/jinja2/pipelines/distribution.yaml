@@ -53,7 +53,7 @@ resources:
     source:
       pkg_name: qiime2-core
       uri: https://packages.qiime2.org/qiime2
-      channel: {{ defaults.release }}/passed/core
+      channel: {{ defaults.staging_channel }}
       matched: [osx-64, linux-64]
 
   {%- for project in projects %}
