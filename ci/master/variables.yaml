@@ -3,7 +3,6 @@ defaults:
   release: '2021.8'
   release_branch: master
   github_org: qiime2
-  test_channel: '2021.8/tested'
   staging_channel: '2021.8/staged/core'
   release_channel: qiime2/label/r2021.8
   deps: []

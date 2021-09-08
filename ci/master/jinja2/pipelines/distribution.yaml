@@ -21,7 +21,6 @@ groups:
       - release-{{ project.name }}
       {%- endfor %}
       - integration
-      - batch-uploads-together
       - create-staging-env-files
       - create-release-env-files
 
@@ -31,11 +30,6 @@ resources:
     source:
       uri: https://github.com/qiime2/busywork
       branch: master
-
-  - name: throttle-timer
-    type: time
-    source:
-      interval: 10m
 
   - name: docs-source
     type: git
@@ -106,10 +100,10 @@ jobs:
       - get: busywork
       - get: docs-source
         trigger: true
-      - get: metapackage-channel 
+      - get: metapackage-channel
         resource: qiime2-core-{{ defaults.release }}-staging-channel
         trigger: true
-        
+
       - aggregate:
         - task: integration-linux
           config:
