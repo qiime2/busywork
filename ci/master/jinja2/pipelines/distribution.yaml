@@ -117,6 +117,7 @@ jobs:
     public: true
     plan:
       - get: busywork
+      - get: environment-files
       - get: metapackage-channel
         resource: qiime2-core-{{ defaults.release }}-staging-channel
         trigger: true
@@ -142,6 +143,9 @@ jobs:
     plan:
       - get: busywork
       - get: environment-files
+      - get: metapackage-channel
+        resource: qiime2-core-{{ defaults.release }}-staging-channel
+      # We don't need the individual projects here for anything other than triggering
       {%- for project in projects %}
       - get: {{ project.name }}-{{ project.release }}-release-channel
         trigger: true
