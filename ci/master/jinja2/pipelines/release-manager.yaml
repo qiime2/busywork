@@ -8,7 +8,6 @@
 groups:
   - name: tag-dev
     jobs:
-      - devit
       {%- for project in projects %}
       - tag-{{ project.name }}-dev
       {%- endfor %}
