@@ -41,10 +41,6 @@ jobs:
     plan:
       - get: busywork
 
-  - name: devit
-    plan:
-      - get: busywork
-
   {%- for project in projects %}
   - name: tag-{{ project.name }}-release
     plan:
@@ -64,8 +60,7 @@ jobs:
   - name: tag-{{ project.name }}-dev
     plan:
       - get: busywork
-        trigger: true
-        passed: [devit]
+        trigger: false
       - get: {{ project.name }}-source
       - task: tag-dev
         config:
