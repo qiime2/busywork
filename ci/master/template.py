@@ -48,7 +48,7 @@ def topological_sort(variables):
 def main(output_dir):
     root = os.path.dirname(__file__)
     with open(os.path.join(root, 'variables.yaml')) as fh:
-        raw_vars = yaml.load(fh)
+        raw_vars = yaml.load(fh, Loader=yaml.CLoader)
     # First, sort the projects, before filling in the defaults, that way we
     # don't have to deal with any circular references
     sorted_projects = topological_sort(raw_vars)
