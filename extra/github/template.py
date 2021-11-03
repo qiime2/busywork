@@ -16,7 +16,7 @@ import yaml
 def main(output_dir):
     root = os.path.dirname(__file__)
     with open(os.path.join(root, 'variables.yaml')) as fh:
-        variables = yaml.load(fh)
+        variables = yaml.load(fh, Loader=yaml.CLoader)
 
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(os.path.join(root, 'jinja2')))
