@@ -1,10 +1,10 @@
 defaults:
   # NOTE: when changing the following line, edit the lines below, too :)))
-  release: '2021.11'
+  release: '2022.2'
   release_branch: master
   github_org: qiime2
-  staging_channel: 2021.11/staged/core
-  release_channel: qiime2/label/r2021.11
+  staging_channel: 2022.2/staged/core
+  release_channel: qiime2/label/r2022.2
   deps: []
   extra_params: {}
 
