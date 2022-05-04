@@ -49,6 +49,9 @@ repos:
   - name: q2-diversity-lib
     action_library_packaging_tests: py.test --pyargs q2_diversity_lib
 
+  - name: q2-fmt
+    action_library_packaging_tests: py.test --pyargs q2_fmt
+
   - name: q2-emperor
     action_library_packaging_tests: py.test --pyargs q2_emperor
 
