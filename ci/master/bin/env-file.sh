@@ -19,5 +19,5 @@ conda env export --no-builds | yq -y "{channels: [\
 \"defaults\"\
 ], dependencies: .dependencies | map(select(. | startswith(\"qiime2-core\") | not))}" > $ENV_FILE_FP
 
-conda clean --index-cache
+conda clean --index-cache -y
 conda env create -q -p "./$RELEASE" --file $ENV_FILE_FP
