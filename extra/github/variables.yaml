@@ -91,7 +91,8 @@ repos:
   - name: q2-shogun
 
   - name: q2-stats
-    action_library_packaging_tests: py.test --pyargs q2_fmt
+    branch: main
+    action_library_packaging_tests: py.test --pyargs q2_stats
 
   - name: q2-taxa
     action_library_packaging_tests: py.test --pyargs q2_taxa
