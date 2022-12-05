@@ -3,16 +3,15 @@
 set -e -v
 
 conda upgrade -n base -q -y conda
+conda install -q -y -n base -c conda-forge jq yq
 conda create -q -y -p ./env-gen -c ./metapackage-channel -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults qiime2-core
 
 set +v
-echo "source activate ./env-gen"
-source activate ./env-gen
+echo "source activate base"
+source activate base
 set -v
 
-conda install -q -y -c conda-forge jq yq
-
-conda env export --no-builds | yq -y "{channels: [\
+conda env export -p ./env-gen --no-builds | yq -y "{channels: [\
 \"$CHANNEL\", \
 \"conda-forge\", \
 \"bioconda\", \
