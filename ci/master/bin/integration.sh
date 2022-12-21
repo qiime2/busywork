@@ -3,7 +3,7 @@
 set -e -v
 
 conda upgrade -n base -q -y conda
-conda create -q -y -p ./test-env -c ./metapackage-channel -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults qiime2-core
+conda create -q -y -p ./test-env -c ./metapackage-channel -c $Q2_CHANNEL -c conda-forge -c bioconda -c defaults $(cat ./metapackage-channel/version-spec.txt)
 set +v
 echo "source activate ./test-env"
 source activate ./test-env
