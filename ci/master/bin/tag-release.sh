@@ -38,25 +38,25 @@ expected_release="$(trim $(grep 'release:' busywork/ci/master/variables.yaml | s
 
 cd ${REPO}-source
 
-# if [ "$(_is_dev)" != "True" ]
-# then
-#   echo "Repo $REPO HEAD is not a development version: $(_get_version)"
-#   exit 1
-# fi
+if [ "$(_is_dev)" != "True" ]
+then
+  echo "Repo $REPO HEAD is not a development version: $(_get_version)"
+  exit 1
+fi
 
 observed_release=$(_get_release)
 
-# if [ "$observed_release" != "$expected_release" ]
-# then
-#   echo "Repo $REPO has current dev release $observed_release but busywork/ci/master/variables.yaml declares $expected_release."
-#   exit 1
-# fi
+if [ "$observed_release" != "$expected_release" ]
+then
+  echo "Repo $REPO has current dev release $observed_release but busywork/ci/master/variables.yaml declares $expected_release."
+  exit 1
+fi
 
 cd ..
 git clone ${REPO}-source tagged-${REPO}-source
 cd tagged-${REPO}-source
 
-version="${observed_release}.1"
+version="${observed_release}.0"
 
 git commit --allow-empty -m "REL: ${version}"
 
